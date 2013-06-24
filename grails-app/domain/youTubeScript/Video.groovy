@@ -8,11 +8,13 @@ class Video {
 	Integer length;
 	String description;
 	String cid;
-	Integer playing;
+	Integer playing = -1;
+	String youtubeID;
 	static hasMany = [votes:Vote]
 	
 		
 	static constraints = {
+		description(maxSize:100000)
 	}
 }
 	

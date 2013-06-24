@@ -3,7 +3,7 @@ package youTubeScript
 class Vote {
 
 	static belongsTo = Video;
-	boolean upvote = true;
+	Integer value = 1;
 	String cid;
 	
     static constraints = {
