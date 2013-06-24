@@ -2,12 +2,7 @@ package youTubeScript
 
 import grails.converters.JSON
 import groovy.sql.Sql
-
-import java.awt.List;
 import java.util.regex.*;
-import org.apache.tomcat.jdbc.pool.DataSource
-import org.hibernate.Query
-import org.hibernate.classic.Session;
 
 
 
