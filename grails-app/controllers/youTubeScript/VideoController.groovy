@@ -57,9 +57,8 @@ class VideoController {
 			);
 			
 			
-			boolean suc = v.save(failOnError: true);
-			System.out.println(suc);
-			
+			v.save();
+			addVote();
 			
 			def allVideos = Video.getAll();
 			render allVideos as JSON;
@@ -77,22 +76,31 @@ class VideoController {
 		if(v != null){
 			Vote vote = new Vote(cid:cid, value:1);
 			v.addToVotes(vote);
-			v.save();
+			v.save(flush:true);
 			def allVotes = Vote.getAll();
 			render allVotes;
 			render "<br />";
 			def allVideos = Video.getAll();
 			render allVideos;
+			validateVideos();
 		} else {
 			render "Could not find video.";
 		}
 		
 	}
 	
+	private def validateVideos(){
+		def db = new Sql(dataSource)
+		def results = db.rows("SELECT * FROM queue WHERE value <= -2");
+		for(def res:results){
+			 Video.find {id == res.getAt(0)}.delete(flush:true);
+		}
+		
+	}
+	
 	def showQueue(){
 
-		def db = new Sql(dataSource)
-		def result = db.rows("SELECT * FROM queue") // Perform the query
+		def result = queryQueue();  
 		def videos = [];
 		for(def res:result){
 			 videos.add(Video.find {id == res.getAt(0)});
@@ -100,9 +108,29 @@ class VideoController {
 		render videos as JSON;
 	}
 	
+	private def queryQueue(){
+		def db = new Sql(dataSource)
+		return db.rows("SELECT * FROM queue");
+	}
+	
 	def showVideos(){
 		def allVideos = Video.getAll();
 		render allVideos as JSON;
+	}
+	
+	def popQueue(){
+		def result = queryQueue();
+		def vidID;
+		if(!result.empty){
+			vidID = result[0].getAt(0);
+		}
+		Video video = Video.find {id == vidID};
+		if(video != null){
+			render video as JSON
+			video.delete(flush:true);
+		} else {
+			render "[]";
+		}
 	}
 	
 	
