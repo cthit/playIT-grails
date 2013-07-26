@@ -8,6 +8,7 @@ import java.util.regex.*;
 
 class VideoController {
 	def dataSource
+	def nl = "<br />";
 
 	def index() {
 	}
@@ -37,9 +38,6 @@ class VideoController {
 				duration = 1337;
 			}
 			String desc = xmlVideo.getAt("group").getAt("description")[0].text();
-	
-			String nl = "<br />";
-			render title + nl + thumbnail + nl + duration + nl + desc;
 			
 			Video v = new Video(
 				title:			title,
@@ -53,33 +51,50 @@ class VideoController {
 			
 			
 			v.save();
+			params.upvote = "1";
+			
+			render "Success: Added video: "+title+" by user: "+cid+nl;
+			
 			addVote();
 			
-			def allVideos = Video.getAll();
-			render allVideos as JSON;
+		
 			
 		} else {
-			render "Already added."
+			render "Fail: Video aldready exists."+nl;
 		}
 	}
 	
 	def addVote(){
-		String cid = params.cid;
+		String cidString = params.cid;
 		String url = params.url;
+		boolean upvote = ("1"==params.upvote);
 		String videoID = extractID(url);
+		def voteValue = 0;
+		if(upvote){
+			voteValue = 1;
+		} else {
+			voteValue = -1;
+		}
+		
 		Video v = Video.find {youtubeID == videoID};
 		if(v != null){
-			Vote vote = new Vote(cid:cid, value:1);
-			v.addToVotes(vote);
-			v.save(flush:true);
-			def allVotes = Vote.getAll();
-			render allVotes;
-			render "<br />";
-			def allVideos = Video.getAll();
-			render allVideos;
-			validateVideos();
+			Vote oldVote = v.votes.find { it.cid == cidString}
+			if(oldVote == null){
+				Vote vote = new Vote(cid:cidString, value:voteValue);
+				v.addToVotes(vote);
+				v.save(flush:true);
+				render "Success: Added vote by: "+vote.cid+" with value: "+
+						voteValue+" to video: "+ v.title+nl;
+			} else {
+				def oldVoteValue = oldVote.value;
+				oldVote.value = voteValue;
+				oldVote.save(flush:true);
+				render "Success: Updated vote by: "+oldVote.cid+" from old: "+
+				oldVoteValue+" to new: "+voteValue+" to video: "+v.title+nl;
+			}
+			validateVideos(); //Removes videos with summed votevalue < -1
 		} else {
-			render "Could not find video.";
+			render "Fail: Could not find video."+nl;
 		}
 		
 	}
