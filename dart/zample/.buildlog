@@ -1,0 +1,1526 @@
+---
+build.dart --machine --full
+Total time spent on web/zample.html                          -- 267 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 900 ms
+build.dart finished [1112 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 241 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 1171 ms
+build.dart finished [1453 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 238 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 972 ms
+build.dart finished [1299 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 254 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 880 ms
+build.dart finished [1096 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 270 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 885 ms
+build.dart finished [1102 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.html
+Total time spent on web/zample.html                          -- 252 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 855 ms
+build.dart finished [1073 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 258 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 844 ms
+build.dart finished [1060 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 260 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 841 ms
+build.dart finished [1058 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 254 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 840 ms
+build.dart finished [1059 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 250 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 846 ms
+build.dart finished [1064 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 255 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 886 ms
+build.dart finished [1111 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 270 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 900 ms
+build.dart finished [1134 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 263 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 881 ms
+build.dart finished [1106 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 262 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 854 ms
+build.dart finished [1079 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 272 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 901 ms
+build.dart finished [1159 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+[{"method":"warning","params":{"file":"web/zample.html","message":"Invalid character in attribute name","line":18,"charStart":342,"charEnd":414}}]
+Total time spent on web/zample.html                          -- 259 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 869 ms
+build.dart finished [1087 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 261 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 919 ms
+build.dart finished [1138 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 258 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 847 ms
+build.dart finished [1059 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 254 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 843 ms
+build.dart finished [1063 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 251 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 832 ms
+build.dart finished [1053 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 252 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 845 ms
+build.dart finished [1065 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 259 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 897 ms
+build.dart finished [1137 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 264 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 885 ms
+build.dart finished [1113 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 264 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 866 ms
+build.dart finished [1083 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 261 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 862 ms
+build.dart finished [1088 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 254 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 875 ms
+build.dart finished [1104 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 262 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 877 ms
+build.dart finished [1109 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 278 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 883 ms
+build.dart finished [1107 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 255 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 1195 ms
+build.dart finished [1505 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 250 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 872 ms
+build.dart finished [1098 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 253 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 983 ms
+build.dart finished [1278 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 246 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 890 ms
+build.dart finished [1166 ms]
+
+---
+build.dart --machine --changed=web/zample.css
+Total time                                                   -- 601 ms
+build.dart finished [822 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 272 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 859 ms
+build.dart finished [1074 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 267 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 880 ms
+build.dart finished [1117 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 267 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 881 ms
+build.dart finished [1113 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.html
+Total time spent on web/zample.html                          -- 270 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 872 ms
+build.dart finished [1116 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 258 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 849 ms
+build.dart finished [1068 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 254 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 874 ms
+build.dart finished [1103 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 274 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 865 ms
+build.dart finished [1084 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 262 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 858 ms
+build.dart finished [1081 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.html
+Total time spent on web/zample.html                          -- 259 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 878 ms
+build.dart finished [1100 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 280 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 899 ms
+build.dart finished [1124 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.html
+Total time spent on web/zample.html                          -- 280 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 875 ms
+build.dart finished [1094 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.html
+Total time spent on web/zample.html                          -- 254 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 857 ms
+build.dart finished [1080 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.html
+Total time spent on web/zample.html                          -- 258 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 858 ms
+build.dart finished [1087 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 262 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 955 ms
+build.dart finished [1178 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 258 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 854 ms
+build.dart finished [1092 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 262 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 854 ms
+build.dart finished [1081 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+[{"method":"error","params":{"file":"web/xclickcounter.html","message":"please provide a class definition for CounterComponent:\n import 'package:web_ui/web_ui.dart';\n\nconst SERVER_URL = 'http://129.16.187.87:8080/youTubeInTheHubbServer/video/';\n\nclass Lol extends WebComponent {\n  @observable\n  int count = 0;\n  @observable\n  String imgurl = \"\";\n  @observable\n  int title = 0;\n\n  String getUrl(int videoNumber) {\n    HttpRequest.getString(SERVER_URL + \"showQueue\").then((response) {\n      List parsedList = parse(response);\n      parsedList[videoNumber];\n      return \"\";\n    });\n  }\n\n  void increment() {\n    count++;\n  }\n}","line":5,"charStart":37,"charEnd":114}}]
+Total time spent on web/zample.html                          -- 192 ms
+Total time                                                   -- 793 ms
+build.dart finished [1001 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 285 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 895 ms
+build.dart finished [1128 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 289 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 879 ms
+build.dart finished [1116 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+[{"method":"error","params":{"file":"web/xclickcounter.html","message":"please provide a class definition for CounterComponent:\n import 'package:web_ui/web_ui.dart';\n\nconst SERVER_URL = 'http://129.16.187.87:8080/youTubeInTheHubbServer/video/';\n\nclass VideoComponent extends WebComponent {\n  @observable\n  int count = 0;\n  @observable\n  String imgurl = \"\";\n  @observable\n  int title = 0;\n\n  void getUrl(int videoNumber) {\n    HttpRequest.getString(SERVER_URL + \"showQueue\").then((response) {\n      List parsedList = parse(response);\n      parsedList[videoNumber];\n\n      imgurl = \"\";\n    });\n  }\n\n  void increment() {\n    count++;\n  }\n}","line":5,"charStart":37,"charEnd":114}}]
+Total time spent on web/zample.html                          -- 203 ms
+Total time                                                   -- 806 ms
+build.dart finished [1029 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.html
+Total time spent on web/zample.html                          -- 265 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 877 ms
+build.dart finished [1102 ms]
+
+---
+build.dart --machine --changed=web/zample.css
+Total time                                                   -- 598 ms
+build.dart finished [814 ms]
+
+---
+build.dart --machine --changed=web/zample.css
+Total time                                                   -- 614 ms
+build.dart finished [825 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 258 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 887 ms
+build.dart finished [1125 ms]
+
+---
+build.dart --machine --changed=web/zample.css
+Total time                                                   -- 600 ms
+build.dart finished [839 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 262 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 866 ms
+build.dart finished [1088 ms]
+
+---
+build.dart --machine --changed=web/videocontainer.html --removed=web/xclickcounter.html
+[{"method":"error","params":{"file":"web/zample.html","message":"unable to open file \"web/xclickcounter.html\"","line":10,"charStart":179,"charEnd":224}}]
+[{"method":"warning","params":{"file":"web/zample.html","message":"custom element with tag name x-click-counter not found.","line":20,"charStart":462,"charEnd":553}}]
+Total time spent on web/zample.html                          -- 191 ms
+Total time                                                   -- 792 ms
+build.dart finished [1017 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 268 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 891 ms
+build.dart finished [1097 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 253 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 852 ms
+build.dart finished [1081 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 271 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 882 ms
+build.dart finished [1124 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 272 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 910 ms
+build.dart finished [1160 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+[{"method":"warning","params":{"file":"web/zample.html","message":"Unexpected character after attribute value.","line":20,"charStart":463,"charEnd":524}}]
+[{"method":"warning","params":{"file":"web/zample.html","message":"Invalid character in attribute name","line":20,"charStart":463,"charEnd":524}}]
+Total time spent on web/zample.html                          -- 257 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 878 ms
+build.dart finished [1095 ms]
+
+---
+build.dart --machine --changed=web/videocontainer.html
+[{"method":"warning","params":{"file":"web/zample.html","message":"Unexpected character after attribute value.","line":20,"charStart":463,"charEnd":524}}]
+[{"method":"warning","params":{"file":"web/zample.html","message":"Invalid character in attribute name","line":20,"charStart":463,"charEnd":524}}]
+[{"method":"warning","params":{"file":"web/zample.html","message":"custom element with tag name x-click-counter not found.","line":20,"charStart":463,"charEnd":525}}]
+Total time spent on web/zample.html                          -- 262 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 852 ms
+build.dart finished [1085 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+[{"method":"warning","params":{"file":"web/zample.html","message":"Unexpected character after attribute value.","line":20,"charStart":463,"charEnd":523}}]
+[{"method":"warning","params":{"file":"web/zample.html","message":"Invalid character in attribute name","line":20,"charStart":463,"charEnd":523}}]
+Total time spent on web/zample.html                          -- 256 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 843 ms
+build.dart finished [1086 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+[{"method":"warning","params":{"file":"web/zample.html","message":"Unexpected character after attribute value.","line":20,"charStart":463,"charEnd":523}}]
+[{"method":"warning","params":{"file":"web/zample.html","message":"Invalid character in attribute name","line":20,"charStart":463,"charEnd":523}}]
+Total time spent on web/zample.html                          -- 263 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 845 ms
+build.dart finished [1069 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+[{"method":"warning","params":{"file":"web/zample.html","message":"Unexpected character after attribute value.","line":20,"charStart":463,"charEnd":522}}]
+[{"method":"warning","params":{"file":"web/zample.html","message":"Invalid character in attribute name","line":20,"charStart":463,"charEnd":522}}]
+Total time spent on web/zample.html                          -- 252 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 846 ms
+build.dart finished [1068 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+[{"method":"warning","params":{"file":"web/zample.html","message":"Unexpected character after attribute value.","line":20,"charStart":463,"charEnd":522}}]
+[{"method":"warning","params":{"file":"web/zample.html","message":"Invalid character in attribute name","line":20,"charStart":463,"charEnd":522}}]
+Total time spent on web/zample.html                          -- 257 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 836 ms
+build.dart finished [1051 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 262 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 861 ms
+build.dart finished [1085 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 255 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 853 ms
+build.dart finished [1071 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 259 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 848 ms
+build.dart finished [1067 ms]
+
+---
+build.dart --machine --changed=web/videocontainer.html
+Total time spent on web/zample.html                          -- 275 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 876 ms
+build.dart finished [1084 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 259 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 872 ms
+build.dart finished [1103 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 297 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 954 ms
+build.dart finished [1184 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 258 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 840 ms
+build.dart finished [1069 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 255 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 847 ms
+build.dart finished [1085 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 379 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 970 ms
+build.dart finished [1189 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 259 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 872 ms
+build.dart finished [1092 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 266 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 861 ms
+build.dart finished [1088 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 266 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 888 ms
+build.dart finished [1139 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 264 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 852 ms
+build.dart finished [1066 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 259 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 855 ms
+build.dart finished [1079 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 259 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 856 ms
+build.dart finished [1089 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 267 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 869 ms
+build.dart finished [1096 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 264 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 859 ms
+build.dart finished [1091 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 269 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 899 ms
+build.dart finished [1149 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 277 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 1147 ms
+build.dart finished [1455 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 266 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 936 ms
+build.dart finished [1274 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 260 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 857 ms
+build.dart finished [1087 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 336 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 1174 ms
+build.dart finished [1430 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 267 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 870 ms
+build.dart finished [1085 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 281 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 1146 ms
+build.dart finished [1456 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 266 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 1090 ms
+build.dart finished [1447 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 262 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 857 ms
+build.dart finished [1088 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 257 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 851 ms
+build.dart finished [1068 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 263 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 852 ms
+build.dart finished [1083 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 268 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 862 ms
+build.dart finished [1090 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 254 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 863 ms
+build.dart finished [1089 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 257 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 856 ms
+build.dart finished [1102 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 267 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 864 ms
+build.dart finished [1084 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 259 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 880 ms
+build.dart finished [1103 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 265 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 889 ms
+build.dart finished [1118 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 294 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 1200 ms
+build.dart finished [1482 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 270 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 889 ms
+build.dart finished [1123 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 266 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 860 ms
+build.dart finished [1073 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 279 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 1134 ms
+build.dart finished [1457 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 265 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 906 ms
+build.dart finished [1133 ms]
+
+---
+build.dart --machine --changed=web/zample.html
+Total time spent on web/zample.html                          -- 257 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 885 ms
+build.dart finished [1113 ms]
+
+---
+build.dart --machine --changed=web/zample.dart
+Total time spent on web/zample.html                          -- 257 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 892 ms
+build.dart finished [1119 ms]
+
+---
+build.dart --machine --changed=web/xclickcounter.dart
+Total time spent on web/zample.html                          -- 275 ms
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart.map"}}]
+[{"method":"generated","params":{"file":"web/out/zample.css"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html_bootstrap.dart"}}]
+[{"method":"generated","params":{"file":"web/out/xclickcounter.dart"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart"}}]
+[{"method":"mapping","params":{"from":"web/zample.html","to":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.html"}}]
+[{"method":"generated","params":{"file":"web/out/zample.dart.map"}}]
+Total time                                                   -- 898 ms
+build.dart finished [1132 ms]
+

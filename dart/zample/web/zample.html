@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sample app</title>
+    <link rel="stylesheet" href="zample.css">
+
+    <!-- import the click-counter -->
+    <link rel="import" href="videocontainer.html">
+  </head>
+  <body>
+    <h1>Youtube in the Hubb!</h1>
+
+    <div id="sample_container_id" >
+      <form>
+        Video URL: <input type="text" id="url_field">
+        <button type="button" id="add_button">Add!</button>
+      </form>
+      <div is="videocontainer" id="video_container" imgurl="{{imgurl}}" votes="{{0}}"></div>
+    </div>
+
+    <script type="application/dart" src="zample.dart"></script>
+    <script src="packages/browser/dart.js"></script>
+  </body>
+</html>

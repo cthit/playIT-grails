@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <element name="videocontainer" constructor="VideoComponent" extends="div">
+      <template>
+        <div>
+          <button on-click="upvote()">Upvote!</button><br />
+          <span>(imgurl: <img src="{{imgurl}}" />)</span>
+          <span>(title: {{title}})</span>
+          <span>(votes: {{votes}})</span>
+        </div>
+      </template>
+      <script type="application/dart" src="xclickcounter.dart"></script>
+    </element>
+  </body>
+</html>
