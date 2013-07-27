@@ -3,7 +3,6 @@ package youTubeScript
 class Video {
 
 	String title;
-	String url;
 	String thumbnail;
 	Integer length;
 	String description;

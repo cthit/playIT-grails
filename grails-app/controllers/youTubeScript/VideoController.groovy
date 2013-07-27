@@ -11,6 +11,7 @@ class VideoController {
 	def nl = "<br />";
 
 	def index() {
+		render "It works!"
 	}
 
 	def addVideo(){
@@ -27,41 +28,47 @@ class VideoController {
 			def parser = new XmlParser();
 			parser.setNamespaceAware(false);
 			def xmlVideo =  parser.parseText(data);
-			def author = xmlVideo.author.name;
 			
-			String title = xmlVideo.title[0].value()[0];
-			String thumbnail = xmlVideo.getAt("group").getAt("thumbnail")[0].attribute("url");
-			int duration;
-			try {
-				duration = Integer.parseInt(xmlVideo.getAt("group").getAt("duration")[0].attribute("seconds"));
-			} catch (NumberFormatException e) {
-				duration = 1337;
-			}
-			String desc = xmlVideo.getAt("group").getAt("description")[0].text();
-			
-			Video v = new Video(
-				title:			title,
-				url:			url,
-				thumbnail:		thumbnail,
-				length:			duration,
-				description:	desc,
-				cid:			cid,
-				youtubeID:		videoID
-			);
-			
-			
+			Video v = parseVideoEntry(xmlVideo, cid);			
 			v.save();
+			
+			render "Success: Added video: "+v.title+" by user: "+cid+nl;
+			
 			params.upvote = "1";
-			
-			render "Success: Added video: "+title+" by user: "+cid+nl;
-			
 			addVote();
-			
-		
 			
 		} else {
 			render "Fail: Video aldready exists."+nl;
 		}
+	}
+	
+	private Video parseVideoEntry(def entry, def cid){
+		def author = entry.author.name;
+		
+		String title = entry.title[0].value()[0];
+		String thumbnail = entry.getAt("group").getAt("thumbnail")[0].attribute("url");
+		int duration;
+		try {
+			duration = Integer.parseInt(entry.getAt("group").getAt("duration")[0].attribute("seconds"));
+		} catch (NumberFormatException e) {
+			duration = 1337;
+		}
+		String desc = entry.getAt("group").getAt("description")[0].text();
+		
+		//Extracting videoID from xml
+		String url = entry.id[0].value()[0].toString();
+		String videoID = url.substring(url.lastIndexOf('/')+1);
+	
+		
+		Video v = new Video(
+			title:			title,
+			thumbnail:		thumbnail,
+			length:			duration,
+			description:	desc,
+			cid:			cid,
+			youtubeID:		videoID
+		);
+		return v;
 	}
 	
 	def addVote(){
@@ -108,6 +115,22 @@ class VideoController {
 		
 	}
 	
+	def searchVideo(){
+		def searchQuery = params.q;
+		searchQuery = URLEncoder.encode(searchQuery, "UTF-8");
+		String data = new URL("http://gdata.youtube.com/feeds/api/videos?q="+
+			searchQuery).getText();
+		def parser = new XmlParser();
+		parser.setNamespaceAware(false);
+		def xmlVideos =  parser.parseText(data);
+		List<Video> videos = new LinkedList<Video>();
+		for(def ent:xmlVideos.entry){
+			videos.add(parseVideoEntry(ent, ""));
+			
+		}
+		render videos as JSON;
+	}
+	
 	def showQueue(){
 
 		def result = queryQueue();  
@@ -142,7 +165,6 @@ class VideoController {
 			render "[]";
 		}
 	}
-	
 	
 	private def String extractID(String s){
 		String regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
