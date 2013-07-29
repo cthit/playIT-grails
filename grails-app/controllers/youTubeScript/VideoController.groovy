@@ -3,6 +3,7 @@ package youTubeScript
 import grails.converters.JSON
 import groovy.sql.Sql
 import java.util.regex.*;
+import org.codehaus.groovy.grails.web.json.JSONObject
 
 
 
@@ -21,15 +22,14 @@ class VideoController {
 		String videoID = extractID(url);
 		
 		Video video = Video.find {youtubeID == videoID};
-		if(video == null){
+		
+		if(video == null){//Check if already added
+
+			def data = new URL("http://gdata.youtube.com/feeds/api/videos/"+videoID+"?alt=json").getText();
+			JSONObject jsData = JSON.parse(data);
+			def entry = jsData.get("entry");
+			Video v = parseVideoEntry(entry, cid);	
 			
-			String data = new URL("http://gdata.youtube.com/feeds/api/videos/"+videoID).getText();
-	
-			def parser = new XmlParser();
-			parser.setNamespaceAware(false);
-			def xmlVideo =  parser.parseText(data);
-			
-			Video v = parseVideoEntry(xmlVideo, cid);			
 			v.save();
 			
 			render "Success: Added video: "+v.title+" by user: "+cid+nl;
@@ -43,22 +43,20 @@ class VideoController {
 	}
 	
 	private Video parseVideoEntry(def entry, def cid){
-		def author = entry.author.name;
 		
-		String title = entry.title[0].value()[0];
-		String thumbnail = entry.getAt("group").getAt("thumbnail")[0].attribute("url");
+		String url = entry.get("id").get("\$t");
+		String videoID = url.substring(url.lastIndexOf('/')+1);
+		String title = entry.get("title").get("\$t"); 
+		String author = entry.get("author").get(0).get("name").get("\$t"); 
+		String desc = entry.get("content").get("\$t"); 
+		String thumbnail = entry.get("media\$group").get("media\$thumbnail").get(0).get("url");
+		
 		int duration;
 		try {
-			duration = Integer.parseInt(entry.getAt("group").getAt("duration")[0].attribute("seconds"));
+			duration = Integer.parseInt(entry.get("media\$group").get("yt\$duration").get("seconds"));
 		} catch (NumberFormatException e) {
 			duration = 1337;
 		}
-		String desc = entry.getAt("group").getAt("description")[0].text();
-		
-		//Extracting videoID from xml
-		String url = entry.id[0].value()[0].toString();
-		String videoID = url.substring(url.lastIndexOf('/')+1);
-	
 		
 		Video v = new Video(
 			title:			title,
@@ -69,7 +67,38 @@ class VideoController {
 			youtubeID:		videoID
 		);
 		return v;
+		
+		
 	}
+	
+//	private Video parseVideoEntry(def entry, def cid){
+//		def author = entry.author.name;
+//		
+//		String title = entry.title[0].value()[0];
+//		String thumbnail = entry.getAt("group").getAt("thumbnail")[0].attribute("url");
+//		int duration;
+//		try {
+//			duration = Integer.parseInt(entry.getAt("group").getAt("duration")[0].attribute("seconds"));
+//		} catch (NumberFormatException e) {
+//			duration = 1337;
+//		}
+//		String desc = entry.getAt("group").getAt("description")[0].text();
+//		
+//		//Extracting videoID from xml
+//		String url = entry.id[0].value()[0].toString();
+//		String videoID = url.substring(url.lastIndexOf('/')+1);
+//	
+//		
+//		Video v = new Video(
+//			title:			title,
+//			thumbnail:		thumbnail,
+//			length:			duration,
+//			description:	desc,
+//			cid:			cid,
+//			youtubeID:		videoID
+//		);
+//		return v;
+//	}
 	
 	def addVote(){
 		String cidString = params.cid;
