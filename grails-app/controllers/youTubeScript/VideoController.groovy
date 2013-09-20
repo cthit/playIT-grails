@@ -2,6 +2,8 @@ package youTubeScript
 
 import grails.converters.JSON
 import groovy.sql.Sql
+
+import java.sql.ResultSet;
 import java.util.regex.*;
 import org.codehaus.groovy.grails.web.json.JSONObject
 
@@ -10,6 +12,7 @@ import org.codehaus.groovy.grails.web.json.JSONObject
 class VideoController {
 	def dataSource
 	def nl = "<br />";
+	Video playingVideo = null;
 
 	def index() {
 		render "It works!"
@@ -135,6 +138,8 @@ class VideoController {
 		
 	}
 	
+
+	
 	private def validateVideos(){
 		def db = new Sql(dataSource)
 		def results = db.rows("SELECT * FROM queue WHERE value <= -2");
@@ -147,15 +152,16 @@ class VideoController {
 	def searchVideo(){
 		def searchQuery = params.q;
 		searchQuery = URLEncoder.encode(searchQuery, "UTF-8");
-		String data = new URL("http://gdata.youtube.com/feeds/api/videos?q="+
-			searchQuery).getText();
-		def parser = new XmlParser();
-		parser.setNamespaceAware(false);
-		def xmlVideos =  parser.parseText(data);
+		def data = new URL("http://gdata.youtube.com/feeds/api/videos?q="+
+			searchQuery+"&alt=json").getText();
+		//def parser = new XmlParser();
+		//parser.setNamespaceAware(false);
+		//def xmlVideos =  parser.parseText(data);
+		JSONObject jsData = JSON.parse(data);
+		def entries = jsData.get("feed").get("entry");
 		List<Video> videos = new LinkedList<Video>();
-		for(def ent:xmlVideos.entry){
+		for(def ent:entries){
 			videos.add(parseVideoEntry(ent, ""));
-			
 		}
 		render videos as JSON;
 	}
@@ -163,15 +169,35 @@ class VideoController {
 	def showQueue(){
 
 		def result = queryQueue();  
-		def videos = [];
+		String queue = ""
 		for(def res:result){
-			 videos.add(Video.find {id == res.getAt(0)});
+//			 videos.add(Video.find {id == res.getAt(0)});
+			// Beautiful fulhack
+			Video v = Video.find {id == res.getAt(0)}
+			queue += v as JSON;
+			queue = queue.substring(0,queue.length()-1);
+			queue += ",\"weight\":"+queryValueFromQueue(v)+"},";
 		}
-		render videos as JSON;
+		if(queue.length() == 0){
+			render "[]";
+		} else {
+			render "["+queue.substring(0, queue.length()-1)+"]";
+		}
+	}
+	
+	private int queryValueFromQueue(Video v){
+		def vidID = v.id;
+		def db = new Sql(dataSource);
+		def result = db.rows("SELECT value FROM queue WHERE (Id="+vidID+")");
+		if(!result.empty){
+			return (int)result[0].getAt(0);
+		} else {
+			return 0;
+		}
 	}
 	
 	private def queryQueue(){
-		def db = new Sql(dataSource)
+		def db = new Sql(dataSource);
 		return db.rows("SELECT * FROM queue");
 	}
 	
@@ -188,11 +214,17 @@ class VideoController {
 		}
 		Video video = Video.find {id == vidID};
 		if(video != null){
+			playingVideo = video;
 			render video as JSON
 			video.delete(flush:true);
 		} else {
 			render "[]";
+			video = null;
 		}
+	}
+	
+	def nowPlaying(){
+		render playingVideo as JSON;
 	}
 	
 	private def String extractID(String s){
