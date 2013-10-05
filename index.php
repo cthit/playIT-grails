@@ -1,14 +1,3 @@
-<?php
-
-	define("SERVER", "http://129.16.180.11:8080/");
-	define("BASE", SERVER . "youTubeInTheHubbServer/video/");
-	define("SHOW_URL" , BASE . "showQueue");
-	define("SEARCH_URL" , BASE . "searchVideo");
-	define("ADD_URL", BASE . "addVideo");
-	define("ADD_VOTE", BASE . "addVote");
-
-?>
-
 <!DOCTYPE html>
 <html>
 	<head>
