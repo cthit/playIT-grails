@@ -6,6 +6,7 @@ import groovy.sql.Sql
 import java.sql.ResultSet;
 import java.util.regex.*;
 import org.codehaus.groovy.grails.web.json.JSONObject
+import groovyx.net.*;
 
 
 
@@ -18,10 +19,56 @@ class VideoController {
 		render "It works!"
 	}
 
+	
+	private String extractCID(){
+		//System.out.println("extractCID");
+		def cookie = request.cookies.find { it.name == 'chalmersItAuth' };
+		//for(def cok:request.cookies){
+		///	System.out.println(cok.name +" - " +cok.value);
+		//}
+		if(cookie != null){
+			String token = cookie.value;
+			def data = JSON.parse( new URL(
+				 'https://chalmers.it/auth/userInfo.php?token='+token ).text );
+
+			System.out.println(data.get("cid"));
+			return data.get("cid");
+		} else {
+			return null;
+		}
+	} 
+	
 	def addVideo(){
 		
+		/*def cookie = request.cookies.find { it.name == 'chalmersItAuth' };
+		for(def kak:request.cookies){
+			System.out.println(kak.name);
+		}*/
+
+		//if (request.cookies.find { it.name == 'chalmersItAuth' }) {
+		/*
+		if(cookie != null){
+			String value = cookie.value;
+			System.out.println(value);
+		}else{
+			System.out.println("no cookie2");
+		}*/
+		/*
+		def cookie = cookie(name: "chalmersItAuth");
+		if(cookie != null){
+			String value = cookie.value;
+			System.out.println(value);
+		}else{
+			System.out.println("no cookie");
+		}*/
+		
+		String cid = extractCID();
+		if(cid == null){
+			render "Fail: Authentication failed";
+			return;
+		}
+
 		String url = params.url;
-		String cid = params.cid;
 		String videoID = extractID(url);
 		
 		Video video = Video.find {youtubeID == videoID};
@@ -60,6 +107,12 @@ class VideoController {
 		} catch (NumberFormatException e) {
 			duration = 1337;
 		}
+
+		if(duration > 18000){//60 sec * 60 min * 5 hours = 18000
+			render "Fail: Videolength too long";
+			return;
+		}
+
 		
 		Video v = new Video(
 			title:			title,
@@ -104,7 +157,13 @@ class VideoController {
 //	}
 	
 	def addVote(){
-		String cidString = params.cid;
+
+		String cidString = extractCID();
+		if(cidString == null){
+			render "Fail: Authentication failed";
+			return;
+		}
+
 		String url = params.url;
 		boolean upvote = ("1"==params.upvote);
 		String videoID = extractID(url);
@@ -158,12 +217,15 @@ class VideoController {
 		//parser.setNamespaceAware(false);
 		//def xmlVideos =  parser.parseText(data);
 		JSONObject jsData = JSON.parse(data);
-		def entries = jsData.get("feed").get("entry");
-		List<Video> videos = new LinkedList<Video>();
-		for(def ent:entries){
-			videos.add(parseVideoEntry(ent, ""));
+		if(jsData.get("feed").has("entry")){
+			def entries = jsData.get("feed").get("entry");
+			List<Video> videos = new LinkedList<Video>();
+			for(def ent:entries){
+				videos.add(parseVideoEntry(ent, ""));
+			}
+			render videos as JSON;
 		}
-		render videos as JSON;
+		return "[]";
 	}
 	
 	def showQueue(){
