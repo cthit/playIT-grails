@@ -21,17 +21,12 @@ class VideoController {
 
 	
 	private String extractCID(){
-		//System.out.println("extractCID");
 		def cookie = request.cookies.find { it.name == 'chalmersItAuth' };
-		//for(def cok:request.cookies){
-		///	System.out.println(cok.name +" - " +cok.value);
-		//}
 		if(cookie != null){
 			String token = cookie.value;
 			def data = JSON.parse( new URL(
 				 'https://chalmers.it/auth/userInfo.php?token='+token ).text );
 
-			System.out.println(data.get("cid"));
 			return data.get("cid");
 		} else {
 			return null;
@@ -39,28 +34,6 @@ class VideoController {
 	} 
 	
 	def addVideo(){
-		
-		/*def cookie = request.cookies.find { it.name == 'chalmersItAuth' };
-		for(def kak:request.cookies){
-			System.out.println(kak.name);
-		}*/
-
-		//if (request.cookies.find { it.name == 'chalmersItAuth' }) {
-		/*
-		if(cookie != null){
-			String value = cookie.value;
-			System.out.println(value);
-		}else{
-			System.out.println("no cookie2");
-		}*/
-		/*
-		def cookie = cookie(name: "chalmersItAuth");
-		if(cookie != null){
-			String value = cookie.value;
-			System.out.println(value);
-		}else{
-			System.out.println("no cookie");
-		}*/
 		
 		String cid = extractCID();
 		if(cid == null){
@@ -79,6 +52,11 @@ class VideoController {
 			JSONObject jsData = JSON.parse(data);
 			def entry = jsData.get("entry");
 			Video v = parseVideoEntry(entry, cid);	
+
+			if(v.length > 18000){//60 sec * 60 min * 5 hours = 18000
+				render "Fail: Videolength too long";
+				return;
+			}
 			
 			v.save();
 			
@@ -107,12 +85,6 @@ class VideoController {
 		} catch (NumberFormatException e) {
 			duration = 1337;
 		}
-
-		if(duration > 18000){//60 sec * 60 min * 5 hours = 18000
-			render "Fail: Videolength too long";
-			return;
-		}
-
 		
 		Video v = new Video(
 			title:			title,
