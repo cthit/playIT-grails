@@ -127,3 +127,7 @@ header small {
 .video p {
 	display: inline-block;
 }
+
+.tt-dropdown-menu {
+	background: #fff;
+}
