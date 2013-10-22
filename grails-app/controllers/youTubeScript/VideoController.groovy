@@ -19,19 +19,26 @@ class VideoController {
 		render "It works!"
 	}
 
-	
-	private String extractCID(){
-		def cookie = request.cookies.find { it.name == 'chalmersItAuth' };
-		if(cookie != null){
-			String token = cookie.value;
-			def data = JSON.parse( new URL(
-				 'https://chalmers.it/auth/userInfo.php?token='+token ).text );
+	 private String extractCID(){
+                def cookie = request.cookies.find { it.name == 'chalmersItAuth' };
+                for(def cok:request.cookies){
+                        System.out.println(cok.name +" : "+cok.value)
+                }
+                System.out.println("extracting CID...")
+                if(cookie != null){
+                        String token = cookie.value;
+                        def data = JSON.parse( new URL(
+                                 'https://chalmers.it/auth/userInfo.php?token='+token ).text );
+                        String cid = data.get("cid");
+                        System.out.println("cid: "+cid)
 
-			return data.get("cid");
-		} else {
-			return null;
-		}
-	} 
+                        return cid;
+                } else {
+                        return null;
+                }
+        }
+	
+ 
 	
 	def addVideo(){
 		
@@ -56,14 +63,15 @@ class VideoController {
 			if(v.length > 18000){//60 sec * 60 min * 5 hours = 18000
 				render "Fail: Videolength too long";
 				return;
+			} else {
+			
+				v.save(flush:true);
+			
+				render "Success: Added video: "+v.title+" by user: "+cid+nl;
+			
+				params.upvote = "1";
+				addVote();
 			}
-			
-			v.save();
-			
-			render "Success: Added video: "+v.title+" by user: "+cid+nl;
-			
-			params.upvote = "1";
-			addVote();
 			
 		} else {
 			render "Fail: Video aldready exists."+nl;

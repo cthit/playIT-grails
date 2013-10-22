@@ -37,6 +37,21 @@
 			<attribute name="org.grails.ide.eclipse.core.SOURCE_FOLDER" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path=".link_to_grails_plugins/cookie-0.5/grails-app/i18n">
+		<attributes>
+			<attribute name="org.grails.ide.eclipse.core.SOURCE_FOLDER" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path=".link_to_grails_plugins/cookie-0.5/grails-app/services">
+		<attributes>
+			<attribute name="org.grails.ide.eclipse.core.SOURCE_FOLDER" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path=".link_to_grails_plugins/cookie-0.5/grails-app/taglib">
+		<attributes>
+			<attribute name="org.grails.ide.eclipse.core.SOURCE_FOLDER" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path=".link_to_grails_plugins/cors-1.1.0/src/java">
 		<attributes>
 			<attribute name="org.grails.ide.eclipse.core.SOURCE_FOLDER" value="true"/>
