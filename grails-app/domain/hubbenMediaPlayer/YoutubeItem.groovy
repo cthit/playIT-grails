@@ -1,17 +1,21 @@
-package youTubeScript
+package hubbenMediaPlayer
 
-class SpotifyItem extends MediaItem {
+class YoutubeItem extends MediaItem{
 
 	String title;
 	String thumbnail;
 	Integer length;
 	String description;
-	String spotifyURI;
+	//String youtubeID;
 	
 		
 	static constraints = {
 		description(maxSize:100000)
 	}
-	
-	
 }
+	
+	
+
+
+	
+

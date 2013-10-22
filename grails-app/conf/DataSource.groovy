@@ -15,9 +15,9 @@ environments {
 		dataSource {
 			pooled = false
 			dbCreate = "create-drop"
-			url = "jdbc:mysql://localhost/yt_script"
+			url = "jdbc:mysql://localhost/playIT"
 			driverClassName = "com.mysql.jdbc.Driver"
-			username = "yt_script"
+			username = "playIT"
 			password = "lolboll"
 		}
 		/*dataSource {

@@ -1,19 +1,24 @@
-package youTubeScript
+package hubbenMediaPlayer
 
 import grails.converters.JSON
 import groovy.sql.Sql
 
 import java.sql.ResultSet;
 import java.util.regex.*;
+
+import org.codehaus.groovy.grails.web.json.JSONArray
 import org.codehaus.groovy.grails.web.json.JSONObject
+
 import groovyx.net.*;
+import hubbenMediaPlayer.YoutubeItem;
+import hubbenMediaPlayer.Vote;
 
 
 
-class VideoController {
+class MediaController {
 	def dataSource
 	def nl = "<br />";
-	Video playingVideo = null;
+	MediaItem playingItem = null;
 
 	def index() {
 		render "It works!"
@@ -37,28 +42,40 @@ class VideoController {
                         return null;
                 }
         }
-	
+	 
+	 def addMediaItem(){
+//		 String cid = extractCID();
+//		 if(cid == null){
+//			 render "Fail: Authentication failed";
+//			 return;
+//		 } else {
+//		 	params.cid = cid;
+//		 }
+		 String cid = "jolinds";
+		 params.cid = cid;
+		 if(params.type.equals("Spotify")){
+			 addSpotifyItem();
+		 } else if(params.type.equals("YouTube")){
+		 	addYouTubeItem();
+		 }
+	 }
  
 	
-	def addVideo(){
+	def addYouTubeItem(){
 		
-		String cid = extractCID();
-		if(cid == null){
-			render "Fail: Authentication failed";
-			return;
-		}
+		
 
-		String url = params.url;
-		String videoID = extractID(url);
+		String url = params.id;
+		//String videoID = extractID(url);
 		
-		Video video = Video.find {youtubeID == videoID};
+		YoutubeItem video = YoutubeItem.find {externalID==params.id};
 		
 		if(video == null){//Check if already added
 
-			def data = new URL("http://gdata.youtube.com/feeds/api/videos/"+videoID+"?alt=json").getText();
+			def data = new URL("http://gdata.youtube.com/feeds/api/videos/"+params.id+"?alt=json").getText();
 			JSONObject jsData = JSON.parse(data);
 			def entry = jsData.get("entry");
-			Video v = parseVideoEntry(entry, cid);	
+			YoutubeItem v = parseVideoEntry(entry, params.cid);	
 
 			if(v.length > 18000){//60 sec * 60 min * 5 hours = 18000
 				render "Fail: Videolength too long";
@@ -67,7 +84,7 @@ class VideoController {
 			
 				v.save(flush:true);
 			
-				render "Success: Added video: "+v.title+" by user: "+cid+nl;
+				render "Success: Added video: "+v.title+" by user: "+params.cid+nl;
 			
 				params.upvote = "1";
 				addVote();
@@ -78,7 +95,7 @@ class VideoController {
 		}
 	}
 	
-	private Video parseVideoEntry(def entry, def cid){
+	private YoutubeItem parseVideoEntry(def entry, def cid){
 		
 		String url = entry.get("id").get("\$t");
 		String videoID = url.substring(url.lastIndexOf('/')+1);
@@ -94,96 +111,123 @@ class VideoController {
 			duration = 1337;
 		}
 		
-		Video v = new Video(
+		YoutubeItem v = new YoutubeItem(
 			title:			title,
 			thumbnail:		thumbnail,
 			length:			duration,
 			description:	desc,
 			cid:			cid,
-			youtubeID:		videoID
+			externalID:		videoID,
+			type:			"YouTube"
 		);
 		return v;
 		
 		
 	}
 	
-//	private Video parseVideoEntry(def entry, def cid){
-//		def author = entry.author.name;
-//		
-//		String title = entry.title[0].value()[0];
-//		String thumbnail = entry.getAt("group").getAt("thumbnail")[0].attribute("url");
-//		int duration;
-//		try {
-//			duration = Integer.parseInt(entry.getAt("group").getAt("duration")[0].attribute("seconds"));
-//		} catch (NumberFormatException e) {
-//			duration = 1337;
-//		}
-//		String desc = entry.getAt("group").getAt("description")[0].text();
-//		
-//		//Extracting videoID from xml
-//		String url = entry.id[0].value()[0].toString();
-//		String videoID = url.substring(url.lastIndexOf('/')+1);
-//	
-//		
-//		Video v = new Video(
-//			title:			title,
-//			thumbnail:		thumbnail,
-//			length:			duration,
-//			description:	desc,
-//			cid:			cid,
-//			youtubeID:		videoID
-//		);
-//		return v;
-//	}
+	def addSpotifyItem(){
+		
+		SpotifyItem si = SpotifyItem.find {externalID == params.id};
+		
+		if(si == null){//Check if already added
+		
+			def data = new URL(
+				"http://ws.spotify.com/lookup/1/.json?uri=spotify:track:"+params.id).getText();
+			JSONObject jsData = JSON.parse(data);
+			JSONObject track = jsData.get("track");
+			si = parseTrackEntry(track, params.cid);
+			
+			si.save(flush:true);
+			
+			render "Success: Added SpotifyTrack: "+si.title+" by user: "+params.cid+nl;
+			
+			params.upvote = "1";
+			addVote();		
+		}else {
+			render "Fail: SpotifyTrack aldready exists."+nl;
+		}		
+	}
+	
+	def SpotifyItem parseTrackEntry(def track, def cid){
+		String title = track.get("name");
+		
+		JSONObject artists = new JSONObject();
+		JSONArray arr = new JSONArray();
+				
+		for(def a:track.getJSONArray("artists")){
+			arr.put(a.get("name"));
+		}
+
+		String album = track.get("album").get("name");
+		int duration = track.get("length")+0.5;
+		
+		def tndata = new URL(
+			"https://embed.spotify.com/oembed/?url=spotify:track:"+params.id).getText();
+		JSONObject tnJsData = JSON.parse(tndata);
+		
+		String tn = tnJsData.get("thumbnail_url");
+		
+		SpotifyItem si = new SpotifyItem(
+			title:			title,
+			thumbnail: 		tn,
+			length: 		duration,
+			externalID: 	params.id,
+			artist:			arr,
+			album:			album,
+			type:			"Spotify",
+			cid:			cid
+		)
+		return si;
+	}
+	
+	
 	
 	def addVote(){
 
-		String cidString = extractCID();
-		if(cidString == null){
-			render "Fail: Authentication failed";
-			return;
-		}
+		//		String cidString = extractCID();
+		//		if(cidString == null){
+		//			render "Fail: Authentication failed";
+		//			return;
+		//		}
 
-		String url = params.url;
+
+		String cidString = params.cid;
 		boolean upvote = ("1"==params.upvote);
-		String videoID = extractID(url);
 		def voteValue = 0;
 		if(upvote){
 			voteValue = 1;
 		} else {
 			voteValue = -1;
 		}
-		
-		Video v = Video.find {youtubeID == videoID};
-		if(v != null){
-			Vote oldVote = v.votes.find { it.cid == cidString}
+
+		MediaItem mi = MediaItem.find {externalID == params.id}
+		if(mi != null){
+			Vote oldVote = mi.votes.find{it.cid == cidString}
 			if(oldVote == null){
 				Vote vote = new Vote(cid:cidString, value:voteValue);
-				v.addToVotes(vote);
-				v.save(flush:true);
+				mi.addToVotes(vote);
+				mi.save(flush:true);
 				render "Success: Added vote by: "+vote.cid+" with value: "+
-						voteValue+" to video: "+ v.title+nl;
+						voteValue+" to MediaItem: "+ mi.title+nl;
 			} else {
 				def oldVoteValue = oldVote.value;
 				oldVote.value = voteValue;
 				oldVote.save(flush:true);
 				render "Success: Updated vote by: "+oldVote.cid+" from old: "+
-				oldVoteValue+" to new: "+voteValue+" to video: "+v.title+nl;
+						oldVoteValue+" to new: "+voteValue+" to SpotifyITem: "+mi.title+nl;
 			}
-			validateVideos(); //Removes videos with summed votevalue < -1
-		} else {
-			render "Fail: Could not find video."+nl;
+			validateMediaItems();
 		}
-		
+
 	}
 	
 
 	
-	private def validateVideos(){
+	private def validateMediaItems(){
 		def db = new Sql(dataSource)
 		def results = db.rows("SELECT * FROM queue WHERE value <= -2");
 		for(def res:results){
-			 Video.find {id == res.getAt(0)}.delete(flush:true);
+			 MediaItem.find {id == res.getAt(0)}.delete(flush:true);
 		}
 		
 	}
@@ -199,7 +243,7 @@ class VideoController {
 		JSONObject jsData = JSON.parse(data);
 		if(jsData.get("feed").has("entry")){
 			def entries = jsData.get("feed").get("entry");
-			List<Video> videos = new LinkedList<Video>();
+			List<YoutubeItem> videos = new LinkedList<YoutubeItem>();
 			for(def ent:entries){
 				videos.add(parseVideoEntry(ent, ""));
 			}
@@ -215,7 +259,7 @@ class VideoController {
 		for(def res:result){
 //			 videos.add(Video.find {id == res.getAt(0)});
 			// Beautiful fulhack
-			Video v = Video.find {id == res.getAt(0)}
+			YoutubeItem v = YoutubeItem.find {id == res.getAt(0)}
 			queue += v as JSON;
 			queue = queue.substring(0,queue.length()-1);
 			queue += ",\"weight\":"+queryValueFromQueue(v)+"},";
@@ -227,7 +271,7 @@ class VideoController {
 		}
 	}
 	
-	private int queryValueFromQueue(Video v){
+	private int queryValueFromQueue(YoutubeItem v){
 		def vidID = v.id;
 		def db = new Sql(dataSource);
 		def result = db.rows("SELECT value FROM queue WHERE (Id="+vidID+")");
@@ -244,7 +288,7 @@ class VideoController {
 	}
 	
 	def showVideos(){
-		def allVideos = Video.getAll();
+		def allVideos = YoutubeItem.getAll();
 		render allVideos as JSON;
 	}
 	
@@ -254,9 +298,9 @@ class VideoController {
 		if(!result.empty){
 			vidID = result[0].getAt(0);
 		}
-		Video video = Video.find {id == vidID};
+		YoutubeItem video = YoutubeItem.find {id == vidID};
 		if(video != null){
-			playingVideo = video;
+			playingItem = video;
 			render video as JSON
 			video.delete(flush:true);
 		} else {
@@ -266,7 +310,7 @@ class VideoController {
 	}
 	
 	def nowPlaying(){
-		render playingVideo as JSON;
+		render playingItem as JSON;
 	}
 	
 	private def String extractID(String s){

@@ -1,8 +1,8 @@
-package youTubeScript
+package hubbenMediaPlayer
 
 class Vote {
 
-	static belongsTo = Video;
+	static belongsTo = MediaItem;
 	Integer value = 1;
 	String cid;
 	
