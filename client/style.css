@@ -1,0 +1,133 @@
+body {
+	margin: 0;
+	font-family: sans-serif;
+}
+
+#search_video {
+	margin: 30px 56px;
+}
+#search_video input {
+	border: 5px solid #BE3C30;
+	font-size: 2em;
+	width: 700px;
+}
+
+#toaster {
+	position: absolute;
+	top: 0;
+	display: none;
+	z-index: 20;
+	height: 100px;
+	width: 100%;
+	background: rgba(20,20,20,0.8);
+	text-align: center;
+	color: #fff;
+}
+
+#modal-box {
+	color: #fff;
+	position: absolute;
+	z-index: 100;
+	display: none;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0, 0.95);
+}
+#modal-front {
+	font-size: 1em;
+	margin-top: 30px;
+	font-family: monospace;
+}
+#modal-front label, #modal-front input {
+	font-size: 3em;
+	font-family: monospace;
+}
+#modal-front input {
+	background: #000;
+	text-transform: lowercase;
+	border: 0;
+	color: #fff;
+	outline: 0;
+}
+
+img.mini-icon {
+	max-height: 50px;
+	float: left;
+}
+.output {
+	font-size: 13px;
+	font-family: monospace;
+	background: #eee;
+	padding: 10px;
+	margin: 2px 0;
+}
+.video {
+	clear: both;
+	margin: 20px 0;
+	padding: 20px;
+}
+.video .votes {
+	vertical-align: middle;
+	text-align: center;
+	width: 50px;
+	font-size: 1.5em;
+}
+.video td {
+	max-height: 150px;
+	vertical-align: top;
+}
+.video::nth-child(even) {
+	border-top: 10px dashed black;
+}
+.video td p {
+	max-height: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.video header {
+	margin-top: 0;
+	padding-top: 0;
+}
+.votes a {
+	color: #bbb;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.votes a:hover {
+	cursor: pointer;
+}
+.votes a.upvote:hover, .votes.upvote a.upvote {
+	color: #F3946A;
+}
+.votes a.downvote:hover, .votes.downvote a.downvote {
+	color: #8F9EFC;
+}
+.video img {
+	max-height: 110px;
+	margin-right: 20px;
+}
+.cid-box {
+	background: #eee;
+	padding: 5px;
+	border-radius: 4px;
+}
+h3 {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+}
+header small {
+	margin-left: 20px;
+}
+
+.video p {
+	display: inline-block;
+}
+
+.tt-dropdown-menu {
+	background: #fff;
+}
