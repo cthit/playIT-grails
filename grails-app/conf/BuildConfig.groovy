@@ -1,4 +1,4 @@
-grails.servlet.version = "2.5" // Change depending on target container compliance (2.5 or 3.0)
+grails.servlet.version = "3.0" // Change depending on target container compliance (2.5 or 3.0)
 grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.target.level = 1.6
@@ -45,7 +45,7 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        runtime ":hibernate:$grailsVersion"
+        //runtime ":hibernate:$grailsVersion"
         runtime ":jquery:1.8.3"
         runtime ":resources:1.1.6"
 		runtime ":cors:1.1.0"
@@ -55,10 +55,17 @@ grails.project.dependency.resolution = {
         //runtime ":cached-resources:1.0"
         //runtime ":yui-minify-resources:0.1.5"
 
-        build ":tomcat:$grailsVersion"
-
+        //build ":tomcat:$grailsVersion"
+		// plugins for the build system only
+		build ":tomcat:7.0.42"
+		 
+		// plugins needed at runtime but not for compilation
+		runtime ":hibernate:3.6.10.1" // or ":hibernate4:4.1.11.1"
+		 
         runtime ":database-migration:1.3.2"
 
         compile ':cache:1.0.1'
+		
+		compile ":cookie:0.5"
     }
 }

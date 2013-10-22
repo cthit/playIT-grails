@@ -9,7 +9,7 @@ class Video {
 	String cid;
 	Integer playing = -1;
 	String youtubeID;
-	static hasMany = [votes:Vote]
+	static hasMany = [votes:Vote];
 	
 		
 	static constraints = {

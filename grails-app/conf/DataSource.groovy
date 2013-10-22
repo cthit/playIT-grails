@@ -13,11 +13,11 @@ hibernate {
 environments {
     development {
 		dataSource {
-			pooled = true
+			pooled = false
 			dbCreate = "create-drop"
-			url = "jdbc:mysql://localhost/YouTubeScript"
+			url = "jdbc:mysql://localhost/yt_script"
 			driverClassName = "com.mysql.jdbc.Driver"
-			username = "root"
+			username = "yt_script"
 			password = "lolboll"
 		}
 		/*dataSource {
