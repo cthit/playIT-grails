@@ -1,21 +1,17 @@
 package youTubeScript
 
-class Video extends MediaItem{
+class SpotifyItem extends MediaItem {
 
 	String title;
 	String thumbnail;
 	Integer length;
 	String description;
-	String youtubeID;
+	String spotifyURI;
 	
 		
 	static constraints = {
 		description(maxSize:100000)
 	}
+	
+	
 }
-	
-	
-
-
-	
-
