@@ -3,7 +3,6 @@ import json
 import urllib.request
 import time
 import os
-import sys
 import argparse
 
 SERVER = ""
@@ -44,7 +43,7 @@ def _fixServerAdress(rawServer):
 
 def _mainLoop():
 
-    while(True):
+    while True:
         youtubeID = _loadYTID()
         if youtubeID is not None:
             print("Playing video with id: " + youtubeID)
@@ -69,6 +68,9 @@ def _playVideo(youtubeID):
     print("_playVideo: " + youtubeID)
     youtubeURL = "'http://www.youtube.com/watch?v=" + youtubeID + "'"
     command = 'mplayer -cache 4096 -fs -xineramascreen '+str(MONITOR_NUMBER)+' "$(youtube-dl -g '+youtubeURL+')"'
+
+    # https://github.com/mpv-player/mpv
+    #command = 'mpv --fs --screen ' + str(MONITOR_NUMBER) + ' ' + youtubeURL
     print(command)
     os.system(command)
 
