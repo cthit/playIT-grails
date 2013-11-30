@@ -13,49 +13,47 @@ import groovyx.net.*;
 import hubbenMediaPlayer.YoutubeItem;
 import hubbenMediaPlayer.Vote;
 
-
-
 class MediaController {
-	def dataSource
-	def nl = "<br />";
+	private def dataSource
+	private def nl = "<br />";
+	private int LIMIT = 18000 //60 sec * 60 min * 5 hours = 18000
+	
 	MediaItem playingItem = null;
 
 	def index() {
 		render "It works!"
 	}
 
-	 private String extractCID(){
-                def cookie = request.cookies.find { it.name == 'chalmersItAuth' };
-                for(def cok:request.cookies){
-                        System.out.println(cok.name +" : "+cok.value)
-                }
-                System.out.println("extracting CID...")
-                if(cookie != null){
-                        String token = cookie.value;
-                        def data = JSON.parse( new URL(
-                                 'https://chalmers.it/auth/userInfo.php?token='+token ).text );
-                        String cid = data.get("cid");
-                        System.out.println("cid: "+cid)
-
-                        return cid;
-                } else {
-                        return null;
-                }
-        }
+	private String extractCID(){
+		    def cookie = request.cookies.find { it.name == 'chalmersItAuth' };
+	//                for(def cok:request.cookies){
+	//                        System.out.println(cok.name +" : "+cok.value);
+	//                }
+	    System.out.println("extracting CID...")
+	    if(cookie != null){
+	            String token = cookie.value;
+	            def data = JSON.parse( new URL(
+	                     'https://chalmers.it/auth/userInfo.php?token='+token ).text );
+	            String cid = data.get("cid");
+	            System.out.println("cid: "+cid)
+		            return cid;
+		    } else {
+		            return null;
+		    }
+	 }
 	 
 	 def addMediaItem(){
-//		 String cid = extractCID();
-//		 if(cid == null){
-//			 render "Fail: Authentication failed";
-//			 return;
-//		 } else {
-//		 	params.cid = cid;
-//		 }
-		 String cid = "jolinds";
-		 params.cid = cid;
-		 if(params.type.equals("Spotify")){
+		 String cid = extractCID();
+		 if(cid == null){
+			 render "Fail: Authentication failed";
+			 return;
+		 } else {
+		 	params.cid = cid;
+		 }
+		 
+		 if(params.type.equals("spotify")){
 			 addSpotifyItem();
-		 } else if(params.type.equals("YouTube")){
+		 } else if(params.type.equals("youtube")){
 		 	addYouTubeItem();
 		 }
 	 }
@@ -63,8 +61,6 @@ class MediaController {
 	
 	def addYouTubeItem(){
 		
-		
-
 		String url = params.id;
 		//String videoID = extractID(url);
 		
@@ -77,15 +73,12 @@ class MediaController {
 			def entry = jsData.get("entry");
 			YoutubeItem v = parseVideoEntry(entry, params.cid);	
 
-			if(v.length > 18000){//60 sec * 60 min * 5 hours = 18000
+			if(v.length > LIMIT){
 				render "Fail: Videolength too long";
 				return;
 			} else {
-			
 				v.save(flush:true);
-			
 				render "Success: Added video: "+v.title+" by user: "+params.cid+nl;
-			
 				params.upvote = "1";
 				addVote();
 			}
@@ -118,10 +111,9 @@ class MediaController {
 			description:	desc,
 			cid:			cid,
 			externalID:		videoID,
-			type:			"YouTube"
+			type:			"youtube"
 		);
 		return v;
-		
 		
 	}
 	
@@ -174,7 +166,7 @@ class MediaController {
 			externalID: 	params.id,
 			artist:			arr,
 			album:			album,
-			type:			"Spotify",
+			type:			"spotify",
 			cid:			cid
 		)
 		return si;
@@ -184,14 +176,14 @@ class MediaController {
 	
 	def addVote(){
 
-		//		String cidString = extractCID();
-		//		if(cidString == null){
-		//			render "Fail: Authentication failed";
-		//			return;
-		//		}
+		String cidString = extractCID();
+		if(cidString == null){
+			render "Fail: Authentication failed";
+			return;
+		}
 
 
-		String cidString = params.cid;
+//		String cidString = params.cid;
 		boolean upvote = ("1"==params.upvote);
 		def voteValue = 0;
 		if(upvote){
@@ -259,10 +251,10 @@ class MediaController {
 		for(def res:result){
 //			 videos.add(Video.find {id == res.getAt(0)});
 			// Beautiful fulhack
-			YoutubeItem v = YoutubeItem.find {id == res.getAt(0)}
-			queue += v as JSON;
+			MediaItem mi = MediaItem.find {id == res.getAt(0)}
+			queue += mi as JSON;
 			queue = queue.substring(0,queue.length()-1);
-			queue += ",\"weight\":"+queryValueFromQueue(v)+"},";
+			queue += ",\"weight\":"+queryValueFromQueue(mi)+"},";
 		}
 		if(queue.length() == 0){
 			render "[]";
@@ -271,10 +263,10 @@ class MediaController {
 		}
 	}
 	
-	private int queryValueFromQueue(YoutubeItem v){
-		def vidID = v.id;
+	private int queryValueFromQueue(MediaItem mi){
+		def mediaItemID = mi.id;
 		def db = new Sql(dataSource);
-		def result = db.rows("SELECT value FROM queue WHERE (Id="+vidID+")");
+		def result = db.rows("SELECT value FROM queue WHERE (Id="+mediaItemID+")");
 		if(!result.empty){
 			return (int)result[0].getAt(0);
 		} else {
@@ -287,25 +279,25 @@ class MediaController {
 		return db.rows("SELECT * FROM queue");
 	}
 	
-	def showVideos(){
-		def allVideos = YoutubeItem.getAll();
-		render allVideos as JSON;
-	}
+//	def showVideos(){
+//		def allVideos = YoutubeItem.getAll();
+//		render allVideos as JSON;
+//	}
 	
 	def popQueue(){
 		def result = queryQueue();
-		def vidID;
+		def mediaItemID;
 		if(!result.empty){
-			vidID = result[0].getAt(0);
+			mediaItemID = result[0].getAt(0);
 		}
-		YoutubeItem video = YoutubeItem.find {id == vidID};
-		if(video != null){
-			playingItem = video;
-			render video as JSON
-			video.delete(flush:true);
+		MediaItem mi = MediaItem.find {id == mediaItemID};
+		if(mi != null){
+			playingItem = mi;
+			render mi as JSON
+			mi.delete(flush:true);
 		} else {
 			render "[]";
-			video = null;
+			playingItem = null;
 		}
 	}
 	
