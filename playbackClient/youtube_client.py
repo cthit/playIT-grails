@@ -6,12 +6,14 @@ import os
 import argparse
 
 SERVER = ""
-SHOW_VIDEOS = "youTubeInTheHubbServer/video/popQueue"
+SHOW_VIDEOS = "playIT/media/popQueue"
 MONITOR_NUMBER = 1
 
 
 def main():
+    print("Initializing...")
     _init()
+    print("Running main playback loop...")
     _mainLoop()
 
 
@@ -27,6 +29,7 @@ def _init():
     else:
         global SERVER
         SERVER = _fixServerAdress(args.server)
+        print("Server: "+SERVER)
 
     if args.monitorNumber is not None:
         global MONITOR_NUMBER
@@ -44,16 +47,22 @@ def _fixServerAdress(rawServer):
 def _mainLoop():
 
     while True:
-        youtubeID = _loadYTID()
-        if youtubeID is not None:
-            print("Playing video with id: " + youtubeID)
-            _playVideo(youtubeID)
+        print("Popping next queue item")
+        item = _loadNext()
+        if item is not None:
+            if item[0] == "youtube":
+                print("Playing video with id: " + item[1])
+                _playVideo(item[1])
+            elif item[0] == "spotify":
+                print("Playing track with id: "+item[1])
+                # Implement spotify track handling
         else:
             print("No item in queue, sleeping...")
             time.sleep(10)
 
 
-def _loadYTID():
+def _loadNext():
+    print(SERVER +SHOW_VIDEOS)
     url = urllib.request.urlopen(SERVER + SHOW_VIDEOS)
     raw_data = url.read().decode("utf8")
 
@@ -61,7 +70,8 @@ def _loadYTID():
         return None
     else:
         data = json.loads(raw_data)
-        return data.get("youtubeID")
+
+        return (data.get("type") , data.get("externalID") )
 
 
 def _playVideo(youtubeID):

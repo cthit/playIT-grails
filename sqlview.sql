@@ -14,8 +14,9 @@ CREATE OR REPLACE VIEW queue AS(
 SELECT id, title, SUM(value) AS "value"
 FROM 
 	media_votes
-GROUP BY id
-ORDER BY Value DESC);
+GROUP BY id ASC
+ORDER BY Value DESC
+);
 
 
 
