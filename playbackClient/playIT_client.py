@@ -1,5 +1,6 @@
 #!/usr/bin/python
-""" The client controller for the playIT backend.
+""" The client controller for the playIT backend
+by Horv and Eda
 
 Requires python3.3
 Depends on mpc(optional), mopidy(optional),
@@ -67,6 +68,7 @@ def process_exists(proc_name):
 
 
 def _fixServerAdress(rawServer):
+	#Seems to be bugging, try to do better check?
     if(not rawServer.endswith("/")):
         rawServer = rawServer + "/"
     if(not rawServer.startswith("http://")):
@@ -111,14 +113,12 @@ class PlayIt(object):
                     self._playVideo(item[1])
                 elif item[0] == "spotify":
                     print("Playing track with id: " + item[1])
-                    # Implement spotify track handling
                     self.__playSpotifyTrack(item[1])
             else:
                 print("No item in queue, sleeping...")
                 time.sleep(10)
 
     def _loadNext(self):
-        print(self.server + self.showVideos)
         url = urllib.request.urlopen(self.server + self.showVideos)
         raw_data = url.read().decode("utf8")
 
