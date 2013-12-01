@@ -29,7 +29,7 @@ def _init():
     else:
         global SERVER
         SERVER = _fixServerAdress(args.server)
-        print("Server: "+SERVER)
+        print("Server: " + SERVER)
 
     if args.monitorNumber is not None:
         global MONITOR_NUMBER
@@ -54,7 +54,7 @@ def _mainLoop():
                 print("Playing video with id: " + item[1])
                 _playVideo(item[1])
             elif item[0] == "spotify":
-                print("Playing track with id: "+item[1])
+                print("Playing track with id: " + item[1])
                 # Implement spotify track handling
                 __playSpotifyTrack(item[1])
         else:
@@ -63,7 +63,7 @@ def _mainLoop():
 
 
 def _loadNext():
-    print(SERVER +SHOW_VIDEOS)
+    print(SERVER + SHOW_VIDEOS)
     url = urllib.request.urlopen(SERVER + SHOW_VIDEOS)
     raw_data = url.read().decode("utf8")
 
@@ -72,7 +72,7 @@ def _loadNext():
     else:
         data = json.loads(raw_data)
 
-        return (data.get("type") , data.get("externalID") )
+        return data.get("type"), data.get("externalID")
 
 
 def _playVideo(youtubeID):
@@ -85,10 +85,11 @@ def _playVideo(youtubeID):
     print(command)
     os.system(command)
 
+
 def __playSpotifyTrack(spotifyID):
     print("__playSpotifyTrack: " + spotifyID)
     #mpc and mopidy required set up to work
-    command = 'mpc add spotify:track:'+spotifyID+' && mpc play'
+    command = 'mpc add spotify:track:' + spotifyID + ' && mpc play'
 
     print(command)
     os.system(command)
@@ -96,12 +97,11 @@ def __playSpotifyTrack(spotifyID):
     checkCmd = 'mpc current'
     while True:
         status = os.popen(checkCmd).read()
-        if not status: #If song stopped playing
+        if not status: # If song stopped playing
             break
         else:
-            #print(status) #Causes alot of spam
-            time.sleep(5)            
-
+            #print(status) # Causes a lot of spam
+            time.sleep(5)
 
 
 if __name__ == "__main__":
