@@ -1,9 +1,11 @@
 #!/usr/bin/python
-"""
-The client controller for the playIT backend.
-Depends on mpc(optional), mopidy(optional), mplayer/youtube-dl and/or mpv
-https://github.com/mpv-player/mpv
+""" The client controller for the playIT backend.
+
 Requires python3.3
+Depends on mpc(optional), mopidy(optional),
+mplayer/youtube-dl and/or mpv
+
+https://github.com/mpv-player/mpv
 
 """
 import json
@@ -11,6 +13,8 @@ import urllib.request
 import time
 import os
 import argparse
+from shutil import which
+import subprocess
 
 
 def main():
@@ -20,7 +24,6 @@ def main():
 
 
 def checkReqs():
-    from shutil import which
     failed = False
     if which("mopidy") is None:
         print("(optional) mopidy is missing")
@@ -46,9 +49,9 @@ def checkReqs():
 def process_exists(proc_name):
     """ http://stackoverflow.com/a/7008599 ."""
 
-    import subprocess
     import re
-    ps = subprocess.Popen("ps ax -o pid= -o args= ", shell=True, stdout=subprocess.PIPE)
+    ps = subprocess.Popen("ps ax -o pid= -o args= ",
+                          shell=True, stdout=subprocess.PIPE)
     ps_pid = ps.pid
     output = ps.stdout.read()
     ps.stdout.close()
@@ -81,7 +84,8 @@ class PlayIt(object):
 
         print("Initializing...")
         parser = argparse.ArgumentParser()
-        parser.add_argument('-m', '--monitor-number', dest="monitorNumber", type=int, default=1)
+        parser.add_argument('-m', '--monitor-number', dest="monitorNumber",
+                            type=int, default=1)
         parser.add_argument('-s', '--server')
         args = parser.parse_args()
 
@@ -96,6 +100,8 @@ class PlayIt(object):
 
     def start(self):
         """ Start the event-loop. """
+        if which("mpc") is not None:
+            os.system("mpc single on >/dev/null && mpc consume on >/dev/null")
         while True:
             print("Popping next queue item")
             item = self._loadNext()
@@ -127,7 +133,6 @@ class PlayIt(object):
         print("_playVideo: " + youtubeID)
         youtubeURL = "'http://www.youtube.com/watch?v=" + youtubeID + "'"
 
-        from shutil import which
         if which("mpv") is not None:
             cmd = ['mpv', "--quiet", '--fs', '--screen',
                    str(self.monitorNumber), youtubeURL]
@@ -144,17 +149,18 @@ class PlayIt(object):
         #mpc and mopidy required set up to work
         command = 'mpc add spotify:track:' + spotifyID + ' && mpc play'
 
-        print(command)
+        #print(command)
         os.system(command)
 
         checkCmd = 'mpc current'
-        while True:
-            status = os.popen(checkCmd).read()
-            if not status:  # If song stopped playing
-                break
-            else:
-                #print(status) # Causes a lot of spam
-                time.sleep(5)
+        while os.popen(checkCmd).read():
+            try:
+                # Blocks until some event happens to mpd
+                subprocess.call(["mpc", "idle"], stdout=subprocess.DEVNULL)
+            except KeyboardInterrupt:
+                # on ctrl-c, stop playback
+                os.system("mpc stop >/dev/null")
+                os.system("mpc del 1")
 
 
 if __name__ == "__main__":
