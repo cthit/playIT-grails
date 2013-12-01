@@ -56,6 +56,7 @@ def _mainLoop():
             elif item[0] == "spotify":
                 print("Playing track with id: "+item[1])
                 # Implement spotify track handling
+                __playSpotifyTrack(item[1])
         else:
             print("No item in queue, sleeping...")
             time.sleep(10)
@@ -83,6 +84,25 @@ def _playVideo(youtubeID):
     #command = 'mpv --fs --screen ' + str(MONITOR_NUMBER) + ' ' + youtubeURL
     print(command)
     os.system(command)
+
+def __playSpotifyTrack(spotifyID):
+    print("__playSpotifyTrack: " + spotifyID)
+    #mpc and mopidy required set up to work
+    command = 'mpc add spotify:track:'+spotifyID+' && mpc play'
+
+    print(command)
+    os.system(command)
+
+    checkCmd = 'mpc current'
+    while True:
+        status = os.popen(checkCmd).read()
+        if not status: #If song stopped playing
+            break
+        else:
+            #print(status) #Causes alot of spam
+            time.sleep(5)            
+
+
 
 if __name__ == "__main__":
     main()
