@@ -1,5 +1,10 @@
 #!/usr/bin/python
-""" The client controller for the playIT backend. """
+"""
+The client controller for the playIT backend.
+Depends on mpc(optional), mopidy(optional), mplayer/youtube-dl and/or mpv
+Requires python3.3
+
+"""
 import json
 import urllib.request
 import time
@@ -13,15 +18,69 @@ def main():
     playIT.start()
 
 
+def checkReqs():
+    from shutil import which
+    failed = False
+    if which("mopidy") is None:
+        print("(optional) mopidy is missing")
+    if which("mpc") is None:
+        print("(optional) mpc is missing")
+
+    mplayer = which("mplayer")
+    mpv = which("mpv")
+
+    if mpv is None or mplayer is None:
+        print("mpv or mplayer missing")
+        failed = True
+
+    if mplayer is not None and which("youtube-dl") is None and mpv is None:
+        print("Missing youtube-dl")
+        failed = True
+
+    if failed:
+        print("Resolve the above missing requirements")
+        exit(1)
+
+
+def process_exists(proc_name):
+    """ http://stackoverflow.com/a/7008599 ."""
+
+    import subprocess
+    import re
+    ps = subprocess.Popen("ps ax -o pid= -o args= ", shell=True, stdout=subprocess.PIPE)
+    ps_pid = ps.pid
+    output = ps.stdout.read()
+    ps.stdout.close()
+    ps.wait()
+
+    for line in output.decode().split("\n"):
+        res = re.findall(r"(\d+) (.*)", line)
+        if res:
+            pid = int(res[0][0])
+            if proc_name in res[0][1] and pid != os.getpid() and pid != ps_pid:
+                return True
+    return False
+
+
+def _fixServerAdress(rawServer):
+    if(not rawServer.endswith("/")):
+        rawServer = rawServer + "/"
+    if(not rawServer.startswith("http://")):
+        rawServer = "http://" + rawServer
+    return rawServer
+
+
 class PlayIt(object):
     def __init__(self):
-        self.server = ""
+        checkReqs()
+        if not process_exists("mopidy"):
+            print("FYI: mopidy does not seem to be running")
+
         self.showVideos = "playIT/media/popQueue"
-        self.monitorNumber = 1
 
         print("Initializing...")
         parser = argparse.ArgumentParser()
-        parser.add_argument('-mn', '--monitorNumber')
+        parser.add_argument('-m', '--monitor-number', dest="monitorNumber", type=int, default=1)
         parser.add_argument('-s', '--server')
         args = parser.parse_args()
 
@@ -29,18 +88,10 @@ class PlayIt(object):
             print("Please supply a server by: -s http://example.com")
             exit(1)
         else:
-            self.server = self._fixServerAdress(args.server)
+            self.server = _fixServerAdress(args.server)
             print("Server: " + self.server)
 
-        if args.monitorNumber is not None:
-            self.monitor_number = args.monitorNumber
-
-    def _fixServerAdress(self, rawServer):
-        if(not rawServer.endswith("/")):
-            rawServer = rawServer + "/"
-        if(not rawServer.startswith("http://")):
-            rawServer = "http://" + rawServer
-        return rawServer
+        self.monitor_number = args.monitorNumber
 
     def start(self):
         """ Start the event-loop. """
