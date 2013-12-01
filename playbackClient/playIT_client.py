@@ -2,6 +2,7 @@
 """
 The client controller for the playIT backend.
 Depends on mpc(optional), mopidy(optional), mplayer/youtube-dl and/or mpv
+https://github.com/mpv-player/mpv
 Requires python3.3
 
 """
@@ -91,7 +92,7 @@ class PlayIt(object):
             self.server = _fixServerAdress(args.server)
             print("Server: " + self.server)
 
-        self.monitor_number = args.monitorNumber
+        self.monitorNumber = args.monitorNumber
 
     def start(self):
         """ Start the event-loop. """
@@ -125,12 +126,18 @@ class PlayIt(object):
     def _playVideo(self, youtubeID):
         print("_playVideo: " + youtubeID)
         youtubeURL = "'http://www.youtube.com/watch?v=" + youtubeID + "'"
-        cmd = 'mplayer -cache 4096 -fs -xineramascreen ' + str(self.monitorNumber) + ' "$(youtube-dl -g ' + youtubeURL + ')"'
 
-        # https://github.com/mpv-player/mpv
-        #cmd = 'mpv --fs --screen ' + str(MONITOR_NUMBER) + ' ' + youtubeURL
+        from shutil import which
+        if which("mpv") is not None:
+            cmd = ['mpv', "--quiet", '--fs', '--screen',
+                   str(self.monitorNumber), youtubeURL]
+        else:
+            cmd = ['mplayer', '-cache', '4096', '-fs',
+                   '-xineramascreen', str(self.monitorNumber),
+                   '"$(youtube-dl -g ' + youtubeURL + ')"']
+
         print(cmd)
-        os.system(cmd)
+        os.system(" ".join(cmd))
 
     def __playSpotifyTrack(self, spotifyID):
         print("__playSpotifyTrack: " + spotifyID)
