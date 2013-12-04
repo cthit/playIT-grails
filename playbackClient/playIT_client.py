@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """ The client controller for the playIT backend
-by Horv and Eda
+by Horv and Eda - 2013
 
 Requires python3.3
 Depends on mpc(optional), mopidy(optional),
@@ -122,18 +122,22 @@ class PlayIt(object):
                     self._play_spotify_track(item[1])
             else:
                 print("No item in queue, sleeping...")
+                # TODO: use websockets to notify of new queue item
                 time.sleep(10)
 
     def _load_next(self):
         """ Get the next item in queue from the backend. """
-        url = urllib.request.urlopen(self.server + self.show_videos)
+        try:
+            url = urllib.request.urlopen(self.server + self.show_videos)
+        except (urllib.error.HTTPError, urllib.error.URLError) as err:
+            print("Error while fetching queue: ", err)
+            return None
         raw_data = url.read().decode("utf8")
 
         if raw_data == "[]":
             return None
         else:
             data = json.loads(raw_data)
-
             return data.get("type"), data.get("externalID")
 
     def _play_video(self, youtube_id):
