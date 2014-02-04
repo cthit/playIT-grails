@@ -1,0 +1,18 @@
+<table>
+	<tbody>
+{{#each this}}
+	<tr class="video" data-video-id="{{id}}" data-youtube-id="{{youtubeID}}">
+		<td class="votes {{voted id}}">
+		<a class="upvote">▲</a><br>
+		{{limit weight}}<br>
+		<a class="downvote">▼</a>
+		</td>
+		<td><img src="{{thumbnail}}" /></td>
+		<td>
+			<header><a href="http://youtu.be/{{youtubeID}}"><h3>{{title}}</h3></a><small class="cid-box">{{cid}}</small></header>
+			<p>{{ntobr description}}</p>
+		</td>
+	</tr>
+{{/each}}
+	</tbody>
+</table>

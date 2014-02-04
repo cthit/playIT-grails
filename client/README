@@ -1,5 +1,0 @@
-
-Instructions for use:
-
-1. Set IS_ENABLED to true (top of index.php)
-2. Enter server IP in script.js

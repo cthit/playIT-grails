@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """ The client controller for the playIT backend
-by Horv and Eda
+by Horv and Eda - 2013
 
 Requires python3.3
 Depends on mpc(optional), mopidy(optional),
@@ -12,19 +12,21 @@ https://github.com/mpv-player/mpv
 import json
 import urllib.request
 import time
-import os
 import argparse
 from shutil import which
 import subprocess
+from subprocess import call
 
 
 def main():
-    playIT = PlayIt()
+    """ Init and startup goes here... """
+    playit = PlayIt()
     print("Running main playback loop...")
-    playIT.start()
+    playit.start()
 
 
-def checkReqs():
+def check_reqs():
+    """ Verify that all dependencies exists. """
     failed = False
     if which("mopidy") is None:
         print("(optional) mopidy is missing")
@@ -58,35 +60,38 @@ def process_exists(proc_name):
     ps.stdout.close()
     ps.wait()
 
+    from os import getpid
     for line in output.decode().split("\n"):
         res = re.findall(r"(\d+) (.*)", line)
         if res:
             pid = int(res[0][0])
-            if proc_name in res[0][1] and pid != os.getpid() and pid != ps_pid:
+            if proc_name in res[0][1] and pid != getpid() and pid != ps_pid:
                 return True
     return False
 
 
-def _fixServerAdress(rawServer):
-	#Seems to be bugging, try to do better check?
-    if(not rawServer.endswith("/")):
-        rawServer = rawServer + "/"
-    if(not rawServer.startswith("http://")):
-        rawServer = "http://" + rawServer
-    return rawServer
+def _fix_server_adress(raw_server):
+    """ Prepend http:// and append / if they're not there. """
+    #Seems to be bugging, try to do better check?
+    if not raw_server.endswith("/"):
+        raw_server += "/"
+    if not raw_server.startswith("http://"):
+        raw_server = "http://" + raw_server
+    return raw_server
 
 
 class PlayIt(object):
+    """ Defines the interface between the backend and actual playback. """
     def __init__(self):
-        checkReqs()
+        print("Initializing...")
+        check_reqs()
         if not process_exists("mopidy"):
             print("FYI: mopidy does not seem to be running")
 
-        self.showVideos = "playIT/media/popQueue"
+        self.show_videos = "playIT/media/popQueue"
 
-        print("Initializing...")
         parser = argparse.ArgumentParser()
-        parser.add_argument('-m', '--monitor-number', dest="monitorNumber",
+        parser.add_argument('-m', '--monitor-number', dest="monitor_number",
                             type=int, default=1)
         parser.add_argument('-s', '--server')
         args = parser.parse_args()
@@ -95,72 +100,84 @@ class PlayIt(object):
             print("Please supply a server by: -s http://example.com")
             exit(1)
         else:
-            self.server = _fixServerAdress(args.server)
+            self.server = _fix_server_adress(args.server)
             print("Server: " + self.server)
 
-        self.monitorNumber = args.monitorNumber
+        self.monitor_number = args.monitor_number
 
     def start(self):
         """ Start the event-loop. """
         if which("mpc") is not None:
-            os.system("mpc single on >/dev/null && mpc consume on >/dev/null")
+            call("mpc single on &>/dev/null && mpc consume on &>/dev/null",
+                 shell=True)
         while True:
             print("Popping next queue item")
-            item = self._loadNext()
+            item = self._load_next()
             if item is not None:
                 if item[0] == "youtube":
                     print("Playing video with id: " + item[1])
-                    self._playVideo(item[1])
+                    self._play_video(item[1])
                 elif item[0] == "spotify":
                     print("Playing track with id: " + item[1])
-                    self.__playSpotifyTrack(item[1])
+                    self._play_spotify_track(item[1])
             else:
                 print("No item in queue, sleeping...")
+                # TODO: use websockets to notify of new queue item
                 time.sleep(10)
 
-    def _loadNext(self):
-        url = urllib.request.urlopen(self.server + self.showVideos)
+    def _load_next(self):
+        """ Get the next item in queue from the backend. """
+        try:
+            url = urllib.request.urlopen(self.server + self.show_videos)
+        except (urllib.error.HTTPError, urllib.error.URLError) as err:
+            print("Error while fetching queue: ", err)
+            return None
         raw_data = url.read().decode("utf8")
 
-        if(raw_data == "[]"):
+        if raw_data == "[]":
             return None
         else:
             data = json.loads(raw_data)
-
             return data.get("type"), data.get("externalID")
 
-    def _playVideo(self, youtubeID):
-        print("_playVideo: " + youtubeID)
-        youtubeURL = "'http://www.youtube.com/watch?v=" + youtubeID + "'"
+    def _play_video(self, youtube_id):
+        """ Play the supplied youtube video with mpv or mplayer. """
+        print("[_play_video] Video id: " + youtube_id)
+        youtube_url = "http://www.youtube.com/watch?v=" + youtube_id
 
         if which("mpv") is not None:
             cmd = ['mpv', "--quiet", '--fs', '--screen',
-                   str(self.monitorNumber), youtubeURL]
+                   str(self.monitor_number), youtube_url]
         else:
             cmd = ['mplayer', '-cache', '4096', '-fs',
-                   '-xineramascreen', str(self.monitorNumber),
-                   '"$(youtube-dl -g ' + youtubeURL + ')"']
+                   '-xineramascreen', str(self.monitor_number),
+                   '"$(youtube-dl -g ' + youtube_url + ')"']
 
         print(cmd)
-        os.system(" ".join(cmd))
+        call(cmd)
 
-    def __playSpotifyTrack(self, spotifyID):
-        print("__playSpotifyTrack: " + spotifyID)
+    def _play_spotify_track(self, spotify_id):
+        """ Play the supplied spotify track using mopidy and mpc. """
+        if not process_exists("mopidy"):
+            print("[spotify] Start mopidy...")
+            return
+
+        print("__playSpotifyTrack: " + spotify_id)
         #mpc and mopidy required set up to work
-        command = 'mpc add spotify:track:' + spotifyID + ' && mpc play'
+        cmd = 'mpc add spotify:track:' + spotify_id + ' && mpc play'
 
         #print(command)
-        os.system(command)
+        call(cmd, shell=True)
 
-        checkCmd = 'mpc current'
-        while os.popen(checkCmd).read():
+        current_cmd = ['mpc', 'current']
+        while subprocess.check_output(current_cmd):
             try:
                 # Blocks until some event happens to mpd
-                subprocess.call(["mpc", "idle"], stdout=subprocess.DEVNULL)
+                call(["mpc", "idle"], stdout=subprocess.DEVNULL)
             except KeyboardInterrupt:
                 # on ctrl-c, stop playback
-                os.system("mpc stop >/dev/null")
-                os.system("mpc del 1")
+                call("mpc stop >/dev/null", shell=True)
+                call("mpc del 1", shell=True)
 
 
 if __name__ == "__main__":
