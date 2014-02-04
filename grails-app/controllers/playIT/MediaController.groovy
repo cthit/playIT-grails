@@ -1,4 +1,4 @@
-package hubbenMediaPlayer
+package playIT
 
 import grails.converters.JSON
 import groovy.sql.Sql
@@ -9,22 +9,27 @@ import java.util.regex.*;
 import org.codehaus.groovy.grails.web.json.JSONArray
 import org.codehaus.groovy.grails.web.json.JSONObject
 
+import playIT.MediaItem;
+import playIT.SpotifyItem;
+import playIT.Vote;
+import playIT.YoutubeItem;
+
 import groovyx.net.*;
-import hubbenMediaPlayer.YoutubeItem;
-import hubbenMediaPlayer.Vote;
 
 class MediaController {
 	def dataSource
-	private def nl = "<br />";
+	private static final def nl = "<br />";
 	private static int LIMIT = 18000; //60 sec * 60 min * 5 hours = 18000
 	private static final String adminGroup = "playITAdmin";
 
-	MediaItem playingItem = null;
+	private static MediaItem playingItem = null;
 
 	def index() {
 		render "It works!"
 	}
-
+	
+	//Method to extract CID from cookie using the chalmers.it
+	//auth system implemented by digIT13/14
 	private String extractCID(){
 		def cookie = request.cookies.find { it.name == 'chalmersItAuth' };
 		System.out.println("extracting CID...")
@@ -39,7 +44,8 @@ class MediaController {
 			return null;
 		}
 	}
-
+	
+	//Adds a media item according to type selected
 	def addMediaItem(){
 		String cid = extractCID();
 		if(cid == null){
@@ -53,25 +59,31 @@ class MediaController {
 			addSpotifyItem();
 		} else if(params.type.equals("youtube")){
 			addYouTubeItem();
+		} else {
+			render "Fail: Type not specified correctly: spotify / youtube"
 		}
 	}
 
+	//Add youtube-item specified by youtube-ID as param ID.
+	private def addYouTubeItem(){
 
-	def addYouTubeItem(){
-
-		String url = params.id;
-		//String videoID = extractID(url);
-
+		//String url = params.id;
 		YoutubeItem video = YoutubeItem.find {externalID==params.id};
 
 		if(video == null){//Check if already added
-
-			def data = new URL("http://gdata.youtube.com/feeds/api/videos/"+params.id+"?alt=json").getText();
+			def data;
+			try {
+				data = new URL("http://gdata.youtube.com/feeds/api/videos/"+params.id+"?alt=json").getText();
+			} catch (IOException e) {
+				render "Fail: Could not find youtube video with id: "+params.id
+				return;
+			}
+			
 			JSONObject jsData = JSON.parse(data);
 			def entry = jsData.get("entry");
 			YoutubeItem v = parseVideoEntry(entry, params.cid);
 
-			if(v.length > LIMIT){
+			if(v.length > LIMIT){//If length is longer then alloweed limit
 				render "Fail: Videolength too long";
 				return;
 			} else {
@@ -82,14 +94,14 @@ class MediaController {
 				params.upvote = "1";
 				addVote();
 			}
-
+			
 		} else {
 			render "Fail: Video aldready exists."+nl;
 		}
 	}
-
+	
+	//Parsing info from youtube video using open API.
 	private YoutubeItem parseVideoEntry(def entry, def cid){
-
 		String url = entry.get("id").get("\$t");
 		String videoID = url.substring(url.lastIndexOf('/')+1);
 		String title = entry.get("title").get("\$t");
@@ -116,15 +128,22 @@ class MediaController {
 		return v;
 
 	}
-
-	def addSpotifyItem(){
-
+	
+	
+	//Add youtube-item specified by spotifyTrack-ID as param ID.
+	private def addSpotifyItem(){
 		SpotifyItem si = SpotifyItem.find {externalID == params.id};
 
 		if(si == null){//Check if already added
-
-			def data = new URL(
+			def data;
+			try {
+				data = new URL(
 					"http://ws.spotify.com/lookup/1/.json?uri=spotify:track:"+params.id).getText();
+			} catch (IOException e) {
+				render "Fail: Could not find spotify track with id: "+params.id
+				return;
+			}
+			
 			JSONObject jsData = JSON.parse(data);
 			JSONObject track = jsData.get("track");
 			si = parseTrackEntry(track, params.cid);
@@ -140,8 +159,9 @@ class MediaController {
 			render "Fail: SpotifyTrack aldready exists."+nl;
 		}
 	}
-
-	def SpotifyItem parseTrackEntry(def track, def cid){
+	
+	//Parsing info from spotify track using open API.
+	private def SpotifyItem parseTrackEntry(def track, def cid){
 		String title = track.get("name");
 
 		JSONObject artists = new JSONObject();
@@ -174,7 +194,7 @@ class MediaController {
 	}
 
 
-
+	//Adds vote to specified ID
 	def addVote(){
 
 		String cidString = extractCID();
@@ -184,7 +204,9 @@ class MediaController {
 		}
 
 
-		//		String cidString = params.cid;
+		//String cidString = params.cid;
+		
+		//Determines if it's an up- or downvote.
 		boolean upvote = ("1"==params.upvote);
 		def voteValue = 0;
 		if(upvote){
@@ -214,6 +236,8 @@ class MediaController {
 				System.out.println(message);
 			}
 			validateMediaItems();
+		} else {
+			render "Fail: Could not find item with id"+params.id;
 		}
 
 	}
@@ -277,7 +301,8 @@ class MediaController {
 			render "["+queue.substring(0, queue.length()-1)+"]";
 		}
 	}
-
+	
+	//Query value from a vote.
 	private int queryValueFromQueue(MediaItem mi){
 		def mediaItemID = mi.id;
 		def db = new Sql(dataSource);
@@ -307,20 +332,27 @@ class MediaController {
 		}
 		MediaItem mi = MediaItem.find {id == mediaItemID};
 		if(mi != null){
-			playingItem = mi;
+			this.playingItem = mi;
 			render mi as JSON
 			mi.delete(flush:true);
 		} else {
+			this.playingItem = null;
 			render "[]";
-			playingItem = null;
 		}
 	}
 
+	//Returns currently playing item. (latest popped if not null)
 	def nowPlaying(){
-		render playingItem as JSON;
+		if(playingItem == null){
+			render "[]"
+		} else {
+			render playingItem as JSON;
+		}
 	}
+	
+	//--------------Admin stuff below--------------------------------
 
-
+	//Tell if a user belongs to required admin group
 	def isAdmin(){
 		def cookie = request.cookies.find { it.name == 'chalmersItAuth' };
 		render "isAdmin";
@@ -340,6 +372,7 @@ class MediaController {
 		}
 	}
 
+	//Allows admin changing limit of maximum media length.
 	def changeLimit(){
 		if(isAdmin()){
 			try {
@@ -361,6 +394,7 @@ class MediaController {
 		}
 	}
 	
+	//Allows admin removing an item from queue by external ID.
 	def removeItemFromQueue(){
 		if(isAdmin()){
 			def item = MediaItem.find {externalID == params.id};

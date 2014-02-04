@@ -1,4 +1,4 @@
-package hubbenMediaPlayer
+package playIT
 
 class Vote {
 
