@@ -2,8 +2,8 @@
 ## Settings
 
 SERVER = "http://hubben.chalmers.it:8080/playIT/media"
-YOUTUBE = "http://gdata.youtube.com/feeds/api/videos?alt=json&q="
-SPOTIFY = "http://ws.spotify.com/search/1/track.json?q="
+YOUTUBE = "http://gdata.youtube.com/feeds/api/videos?alt=json&q=%QUERY"
+SPOTIFY = "http://ws.spotify.com/search/1/track.json?q=%QUERY"
 
 
 ## Handlebars view-helpers
@@ -30,7 +30,7 @@ tracks = new Bloodhound
 	datumTokenizer: (d) -> Bloodhound.tokenizers.whitespace d.value,
 	queryTokenizer: Bloodhound.tokenizers.whitespace,
 	remote: 
-		url: "#{SPOTIFY}%QUERY", 
+		url: SPOTIFY, 
 		filter: (json) ->
 			result = []
 			for track in json.tracks
@@ -45,7 +45,7 @@ videos = new Bloodhound
 	datumTokenizer: (d) -> Bloodhound.tokenizers.whitespace d.value,
 	queryTokenizer: Bloodhound.tokenizers.whitespace,
 	remote: 
-		url: "#{YOUTUBE}%QUERY", 
+		url: YOUTUBE, 
 		filter: (json) ->
 			result = []
 			console.log json.feed.entry[0]
@@ -63,7 +63,7 @@ $ '#insert_video'
 	.typeahead null,
 		name: 'youtube',
 		valueKey: 'value',
-		source: videos.ttAdapter(),
+		source: tracks.ttAdapter(),
 		templates: 
 			suggestion: Handlebars.templates.typeahead
 		limit: 15
@@ -86,6 +86,12 @@ found = false
 for key in cookie_data
 	if key == 'chalmersItAuth'
 		found = true
+		$.ajax
+  			url: 'https://chalmers.it/auth/userInfo.php',
+  			xhrFields: { withCredentials: true },
+  			dataType: 'json'
+			.done (data) ->
+				$('.admin').show() if data.groups.indexOf 'playITAdmin' != -1
 
 
 ## MediaItem: base class for YouTube- and SpotifyItem
@@ -159,7 +165,7 @@ class App
 			params = {}
 		$.ajax
   			url: url,
-  			xhrFields: {withCredentials: true},
+  			xhrFields: { withCredentials: true },
   			data: params
 			.done callback
 
@@ -232,7 +238,7 @@ class Toaster
 
 window.app = new App()
 window.toaster = new Toaster()
-app.showQueue() if found
+app.showQueue() #if found
 
 # app.addMediaItem new YouTubeItem 'https://www.youtube.com/watch?v=moSFlvxnbgk'
 # app.addMediaItem new SpotifyItem 'spotify:track:10Ip8PpzXoYQe4e3mSgoOy'
