@@ -13,7 +13,7 @@
 	var methods = {
 		"youtube": {
 			"url": "http://gdata.youtube.com/feeds/api/videos?alt=json&q=",
-			"handleData": function(data) {
+			handleData: function(data) {
 				var array = [];
 				for (var video in data.feed.entry) {
 					var v = data.feed.entry[video];
@@ -24,7 +24,7 @@
 		},
 		"spotify": {
 			"url": "http://ws.spotify.com/search/1/album.json?q=",
-			"handleData": function(data) {
+			handleData: function(data) {
 				var array = [];
 				for (var album in data.albums) {
 					var a = data.albums[album];
