@@ -45,7 +45,7 @@ section {
 }
 
 .admin {
-	display: block;
+	display: none !important;
 }
 
 .media {
