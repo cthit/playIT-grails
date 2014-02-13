@@ -9,7 +9,8 @@ SPOTIFY = "http://ws.spotify.com/search/1/track.json?q=%QUERY"
 TEMPLATES =
 	spotify: Handlebars.compile $('#spotify-partial').html()
 	youtube: Handlebars.compile $('#youtube-partial').html()
-	typeahead: Handlebars.compile $('#typeahead').html()
+	'spotify-typeahead': Handlebars.compile $('#typeahead-spotify-partial').html()
+	'youtube-typeahead': Handlebars.compile $('#typeahead-youtube-partial').html()
 	playing: Handlebars.compile $('#playing').html()
 ## Handlebars view-helpers
 
@@ -58,7 +59,6 @@ videos = new Bloodhound
 		url: YOUTUBE, 
 		filter: (json) ->
 			result = []
-			console.log json.feed.entry[0]
 			for video in json.feed.entry
 				result.push
 					value: video.title.$t,
@@ -70,19 +70,29 @@ videos.initialize()
 tracks.initialize()
 
 $ '#insert_video'
-	.typeahead null,
+	.typeahead null, {
 		name: 'youtube',
+		valueKey: 'value',
+		source: videos.ttAdapter(),
+		templates: 
+			suggestion: TEMPLATES['youtube-typeahead']
+			# suggestion: Handlebars.templates.typeahead
+		limit: 15
+	}, {
+		name: 'spotify',
 		valueKey: 'value',
 		source: tracks.ttAdapter(),
 		templates: 
-			suggestion: TEMPLATES.typeahead
+			suggestion: TEMPLATES['spotify-typeahead']
 			# suggestion: Handlebars.templates.typeahead
 		limit: 15
+	}
+
 	.on 'keydown', (e) ->
 		if e.which == 17
 			value = $(this).val()
 			console.log value
-			# app.parseInput(value);
+			app.parseInput(value);
 	.on 'typeahead:selected', (obj, data) ->
 		console.log obj, data
 		app.parseInput data.link

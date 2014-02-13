@@ -9,12 +9,10 @@
 </head>
 <body>
 <header>
-	<form>
-		<div id="searchfield">
-			<input type="text" autofocus placeholder="Search for videos or music">
-			<button>Add media</button>
-		</div>
-	</form>
+	<div id="searchfield">
+		<input type="text" id="insert_video" autofocus placeholder="Search for videos or music">
+		<button>Add media</button>
+	</div>
 </header>
 <section id="nowPlaying">
 	<div class="media">Now playing: <em>nothing!</em></div>
@@ -29,7 +27,7 @@
 		<span class="downvote">⬇</span>
 	</div>
 	<div class="image">
-		<a href="{{url type externalID}}"><img src="{{thumbnail}}" alt="{{externalID}}" height="104"></a>
+		<a href="{{url type externalID}}" target="_blank"><img src="{{thumbnail}}" alt="{{externalID}}" height="104"></a>
 	</div>
 	<div class="info">
 		<h3>{{title}} [{{format_time length}}]</h3>
@@ -45,7 +43,7 @@
 		<span class="downvote">⬇</span>
 	</div>
 	<div class="image">
-		<a href="{{url type externalID}}"><img src="{{thumbnail}}" alt="{{externalID}}" height="104"></a>
+		<a href="{{url type externalID}}" target="_blank"><img src="{{thumbnail}}" alt="{{externalID}}" height="104"></a>
 	</div>
 	<div class="info">
 		<h3>{{title}} [{{format_time length}}]</h3>
@@ -53,8 +51,12 @@
 	</div>
 </div>
 </script>
-<script id="typeahead" type="text/x-handlebars-template">
-<h4>{{value}}</h4>
+<script id="typeahead-youtube-partial" type="text/x-handlebars-template">
+SPOTYIFY: <h4>{{value}}</h4>
+by {{artists}}
+</script>
+<script id="typeahead-spotify-partial" type="text/x-handlebars-template">
+YOUTUBE: <h4>{{value}}</h4>
 {{album}} by {{artists}}
 </script>
 <script id="playing" type="text/x-handlebars-template">
