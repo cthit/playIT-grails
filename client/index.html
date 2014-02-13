@@ -48,11 +48,44 @@
 		<h3>Trent Reznor and Atticus Ross - In Motion [5:02]</h3>
 	</div>
 </section>
-		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-		<script type="text/javascript" src="assets/js/libs/handlebars.runtime-v1.3.0.js"></script>
-		<script type="text/javascript" src="assets/js/libs/typeahead.bundle.min.js"></script>
-		<script type="text/javascript" src="assets/js/templates.js"></script>
-		<script type="text/javascript" src="assets/js/application.js"></script>
+<script id="spotify-partial" type="text/x-handlebars-template">
+<div class="media spotify">
+	<div class="vote">
+		<span class="upvote">⬆</span>
+		<span class="rating">{{weight}}</span>
+		<span class="downvote">⬇</span>
+	</div>
+	<div class="image">
+		<a href="http://open.spotify.com/track/{{externalID}}"><img src="{{thumbnail}}" alt="{{externalID}}" height="104"></a>
+	</div>
+	<div>
+		<h3>{{title}} {{format_time length}}</h3>
+		<small>{{cid}}</small><p> from {{album}} by <em>{{join artist}}</em></p>
+	</div>
+</div>
+</script>
+<script id="youtube-partial" type="text/x-handlebars-template">
+<div class="media youtube">
+	<div class="vote">
+		<span class="upvote">⬆</span>
+		<span class="rating">{{weight}}</span>
+		<span class="downvote">⬇</span>
+	</div>
+	<div class="image">
+		<a href="http://youtu.be/{{externalID}}"><img src="{{thumbnail}}" alt="{{externalID}}" height="104"></a>
+	</div>
+	<div>
+		<h3>{{title}} {{format_time length}}</h3>
+		<small>{{cid}}</small><p>{{desc description}}</p>
+	</div>
+</div>
+</script>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<!-- <script type="text/javascript" src="assets/js/libs/handlebars.runtime-v1.3.0.js"></script> -->
+	<script type="text/javascript" src="assets/js/libs/handlebars-v1.3.0.js"></script>
+	<script type="text/javascript" src="assets/js/libs/typeahead.bundle.min.js"></script>
+	<!-- <script type="text/javascript" src="assets/js/templates.js"></script> -->
+	<script type="text/javascript" src="assets/js/application.js"></script>
 </body>
 </html>
 

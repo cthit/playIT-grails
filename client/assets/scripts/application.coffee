@@ -6,6 +6,9 @@ YOUTUBE = "http://gdata.youtube.com/feeds/api/videos?alt=json&q=%QUERY"
 SPOTIFY = "http://ws.spotify.com/search/1/track.json?q=%QUERY"
 
 
+TEMPLATES =
+	spotify: Handlebars.compile $('#spotify-partial').html()
+	youtube: Handlebars.compile $('#youtube-partial').html()
 ## Handlebars view-helpers
 
 Handlebars.registerHelper 'join', (array) ->
@@ -186,7 +189,8 @@ class App
 			data = JSON.parse body
 			$feed.html('')
 			for item in data
-				element = Handlebars.templates["#{item.type}-partial"](item)
+				# element = Handlebars.templates["#{item.type}-partial"](item)
+				element = TEMPLATES["#{item.type}"](item)
 				$el = $ element
 				$el.data 'item', item
 				$feed.append($el)
