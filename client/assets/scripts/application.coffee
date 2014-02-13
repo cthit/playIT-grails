@@ -10,6 +10,7 @@ TEMPLATES =
 	spotify: Handlebars.compile $('#spotify-partial').html()
 	youtube: Handlebars.compile $('#youtube-partial').html()
 	typeahead: Handlebars.compile $('#typeahead').html()
+	playing: Handlebars.compile $('#playing').html()
 ## Handlebars view-helpers
 
 Handlebars.registerHelper 'join', (array) ->
@@ -94,9 +95,9 @@ for key in cookie_data
 		$.ajax
   			url: 'https://chalmers.it/auth/userInfo.php',
   			xhrFields: { withCredentials: true },
-  			dataType: 'json'
+			dataType: 'jsonp'
 			.done (data) ->
-				$('.admin').show() if data.groups.indexOf 'playITAdmin' != -1
+				$('.admin').addClass('animated fadeInUp').removeClass('admin') if data.groups.indexOf 'playITAdmin' != -1
 
 
 ## MediaItem: base class for YouTube- and SpotifyItem
@@ -139,6 +140,7 @@ class SpotifyItem extends MediaItem
 
 class App
 	$feed = $ '#videofeed'
+	$status = $ '#nowPlaying .media'
 
 	parseInput: (string) ->
 		if YouTubeItem.matches string
@@ -176,9 +178,8 @@ class App
 
 	nowPlaying: ->
 		method = 'nowPlaying'
-		query method, (body) ->
-			data = JSON.parse body
-			console.log data
+		query method, (data) ->
+			$status.html TEMPLATES.playing(data)
 
 	changeLimit: (limit) ->
 		method = 'changeLimit'
@@ -196,6 +197,7 @@ class App
 				$el = $ element
 				$el.data 'item', item
 				$feed.append($el)
+			app.nowPlaying()
 			# setTimeout app.showQueue, 10000
 
 	removeItemFromQueue: (item) ->

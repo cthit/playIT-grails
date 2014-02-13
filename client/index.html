@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="assets/stylesheets/style.css">
+<link rel="stylesheet" type="text/css" href="assets/stylesheets/animate.min.css">
 <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
 <title>playIT</title>
 </head>
@@ -32,7 +33,7 @@
 	</div>
 	<div class="info">
 		<h3>{{title}} {{format_time length}}</h3>
-		<small>{{cid}}</small><p> from {{album}} by <em>{{join artist}}</em></p>
+		<small>{{cid}}</small><p> from <strong>{{album}}</strong> by <em>{{join artist}}</em></p>
 	</div>
 </div>
 </script>
@@ -55,6 +56,9 @@
 <script id="typeahead" type="text/x-handlebars-template">
 <h4>{{value}}</h4>
 {{album}} by {{artists}}
+</script>
+<script id="playing" type="text/x-handlebars-template">
+Now Playing: {{title}} by {{artist}}
 </script>
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<!-- <script type="text/javascript" src="assets/js/libs/handlebars.runtime-v1.3.0.js"></script> -->
