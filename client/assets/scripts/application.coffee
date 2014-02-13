@@ -176,9 +176,9 @@ class App
 			callback = params
 			params = {}
 		$.ajax
-  			url: url,
-  			xhrFields: { withCredentials: true },
-  			data: params
+			url: url,
+			xhrFields: { withCredentials: true },
+			data: params
 			.done callback
 
 	nowPlaying: ->
