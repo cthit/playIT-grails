@@ -153,3 +153,12 @@ section {
 	float: right;
 	background-color: #b00;
 }
+
+.x-button {
+	font-weight: bolder;
+	cursor: pointer;
+	color: red;
+}
+.x-button:hover {
+	color: white;
+}

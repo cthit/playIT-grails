@@ -69,6 +69,12 @@ videos = new Bloodhound
 videos.initialize()
 tracks.initialize()
 
+$ '#videofeed'
+	.on 'click', '.x-button', ->
+		item = $(this).parent().data 'item'
+		console.log item
+		app.removeItemFromQueue(item)  if confirm "Confirm deletion of \"#{item.title}\"?"
+
 $ '#insert_video'
 	.typeahead null, {
 		name: 'youtube',
@@ -87,7 +93,6 @@ $ '#insert_video'
 			# suggestion: Handlebars.templates.typeahead
 		limit: 15
 	}
-
 	.on 'keydown', (e) ->
 		if e.which == 17
 			value = $(this).val()
@@ -103,16 +108,15 @@ $ '#insert_video'
 
 cookie_data = document.cookie.split /; |=/
 
-found = false
+ADMIN = false
 for key in cookie_data
 	if key == 'chalmersItAuth'
-		found = true
 		$.ajax
 			url: 'https://chalmers.it/auth/userInfo.php',
 			xhrFields: { withCredentials: true },
 			dataType: 'jsonp'
 		.done (data) ->
-			$('.admin').addClass('animated fadeInUp').removeClass('admin') if data.groups.indexOf 'playITAdmin' != -1
+			ADMIN = 'playITAdmin' in data.groups
 
 
 ## MediaItem: base class for YouTube- and SpotifyItem
@@ -173,7 +177,7 @@ class App
 				toaster.err body
 			else
 				toaster.toast body
-		@showQueue()
+		app.showQueue()
 
 	addVote: (item, up) ->
 		method = 'addVote'
@@ -207,10 +211,11 @@ class App
 			data = JSON.parse body
 			$feed.html('')
 			for item in data
+				item.admin = ADMIN
 				# element = Handlebars.templates["#{item.type}-partial"](item)
 				element = TEMPLATES["#{item.type}"](item)
 				$el = $ element
-				$el.data 'item', item
+				$el.data 'item', id: item.externalID, title: item.title
 				$feed.append($el)
 			app.nowPlaying()
 			# setTimeout app.showQueue, 10000
@@ -219,6 +224,7 @@ class App
 		method = 'removeItemFromQueue'
 		query method, {id: item.id}, (body) ->
 			console.log body
+			app.showQueue();
 
 
 ## Class for displaying messages to the user

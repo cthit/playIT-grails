@@ -15,12 +15,12 @@
 	</div>
 </header>
 <section id="nowPlaying">
-	<div class="media">Now playing: <em>nothing!</em></div>
+	<div class="media">Now playing:&nbsp;<em>Nothing!</em></div>
 </section>
 <section id="videofeed">
 </section>
 <script id="spotify-partial" type="text/x-handlebars-template">
-<div class="media spotify">
+<div class="media spotify animated fadeInLeft">
 	<div class="vote">
 		<span class="upvote">⬆</span>
 		<span class="rating">{{weight}}</span>
@@ -33,10 +33,11 @@
 		<h3>{{title}} [{{format_time length}}]</h3>
 		<small>{{cid}}</small><p> from <strong>{{album}}</strong> by <em>{{join artist}}</em></p>
 	</div>
+	{{#if admin}}<a class="x-button">ⓧ</a>{{/if}}
 </div>
 </script>
 <script id="youtube-partial" type="text/x-handlebars-template">
-<div class="media youtube">
+<div class="media youtube animated fadeInLeft">
 	<div class="vote">
 		<span class="upvote">⬆</span>
 		<span class="rating">{{weight}}</span>
@@ -49,6 +50,7 @@
 		<h3>{{title}} [{{format_time length}}]</h3>
 		<small>{{cid}}</small><p>{{desc description}}</p>
 	</div>
+	{{#if admin}}<a class="x-button">ⓧ</a>{{/if}}
 </div>
 </script>
 <script id="typeahead-youtube-partial" type="text/x-handlebars-template">
