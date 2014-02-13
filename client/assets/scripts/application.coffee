@@ -21,6 +21,11 @@ Handlebars.registerHelper 'desc', (string) ->
 	index = string.indexOf '\n', 140
 	string = string.substr 0, index if index != -1
 	new Handlebars.SafeString string #.replace /\n/g, '<br>'
+Handlebars.registerHelper 'url', (type, id) ->
+	urls =
+		'spotify': "http://open.spotify.com/track/#{id}"
+		'youtube': "http://youtu.be/#{id}"
+	new Handlebars.SafeString urls[type]
 Handlebars.registerHelper 'format_time', (seconds) ->
 	hours = parseInt(seconds / 3600)
 	seconds -= hours * 3600
