@@ -9,6 +9,7 @@ SPOTIFY = "http://ws.spotify.com/search/1/track.json?q=%QUERY"
 TEMPLATES =
 	spotify: Handlebars.compile $('#spotify-partial').html()
 	youtube: Handlebars.compile $('#youtube-partial').html()
+	typeahead: Handlebars.compile $('#typeahead').html()
 ## Handlebars view-helpers
 
 Handlebars.registerHelper 'join', (array) ->
@@ -68,7 +69,8 @@ $ '#insert_video'
 		valueKey: 'value',
 		source: tracks.ttAdapter(),
 		templates: 
-			suggestion: Handlebars.templates.typeahead
+			suggestion: TEMPLATES.typeahead
+			# suggestion: Handlebars.templates.typeahead
 		limit: 15
 	.on 'keydown', (e) ->
 		if e.which == 17
