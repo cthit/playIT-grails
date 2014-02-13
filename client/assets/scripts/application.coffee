@@ -93,11 +93,11 @@ for key in cookie_data
 	if key == 'chalmersItAuth'
 		found = true
 		$.ajax
-  			url: 'https://chalmers.it/auth/userInfo.php',
-  			xhrFields: { withCredentials: true },
+			url: 'https://chalmers.it/auth/userInfo.php',
+			xhrFields: { withCredentials: true },
 			dataType: 'jsonp'
-			.done (data) ->
-				$('.admin').addClass('animated fadeInUp').removeClass('admin') if data.groups.indexOf 'playITAdmin' != -1
+		.done (data) ->
+			$('.admin').addClass('animated fadeInUp').removeClass('admin') if data.groups.indexOf 'playITAdmin' != -1
 
 
 ## MediaItem: base class for YouTube- and SpotifyItem
