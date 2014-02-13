@@ -179,7 +179,7 @@ class App
 			url: url,
 			xhrFields: { withCredentials: true },
 			data: params
-			.done callback
+		.done callback
 
 	nowPlaying: ->
 		method = 'nowPlaying'
