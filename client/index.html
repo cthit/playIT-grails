@@ -1,23 +1,75 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>YouTube in the Hubb</title>
-		<meta charset="utf-8">
-		<link rel="stylesheet" type="text/css" href="style.css">
-	</head>
-	<body>
-		<div id="toaster"></div>
-		
-		<div id="search_video">
-			<input id="insert_video" placeholder="Search for youtube video or enter URL">
-		</div>
-		<div id="videofeed">
-			<em>Loading content...</em>
-		</div>
-		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-		<script type="text/javascript" src="assets/js/libs/handlebars.runtime-v1.1.2.js"></script>
-		<script type="text/javascript" src="assets/js/libs/typeahead.min.js"></script>
-		<script type="text/javascript" src="assets/js/templates.js"></script>
-		<script type="text/javascript" src="assets/js/script.js"></script>
-	</body>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="assets/stylesheets/style.css">
+<link rel="stylesheet" type="text/css" href="assets/stylesheets/animate.min.css">
+<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+<title>playIT</title>
+</head>
+<body>
+<header>
+	<div id="searchfield">
+		<input type="text" id="insert_video" autofocus placeholder="Search for videos or music">
+		<button>Add media</button>
+	</div>
+</header>
+<section id="nowPlaying">
+	<div class="media">Now playing:&nbsp;<em>Nothing!</em></div>
+</section>
+<section id="videofeed">
+</section>
+<script id="spotify-partial" type="text/x-handlebars-template">
+<div class="media spotify animated fadeInLeft">
+	<div class="vote">
+		<span class="upvote">⬆</span>
+		<span class="rating">{{weight}}</span>
+		<span class="downvote">⬇</span>
+	</div>
+	<div class="image">
+		<a href="{{url type externalID}}" target="_blank"><img src="{{thumbnail}}" alt="{{externalID}}" height="104"></a>
+	</div>
+	<div class="info">
+		<h3>{{title}} [{{format_time length}}]</h3>
+		<small>{{cid}}</small><p> from <strong>{{album}}</strong> by <em>{{join artist}}</em></p>
+	</div>
+	{{#if admin}}<a class="x-button">ⓧ</a>{{/if}}
+</div>
+</script>
+<script id="youtube-partial" type="text/x-handlebars-template">
+<div class="media youtube animated fadeInLeft">
+	<div class="vote">
+		<span class="upvote">⬆</span>
+		<span class="rating">{{weight}}</span>
+		<span class="downvote">⬇</span>
+	</div>
+	<div class="image">
+		<a href="{{url type externalID}}" target="_blank"><img src="{{thumbnail}}" alt="{{externalID}}" height="104"></a>
+	</div>
+	<div class="info">
+		<h3>{{title}} [{{format_time length}}]</h3>
+		<small>{{cid}}</small><p>{{desc description}}</p>
+	</div>
+	{{#if admin}}<a class="x-button">ⓧ</a>{{/if}}
+</div>
+</script>
+<script id="typeahead-youtube-partial" type="text/x-handlebars-template">
+SPOTYIFY: <h4>{{value}}</h4>
+by {{artists}}
+</script>
+<script id="typeahead-spotify-partial" type="text/x-handlebars-template">
+YOUTUBE: <h4>{{value}}</h4>
+{{album}} by {{artists}}
+</script>
+<script id="playing" type="text/x-handlebars-template">
+Now playing:&nbsp;<a href="{{url type externalID}}">{{title}} by {{artist}}</a>
+</script>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<!-- <script type="text/javascript" src="assets/js/libs/handlebars.runtime-v1.3.0.js"></script> -->
+	<script type="text/javascript" src="assets/js/libs/handlebars-v1.3.0.js"></script>
+	<script type="text/javascript" src="assets/js/libs/typeahead.bundle.min.js"></script>
+	<!-- <script type="text/javascript" src="assets/js/templates.js"></script> -->
+	<script type="text/javascript" src="assets/js/application.js"></script>
+</body>
 </html>
+
