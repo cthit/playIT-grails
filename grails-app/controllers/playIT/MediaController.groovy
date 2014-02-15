@@ -19,7 +19,9 @@ import groovyx.net.*;
 class MediaController {
 	def dataSource
 	private static final def nl = "<br />";
-	private static int LIMIT = 18000; //60 sec * 60 min * 5 hours = 18000
+	private static int VIDEO_LIMIT = 18000; //60 sec * 60 min * 5 hours = 18000
+	private static int TRACK_LIMIT = 480; //60 sec * 8 min = 480
+	private static final String SC_ID = "a2cfca0784004b38b85829ba183327cb";
 	private static final String adminGroup = "playITAdmin";
 
 	private static MediaItem playingItem = null;
@@ -30,7 +32,7 @@ class MediaController {
 	
 	//Method to extract CID from cookie using the chalmers.it
 	//auth system implemented by digIT13/14
-	private String extractCID(){
+	private String[] extractCID(){
 		def cookie = request.cookies.find { it.name == 'chalmersItAuth' };
 		System.out.println("extracting CID...")
 		if(cookie != null){
@@ -38,8 +40,9 @@ class MediaController {
 			def data = JSON.parse( new URL(
 					'https://chalmers.it/auth/userInfo.php?token='+token ).text );
 			String cid = data.get("cid");
+			String nick = data.get("nick");
 			System.out.println("cid: "+cid)
-			return cid;
+			return [cid, nick];
 		} else {
 			return null;
 		}
@@ -47,61 +50,168 @@ class MediaController {
 	
 	//Adds a media item according to type selected
 	def addMediaItem(){
-		String cid = extractCID();
-		if(cid == null){
+		String[] cidNick = extractCID();
+		if(cidNick == null){
 			render "Fail: Authentication failed";
 			return;
 		} else {
-			params.cid = cid;
+			params.cid = cidNick[0];
+			params.nick = cidNick[1];
 		}
-
-		if(params.type.equals("spotify")){
-			addSpotifyItem();
-		} else if(params.type.equals("youtube")){
-			addYouTubeItem();
-		} else {
-			render "Fail: Type not specified correctly: spotify / youtube"
-		}
+		
+		addItem();
+		
+//		if(params.type.equals("spotify")){
+//			addSpotifyItem();
+//		} else if(params.type.equals("youtube")){
+//			addYouTubeItem();
+//		} else {
+//			render "Fail: Type not specified correctly: spotify / youtube"
+//		}
 	}
-
-	//Add youtube-item specified by youtube-ID as param ID.
-	private def addYouTubeItem(){
-
-		//String url = params.id;
-		YoutubeItem video = YoutubeItem.find {externalID==params.id};
-
-		if(video == null){//Check if already added
-			def data;
-			try {
-				data = new URL("http://gdata.youtube.com/feeds/api/videos/"+params.id+"?alt=json").getText();
-			} catch (IOException e) {
-				render "Fail: Could not find youtube video with id: "+params.id
+	
+	private void addItem(){
+		MediaItem mi = MediaItem.find {externalID==params.id};
+		if(mi == null){//Check if already added
+			mi = createMediaItem();
+			if(mi == null){
 				return;
 			}
+			int limit;
+			if(mi instanceof YoutubeItem){
+				limit = VIDEO_LIMIT;
+			} else {
+				limit = TRACK_LIMIT;
+			}
 			
-			JSONObject jsData = JSON.parse(data);
-			def entry = jsData.get("entry");
-			YoutubeItem v = parseVideoEntry(entry, params.cid);
-
-			if(v.length > LIMIT){//If length is longer then alloweed limit
-				render "Fail: Videolength too long";
+			if(mi.length > limit && !isAdmin()){//If length is longer then allowed limit
+				render "Fail: Item length too long";
 				return;
 			} else {
-				v.save(flush:true);
-				String message = "Success: Added video: "+v.title+" by user: "+params.cid+nl;
+				mi.save(flush:true);
+				String message = "Success: Added item: "+mi.title+" by user: "+params.cid+nl;
 				render message;
 				System.out.println(message);
 				params.upvote = "1";
 				addVote();
 			}
-			
 		} else {
-			render "Fail: Video aldready exists."+nl;
+				render "Fail: Item aldready exists."+nl;
 		}
 	}
 	
+	private MediaItem createMediaItem(){
+		if(params.type.equals("spotify")){
+			return createSpotifyItem();
+		} else if(params.type.equals("youtube")){
+			return createYouTubeItem();
+		} else if(params.type.equals("soundcloud")){
+			return createSoundCloudItem();
+		} else {
+			render "Fail: Type not specified correctly: spotify / youtube / soundcloud"
+			return;
+		}
+	}
+	
+	private SpotifyItem createSpotifyItem(){
+		def data;
+		try {
+			data = new URL(
+				"http://ws.spotify.com/lookup/1/.json?uri=spotify:track:"+params.id).getText();
+		} catch (IOException e) {
+			render "Fail: Could not find spotify track with id: "+params.id
+			return;
+		}
+		JSONObject jsData = JSON.parse(data);
+		JSONObject track = jsData.get("track");
+		return parseSpotifyTrackEntry(track, params.cid, params.nick);
+	}
+	
+	private YoutubeItem createYouTubeItem(){
+		def data;
+		try {
+			data = new URL("http://gdata.youtube.com/feeds/api/videos/"+params.id+"?alt=json").getText();
+		} catch (IOException e) {
+			render "Fail: Could not find youtube video with id: "+params.id
+			return;
+		}
+		JSONObject jsData = JSON.parse(data);
+		def entry = jsData.get("entry");
+		return parseVideoEntry(entry, params.cid, params.nick);
+	}
+	
+	private SoundCloudItem createSoundCloudItem(){
+		def data;
+		try {
+			data = new URL("http://api.soundcloud.com/tracks/"+params.id+".json?client_id="+SC_ID).getText();
+		} catch (IOException e) {
+			render "Fail: Could not find SoundCloud track with id: "+params.id
+			return;
+		}
+		JSONObject track = JSON.parse(data);
+		return parseSoundTrackEntry(track, params.cid, params.nick);
+	}
+	
+	private SoundCloudItem parseSoundTrackEntry(def track, def cid, def nick){
+		String title = track.get("title");
+		String user = track.get("user").get("username");
+		String thumbnail = track.get("artwork_url");
+		int duration = track.get("duration")/1000; //To convert from miliseconds to seconds
+		
+		SoundCloudItem sci = new SoundCloudItem(
+			title:			title,
+			thumbnail: 		thumbnail,
+			length: 		duration,
+			user:			user,
+			externalID: 	params.id,
+			type:			"spotify",
+			cid:			cid,
+			nick:			nick
+			)
+		return sci;
+	}
+	
+	
+	
+
+	//Add youtube-item specified by youtube-ID as param ID.
+//	private def addYouTubeItem(){
+//
+//		//String url = params.id;
+//		YoutubeItem video = YoutubeItem.find {externalID==params.id};
+//
+//		if(video == null){//Check if already added
+//			def data;
+//			try {
+//				data = new URL("http://gdata.youtube.com/feeds/api/videos/"+params.id+"?alt=json").getText();
+//			} catch (IOException e) {
+//				render "Fail: Could not find youtube video with id: "+params.id
+//				return;
+//			}
+//			
+//			JSONObject jsData = JSON.parse(data);
+//			def entry = jsData.get("entry");
+//			YoutubeItem v = parseVideoEntry(entry, params.cid);
+//
+//			if(v.length > LIMIT){//If length is longer then alloweed limit
+//				render "Fail: Videolength too long";
+//				return;
+//			} else {
+//				v.save(flush:true);
+//				String message = "Success: Added video: "+v.title+" by user: "+params.cid+nl;
+//				render message;
+//				System.out.println(message);
+//				params.upvote = "1";
+//				addVote();
+//			}
+//			
+//		} else {
+//			render "Fail: Video aldready exists."+nl;
+//		}
+//	}
+	
 	//Parsing info from youtube video using open API.
-	private YoutubeItem parseVideoEntry(def entry, def cid){
+	private YoutubeItem parseVideoEntry(def entry, def cid, def nick){
 		String url = entry.get("id").get("\$t");
 		String videoID = url.substring(url.lastIndexOf('/')+1);
 		String title = entry.get("title").get("\$t");
@@ -122,6 +232,7 @@ class MediaController {
 				length:			duration,
 				description:	desc,
 				cid:			cid,
+				nick:			nick,
 				externalID:		videoID,
 				type:			"youtube"
 				);
@@ -130,38 +241,37 @@ class MediaController {
 	}
 	
 	
-	//Add youtube-item specified by spotifyTrack-ID as param ID.
-	private def addSpotifyItem(){
-		SpotifyItem si = SpotifyItem.find {externalID == params.id};
-
-		if(si == null){//Check if already added
-			def data;
-			try {
-				data = new URL(
-					"http://ws.spotify.com/lookup/1/.json?uri=spotify:track:"+params.id).getText();
-			} catch (IOException e) {
-				render "Fail: Could not find spotify track with id: "+params.id
-				return;
-			}
-			
-			JSONObject jsData = JSON.parse(data);
-			JSONObject track = jsData.get("track");
-			si = parseTrackEntry(track, params.cid);
-
-			si.save(flush:true);
-			String message = "Success: Added SpotifyTrack: "+si.title+" by user: "+params.cid+nl;
-			render message;
-			System.out.println(message);
-
-			params.upvote = "1";
-			addVote();
-		}else {
-			render "Fail: SpotifyTrack aldready exists."+nl;
-		}
-	}
+//	//Add youtube-item specified by spotifyTrack-ID as param ID.
+//	private def addSpotifyItem(){
+//		SpotifyItem si = SpotifyItem.find {externalID == params.id};
+//		if(si == null){//Check if already added
+//			def data;
+//			try {
+//				data = new URL(
+//					"http://ws.spotify.com/lookup/1/.json?uri=spotify:track:"+params.id).getText();
+//			} catch (IOException e) {
+//				render "Fail: Could not find spotify track with id: "+params.id
+//				return;
+//			}
+//			
+//			JSONObject jsData = JSON.parse(data);
+//			JSONObject track = jsData.get("track");
+//			si = parseSpotifyTrackEntry(track, params.cid);
+//
+//			si.save(flush:true);
+//			String message = "Success: Added SpotifyTrack: "+si.title+" by user: "+params.cid+nl;
+//			render message;
+//			System.out.println(message);
+//
+//			params.upvote = "1";
+//			addVote();
+//		}else {
+//			render "Fail: SpotifyTrack aldready exists."+nl;
+//		}
+//	}
 	
 	//Parsing info from spotify track using open API.
-	private def SpotifyItem parseTrackEntry(def track, def cid){
+	private def SpotifyItem parseSpotifyTrackEntry(def track, def cid, def nick){
 		String title = track.get("name");
 
 		JSONObject artists = new JSONObject();
@@ -188,23 +298,23 @@ class MediaController {
 				artist:			arr,
 				album:			album,
 				type:			"spotify",
-				cid:			cid
+				cid:			cid,
+				nick:			nick
 				)
 		return si;
 	}
 
-
 	//Adds vote to specified ID
 	def addVote(){
 
-		String cidString = extractCID();
-		if(cidString == null){
+		String[] cidNick = extractCID();
+		if(cidNick == null){
 			render "Fail: Authentication failed";
 			return;
 		}
 
 
-		//String cidString = params.cid;
+		String cidString = cidNick[0];
 		
 		//Determines if it's an up- or downvote.
 		boolean upvote = ("1"==params.upvote);
@@ -241,8 +351,6 @@ class MediaController {
 		}
 
 	}
-
-
 
 	private def validateMediaItems(){
 		def db = new Sql(dataSource)
@@ -378,13 +486,24 @@ class MediaController {
 			try {
 				int tmp = Integer.parseInt(params.limit);
 				if(tmp > 0){
-					int old = LIMIT;
-					LIMIT = tmp;
-					String message = "Success: Updated old limit: "+old+ " with new: "+LIMIT;
-					render message;
-					System.out.println(message);
+					int old;
+					if(params.type.equals("videolimit")){
+						old = VIDEO_LIMIT;
+						VIDEO_LIMIT = tmp;
+						String message = "Success: Updated old limit: "+old+ " with new: "+VIDEO_LIMIT;
+						render message;
+						System.out.println(message);
+					} else if(params.type.equals("tracklimit")){
+						old = TRACK_LIMIT;
+						TRACK_LIMIT = tmp;
+						String message = "Success: Updated old limit: "+old+ " with new: "+TRACK_LIMIT;
+						render message;
+						System.out.println(message);
+					} else {
+						render "Fail: type is invalid. Should be videolimit or tracklimit";
+					}
 				} else {
-					render "Fail: new limit " + tmp + " is invalid. Still using old limit: "+LIMIT;
+					render "Fail: new limit " + tmp + " is invalid. Still using old limit: "+VIDEO_LIMIT;
 				}
 			} catch(NumberFormatException e) {
 				render "Fail: Invalid limit input"
@@ -410,8 +529,6 @@ class MediaController {
 			render "Fail: Admin authentication failed";
 		}
 	}
-
-
 
 	private def String extractID(String s){
 		String regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;

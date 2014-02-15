@@ -4,7 +4,6 @@ class YoutubeItem extends MediaItem{
 
 	String title;
 	String thumbnail;
-	Integer length;
 	String description;
 	//String youtubeID;
 	

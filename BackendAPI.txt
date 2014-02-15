@@ -1,6 +1,7 @@
 
 ---Add media item---
 URL: 	 ~/playIT/media/addMediaItem?id=<EXTERNAL_ID>type=<TYPE>
+TYPE= youtube spotify soundcloud
 Example youtube: 
 hubben.chalmers.it/playIT/media/addMediaItem?id=9KsF5untazo&type=youtube
 Response fail: 
@@ -38,9 +39,9 @@ Example playing:
 {"class":"playIT.YoutubeItem","id":1,"cid":"johandf","description":"Early Access Beta  ($19.99) - http://store.steampowered.com/app/232810\n\nGODUS empowers you in the role of a god, allowing you to sculpt every inch of a beautiful world that you look down upon, on which a population of Followers settle and multiply. As you mould every aspect of your unique utopia, a civilisation will blossom across your land and offer you their belief.","externalID":"AlxTW4jDuGI","length":16225,"thumbnail":"http://i1.ytimg.com/vi/AlxTW4jDuGI/0.jpg","title":"Godus First Look Gameplay Livestream - Part 1","type":"youtube","votes":[{"class":"Vote","id":1}]}
 
 ---Change limit---
-URL: ~/playIT/media/changeLimit?limit=<LIMIT_IN_SECONDS>
-Example change limit to 500:
-hubben.chalmers.it/playIT/media/changeLimit?limit=500
+URL: ~/playIT/media/changeLimit?limit=<LIMIT_IN_SECONDS>&type=<TYPE>
+Example change videolimit to 500:
+hubben.chalmers.it/playIT/media/changeLimit?limit=500&type=videolimit
 Response succ: "isAdminSuccess: Updated old limit: 18000 with new: 500"
 Response fail: "isAdminFail: Invalid limit input"
 
