@@ -21,8 +21,8 @@ header {
 }
 
 #searchfield {
-	margin: 0 auto;
-	text-align: center;
+	justify-content: center;
+	display: flex;
 }
 
 #searchfield input,
@@ -71,8 +71,6 @@ section {
 
 .media .image {
 	margin-right: 20px;
-	text-align: center;
-	width: 140px;
 }
 
 .media .info {
