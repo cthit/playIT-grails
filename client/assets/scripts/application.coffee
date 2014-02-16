@@ -26,6 +26,7 @@ Handlebars.registerHelper 'url', (type, id) ->
 	urls =
 		'spotify': "http://open.spotify.com/track/#{id}"
 		'youtube': "http://youtu.be/#{id}"
+		'soundcloud': "http://soundcloud.com/#{id}"
 	new Handlebars.SafeString urls[type]
 Handlebars.registerHelper 'format_time', (seconds) ->
 	hours = parseInt(seconds / 3600)
@@ -59,11 +60,12 @@ videos = new Bloodhound
 		url: YOUTUBE, 
 		filter: (json) ->
 			result = []
-			for video in json.feed.entry
-				result.push
-					value: video.title.$t,
-					link: 'youtu.be/' + video.link[2].href.split('=')[1],
-					artists: video.author.map( (a) -> a.name.$t).join ', '
+			if json.feed.entry?
+				for video in json.feed.entry
+					result.push
+						value: video.title.$t,
+						link: 'youtu.be/' + video.link[2].href.split('=')[1],
+						artists: video.author.map( (a) -> a.name.$t).join ', '
 			result
 
 videos.initialize()
@@ -71,14 +73,32 @@ tracks.initialize()
 
 $ '#videofeed'
 	.on 'click', '.x-button', ->
-		item = $(this).parent().data 'item'
+		$element = $(this).parent()
+		item = $element.data 'item'
 		console.log item
-		app.removeItemFromQueue(item)  if confirm "Confirm deletion of \"#{item.title}\"?"
+		if confirm "Confirm deletion of \"#{item.title}\"?"
+			app.removeItemFromQueue(item)
+			$element.remove()
 
-$ '#insert_video'
-	.typeahead null, {
+
+# Bind events for parsing input url/id
+
+$insert_video = $ '#insert_video'
+
+read_searchfield = (e) ->
+	value = $insert_video.val()
+	app.parseInput(value);
+
+$ '#searchfield button'
+	.on 'click', read_searchfield
+
+$insert_video
+	.on 'keydown', (e) -> read_searchfield() if e.which == 13
+	.typeahead {
+		minLength: 4
+	}, {
 		name: 'youtube',
-		valueKey: 'value',
+		displayKey: 'value',
 		source: videos.ttAdapter(),
 		templates: 
 			suggestion: TEMPLATES['youtube-typeahead']
@@ -86,23 +106,17 @@ $ '#insert_video'
 		limit: 15
 	}, {
 		name: 'spotify',
-		valueKey: 'value',
+		displayKey: 'value',
 		source: tracks.ttAdapter(),
 		templates: 
 			suggestion: TEMPLATES['spotify-typeahead']
 			# suggestion: Handlebars.templates.typeahead
 		limit: 15
 	}
-	.on 'keydown', (e) ->
-		if e.which == 17
-			value = $(this).val()
-			console.log value
-			app.parseInput(value);
 	.on 'typeahead:selected', (obj, data) ->
-		console.log obj, data
-		app.parseInput data.link
-
-
+		if app.parseInput data.link
+			console.log $(this)
+			$(this).val('')
 
 ## Basic detction if user has cookie, not fail-safe
 
@@ -142,7 +156,7 @@ class YouTubeItem extends MediaItem
 		super id, @REGEX
 
 class SpotifyItem extends MediaItem
-	@REGEX: /^spotify:track:([a-zA-Z0-9]+)$/
+	@REGEX: /^(.*open\.)?spotify(\.com)?[\/:]track[\/:]([a-zA-Z0-9]+)$/
 
 	constructor: (uri) ->
 		@id = SpotifyItem.matches uri.trim()
@@ -150,6 +164,26 @@ class SpotifyItem extends MediaItem
 			super @id, 'spotify'
 		else
 			throw new Error "Cannot create SpotifyItem, invalid uri: \"#{uri}\""
+
+	@matches: (id) ->
+		super id, @REGEX
+
+class SoundCloudItem extends MediaItem
+	@REGEX: /^https?:\/\/soundcloud.com\/([\w-]+\/\w+)$/
+
+	constructor: (url) ->
+		temp_id = SoundCloudItem.matches url.trim()
+		if temp_id?
+			@resolve temp_id
+			super @id, 'soundcloud'
+		else
+			throw new Error "Cannot create SoundCloudItem, invalid url: \"#{url}\""
+
+	resolve: (id) ->
+		$.getJSON 'http://api.soundcloud.com/resolve.json', {
+			url: "http://soundcloud.com/#{id}",
+			client_id: 'a2cfca0784004b38b85829ba183327cb' }, (data) =>
+				@id = data.id
 
 	@matches: (id) ->
 		super id, @REGEX
@@ -164,20 +198,27 @@ class App
 	parseInput: (string) ->
 		if YouTubeItem.matches string
 			@addMediaItem new YouTubeItem string
+			return true
 		else if SpotifyItem.matches string
 			@addMediaItem new SpotifyItem string
+			return true
+		else if SoundCloudItem.matches string
+			@addMediaItem new SoundCloudItem string
+			return true
 		else
 			console.log string
+			return false
+
 
 	addMediaItem: (item) ->
 		method = 'addMediaItem'
-		query method, {id: item.id, type: item.type}, (body) ->
+		query method, {id: item.id, type: item.type}, (body) =>
 			index = body.indexOf "Fail:"
 			if index == 0
 				toaster.err body
 			else
 				toaster.toast body
-		app.showQueue()
+			@showQueue()
 
 	addVote: (item, up) ->
 		method = 'addVote'
@@ -189,10 +230,12 @@ class App
 		if typeof params == "function"
 			callback = params
 			params = {}
+		$('.loading-wheel').addClass 'shown'
 		$.ajax
 			url: url,
 			xhrFields: { withCredentials: true },
 			data: params
+		.done -> $('.loading-wheel').removeClass 'shown'
 		.done callback
 
 	nowPlaying: ->
@@ -207,25 +250,26 @@ class App
 
 	showQueue: ->
 		method = 'showQueue'
-		query method, (body) ->
+		query method, (body) =>
 			data = JSON.parse body
-			$feed.html('')
+			return if data.length == $feed.find('div.media').length
+			items = []
 			for item in data
 				item.admin = ADMIN
 				# element = Handlebars.templates["#{item.type}-partial"](item)
 				element = TEMPLATES["#{item.type}"](item)
 				$el = $ element
-				$el.data 'item', id: item.externalID, title: item.title
-				$feed.append($el)
-			app.nowPlaying()
+					.data 'item', id: item.externalID, title: item.title
+				items.push $el
+			$feed.html(items)
+			@nowPlaying()
 			# setTimeout app.showQueue, 10000
 
 	removeItemFromQueue: (item) ->
 		method = 'removeItemFromQueue'
-		query method, {id: item.id}, (body) ->
+		query method, {id: item.id}, (body) =>
 			console.log body
-			app.showQueue();
-
+			@showQueue()
 
 ## Class for displaying messages to the user
 

@@ -10,6 +10,8 @@
 <body>
 <header>
 	<div id="searchfield">
+		<img class="loading-wheel" src="assets/images/loading.gif">
+		<br>
 		<input type="text" id="insert_video" autofocus placeholder="Search for videos or music">
 		<button>Add media</button>
 	</div>
@@ -31,7 +33,11 @@
 	</div>
 	<div class="info">
 		<h3>{{title}} [{{format_time length}}]</h3>
-		<small>{{cid}}</small><p> from <strong>{{album}}</strong> by <em>{{join artist}}</em></p>
+		<small>Added by: {{nick}}</small>
+		<p>
+			<em>{{join artist}}</em><br>
+			<strong>{{album}}</strong>
+		</p>
 	</div>
 	{{#if admin}}<a class="x-button">ⓧ</a>{{/if}}
 </div>
@@ -48,21 +54,38 @@
 	</div>
 	<div class="info">
 		<h3>{{title}} [{{format_time length}}]</h3>
-		<small>{{cid}}</small><p>{{desc description}}</p>
+		<small>Added by: {{nick}}</small><p>{{desc description}}</p>
+	</div>
+	{{#if admin}}<a class="x-button">ⓧ</a>{{/if}}
+</div>
+</script>
+<script id="soundcloud-partial" type="text/x-handlebars-template">
+<div class="media soundcloud animated fadeInLeft">
+	<div class="vote">
+		<span class="upvote">⬆</span>
+		<span class="rating">{{weight}}</span>
+		<span class="downvote">⬇</span>
+	</div>
+	<div class="image">
+		<a href="{{url type externalID}}" target="_blank"><img src="{{thumbnail}}" alt="{{externalID}}" height="104"></a>
+	</div>
+	<div class="info">
+		<h3>{{title}} [{{format_time length}}]</h3>
+		<small>Added by: {{nick}}</small><p>{{desc description}}</p>
 	</div>
 	{{#if admin}}<a class="x-button">ⓧ</a>{{/if}}
 </div>
 </script>
 <script id="typeahead-youtube-partial" type="text/x-handlebars-template">
-SPOTYIFY: <h4>{{value}}</h4>
+<h4>{{value}}</h4>
 by {{artists}}
 </script>
 <script id="typeahead-spotify-partial" type="text/x-handlebars-template">
-YOUTUBE: <h4>{{value}}</h4>
+<h4>{{value}}</h4>
 {{album}} by {{artists}}
 </script>
 <script id="playing" type="text/x-handlebars-template">
-Now playing:&nbsp;<a href="{{url type externalID}}">{{title}} by {{artist}}</a>
+Now playing:&nbsp;<a href="{{url type externalID}}">{{title}}</a>
 </script>
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<!-- <script type="text/javascript" src="assets/js/libs/handlebars.runtime-v1.3.0.js"></script> -->
