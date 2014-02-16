@@ -51,12 +51,13 @@ section {
 .media {
 	background-color: #ADD8E6;
 	box-shadow: 0 0 1px #000;
+	align-items: center;
 	position: relative;
 	border-radius: 2px;
 	overflow: hidden;
 	margin: 0 0 10px;
 	display: flex;
-	padding: 5px 10px;
+	padding: 5px;
 }
 
 .media:last-child {
