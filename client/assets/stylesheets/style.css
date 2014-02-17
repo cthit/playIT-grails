@@ -155,8 +155,11 @@ section {
 
 .x-button {
 	font-weight: bolder;
+	position: absolute;
 	cursor: pointer;
 	color: red;
+	right: 10px;
+	top: 10px;
 }
 .x-button:hover {
 	color: white;
