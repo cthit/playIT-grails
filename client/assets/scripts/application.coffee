@@ -261,12 +261,12 @@ class App
 		if typeof params == "function"
 			callback = params
 			params = {}
-		$('.loading-wheel').addClass 'shown'
+		progressJs().start().autoIncrease(5, 500)
 		$.ajax
 			url: url,
 			xhrFields: { withCredentials: true },
 			data: params
-		.done -> $('.loading-wheel').removeClass 'shown'
+		.done -> progressJs().end()
 		.done callback
 
 	nowPlaying: ->
