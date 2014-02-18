@@ -62,9 +62,10 @@ videos = new Bloodhound
 			result = []
 			if json.feed.entry?
 				for video in json.feed.entry
+					link = video.id.$t.split('/')
 					result.push
 						value: video.title.$t,
-						link: 'youtu.be/' + video.link[2].href.split('=')[1],
+						link: 'youtu.be/' + link[link.length - 1],
 						artists: video.author.map( (a) -> a.name.$t).join ', '
 			result
 
@@ -131,7 +132,6 @@ $insert_video
 	}
 	.on 'typeahead:selected', (obj, data) ->
 		if app.parseInput data.link
-			console.log $(this)
 			$(this).val('')
 
 ## Basic detction if user has cookie, not fail-safe
@@ -261,7 +261,7 @@ class App
 		if typeof params == "function"
 			callback = params
 			params = {}
-		progressJs().start().autoIncrease(5, 500)
+		progressJs().start().autoIncrease(4, 500)
 		$.ajax
 			url: url,
 			xhrFields: { withCredentials: true },
@@ -273,7 +273,6 @@ class App
 		method = 'nowPlaying'
 		query method, (data) ->
 			$status.html TEMPLATES.playing(data)
-
 	changeLimit: (limit) ->
 		method = 'changeLimit'
 		query method, {limit: limit}, (body) ->
@@ -299,13 +298,10 @@ class App
 				else 
 					item.weight = data_item.weight
 					elem.find('.rating').html(item.weight)
+			app.nowPlaying()
 			return if data.length == $feed.find('div.media').length
-			
-			for item of list
-				console.log item
-				unless item of data
-					console.log item
-					delete list[item]
+
+
 			saveList()
 			items = []
 			for item in data
@@ -318,8 +314,7 @@ class App
 					.data 'item', id: item.externalID, title: item.title, weight: item.weight
 				items.push $el
 			$feed.html(items)
-			@nowPlaying()
-			# setTimeout app.showQueue, 10000
+			setTimeout app.showQueue, 10000
 
 	removeItemFromQueue: (item) ->
 		method = 'removeItemFromQueue'
