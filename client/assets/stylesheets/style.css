@@ -21,7 +21,9 @@ header {
 }
 
 #searchfield {
+	-webkit-justify-content: center;
 	justify-content: center;
+	display: -webkit-flex;
 	display: flex;
 }
 
@@ -51,11 +53,13 @@ section {
 .media {
 	background-color: #ADD8E6;
 	box-shadow: 0 0 1px #000;
+	-webkit-align-items: center;
 	align-items: center;
 	position: relative;
 	border-radius: 2px;
 	overflow: hidden;
 	margin: 0 0 10px;
+	display: -webkit-flex;
 	display: flex;
 	padding: 5px;
 }
@@ -75,6 +79,7 @@ section {
 }
 
 .media .info {
+	-webkit-flex: 1;
 	flex: 1;
 }
 
@@ -90,6 +95,8 @@ section {
 	min-width: 50px;
 	text-align: center;
  	flex-direction: column;
+	-webkit-flex-direction: column;
+	display: -webkit-flex;
 	display: flex;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -100,6 +107,7 @@ section {
 }
 
 .vote span {
+	-webkit-flex: 1;
 	flex: 1;
 }
 
