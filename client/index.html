@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="assets/stylesheets/style.css">
 <link rel="stylesheet" type="text/css" href="assets/stylesheets/animate.min.css">
+<link rel="shortcut icon" href="favicon.ico">
 <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
 <title>playIT</title>
 </head>
@@ -24,9 +25,9 @@
 <script id="spotify-partial" type="text/x-handlebars-template">
 <div class="media spotify animated fadeInLeft">
 	<div class="vote">
-		<span class="upvote">⬆</span>
+		<span class="upvote {{upvoted}}">⬆</span>
 		<span class="rating">{{weight}}</span>
-		<span class="downvote">⬇</span>
+		<span class="downvote {{downvoted}}">⬇</span>
 	</div>
 	<div class="image">
 		<a href="{{url type externalID}}" target="_blank"><img src="{{thumbnail}}" alt="{{externalID}}" height="104"></a>
@@ -45,9 +46,9 @@
 <script id="youtube-partial" type="text/x-handlebars-template">
 <div class="media youtube animated fadeInLeft">
 	<div class="vote">
-		<span class="upvote">⬆</span>
+		<span class="upvote {{upvoted}}">⬆</span>
 		<span class="rating">{{weight}}</span>
-		<span class="downvote">⬇</span>
+		<span class="downvote {{downvoted}}">⬇</span>
 	</div>
 	<div class="image">
 		<a href="{{url type externalID}}" target="_blank"><img src="{{thumbnail}}" alt="{{externalID}}" height="104"></a>

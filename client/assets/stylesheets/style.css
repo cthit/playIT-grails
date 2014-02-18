@@ -91,6 +91,12 @@ section {
 	text-align: center;
  	flex-direction: column;
 	display: flex;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .vote span {
@@ -105,6 +111,14 @@ section {
 	.media .image {
 		display: none;
 	}
+}
+
+.loading-wheel {
+	visibility: hidden;
+}
+
+.loading-wheel.shown {
+	visibility: visible;
 }
 
 
@@ -129,7 +143,7 @@ section {
 }
 
 .tt-dropdown-menu {
-  width: 422px;
+  width: 600px;
   margin-top: 12px;
   padding: 8px 0;
   background-color: #fff;
@@ -143,14 +157,18 @@ section {
           box-shadow: 0 5px 10px rgba(0,0,0,.2);
 }
 
-.tt-dataset-youtube {
+.tt-dropdown-menu > div {
 	float: left;
-	background-color: #0b0;
+	width: 50%;
+}
+
+
+.tt-dataset-youtube {
+	background-color: #b00;
 }
 
 .tt-dataset-spotify {
-	float: right;
-	background-color: #b00;
+	background-color: #0b0;
 }
 
 .x-button {
@@ -160,7 +178,24 @@ section {
 	color: red;
 	right: 10px;
 	top: 10px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 .x-button:hover {
 	color: white;
+}
+
+::selection {
+	color: #fff;
+	text-shadow: none;
+	background: #002224; /* Safari */
+}
+::-moz-selection {
+	color: #fff;
+	text-shadow: none;
+	background: #002224; /* Firefox */
 }

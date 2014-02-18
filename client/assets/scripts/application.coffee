@@ -73,12 +73,27 @@ tracks.initialize()
 
 $ '#videofeed'
 	.on 'click', '.x-button', ->
-		$element = $(this).parent()
-		item = $element.data 'item'
-		console.log item
+		$el = $(this).parent()
+		item = $el.data 'item'
 		if confirm "Confirm deletion of \"#{item.title}\"?"
 			app.removeItemFromQueue(item)
-			$element.remove()
+			$el.remove()
+	.on 'click', '.upvote, .downvote', ->
+		# If trying to up-/downvote when already up-/downvoted
+		return if $(this).hasClass 'active'
+
+		$el = $(this).parent().parent()
+		up = $(this).hasClass 'upvote'
+		item = $el.data 'item'
+		app.addVote item, up
+		$(this).parent().find('.rating').html(item.weight + if up then 1 else -1)
+		if up
+			$el.find('.upvote').addClass 'active'
+			$el.find('.downvote').removeClass 'active'
+		else
+			$el.find('.upvote').removeClass 'active'
+			$el.find('.downvote').addClass 'active'
+
 
 
 # Bind events for parsing input url/id
@@ -194,6 +209,13 @@ class SoundCloudItem extends MediaItem
 class App
 	$feed = $ '#videofeed'
 	$status = $ '#nowPlaying .media'
+	LS_KEY = 'items'
+	list = {}
+
+	constructor: ->
+		if window.localStorage && window.localStorage.hasOwnProperty(LS_KEY)
+			data = window.localStorage.getItem(LS_KEY)
+			list = JSON.parse data
 
 	parseInput: (string) ->
 		if YouTubeItem.matches string
@@ -222,8 +244,11 @@ class App
 
 	addVote: (item, up) ->
 		method = 'addVote'
-		query method, {id: item.id, up: up}, (body) ->
-			console.log 'Voted!'
+		query method, {id: item.id, upvote: if up then 1 else 0}, (body) =>
+			console.log body
+			list[item.id] = up
+			console.log list
+			saveList()
 
 	query = (method, params, callback) ->
 		url = "#{SERVER}/#{method}"
@@ -248,18 +273,24 @@ class App
 		query method, {limit: limit}, (body) ->
 			console.log body
 
+	saveList = ->
+		window.localStorage.setItem LS_KEY, JSON.stringify list
+
 	showQueue: ->
 		method = 'showQueue'
 		query method, (body) =>
 			data = JSON.parse body
 			return if data.length == $feed.find('div.media').length
 			items = []
+			console.log list
 			for item in data
 				item.admin = ADMIN
+				item.upvoted = if list[item.externalID] == true then 'active' else ''
+				item.downvoted = if list[item.externalID] == false then 'active' else ''
 				# element = Handlebars.templates["#{item.type}-partial"](item)
 				element = TEMPLATES["#{item.type}"](item)
 				$el = $ element
-					.data 'item', id: item.externalID, title: item.title
+					.data 'item', id: item.externalID, title: item.title, weight: item.weight
 				items.push $el
 			$feed.html(items)
 			@nowPlaying()
