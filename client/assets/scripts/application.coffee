@@ -240,14 +240,15 @@ class App
 				toaster.err body
 			else
 				toaster.toast body
-			@showQueue()
+				list[item.id] = true
+				saveList()
+				@showQueue()
 
 	addVote: (item, up) ->
 		method = 'addVote'
 		query method, {id: item.id, upvote: if up then 1 else 0}, (body) =>
 			console.log body
 			list[item.id] = up
-			console.log list
 			saveList()
 
 	query = (method, params, callback) ->
