@@ -86,7 +86,8 @@ $ '#videofeed'
 		up = $(this).hasClass 'upvote'
 		item = $el.data 'item'
 		app.addVote item, up
-		$(this).parent().find('.rating').html(item.weight + if up then 1 else -1)
+		rate = if item.id of app.get_list() then 2 else 1
+		$(this).parent().find('.rating').html(item.weight + if up then rate else -rate)
 		if up
 			$el.find('.upvote').addClass 'active'
 			$el.find('.downvote').removeClass 'active'
@@ -212,6 +213,9 @@ class App
 	LS_KEY = 'items'
 	list = {}
 
+	get_list: ->
+		return list
+
 	constructor: ->
 		if window.localStorage && window.localStorage.hasOwnProperty(LS_KEY)
 			data = window.localStorage.getItem(LS_KEY)
@@ -250,6 +254,7 @@ class App
 			console.log body
 			list[item.id] = up
 			saveList()
+			@showQueue()
 
 	query = (method, params, callback) ->
 		url = "#{SERVER}/#{method}"
@@ -281,9 +286,28 @@ class App
 		method = 'showQueue'
 		query method, (body) =>
 			data = JSON.parse body
+			$feed.find('div.media').each (index, elem) ->
+				elem = $(elem)
+				item = elem.data 'item'
+				data_item = null
+				for i in data
+					if i.externalID == item.id
+						data_item = i
+						break
+				if data_item == null || item.weight == data_item.weight
+					return
+				else 
+					item.weight = data_item.weight
+					elem.find('.rating').html(item.weight)
 			return if data.length == $feed.find('div.media').length
+			
+			for item of list
+				console.log item
+				unless item of data
+					console.log item
+					delete list[item]
+			saveList()
 			items = []
-			console.log list
 			for item in data
 				item.admin = ADMIN
 				item.upvoted = if list[item.externalID] == true then 'active' else ''
