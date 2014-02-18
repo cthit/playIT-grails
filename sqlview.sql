@@ -15,7 +15,7 @@ SELECT id, title, SUM(value) AS "value"
 FROM 
 	media_votes
 GROUP BY id ASC
-ORDER BY Value DESC
+ORDER BY Value, id DESC
 );
 
 
