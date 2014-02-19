@@ -9,15 +9,16 @@ type parameter specified in the downloaded json
 Requires Python >= 3.3
 Depends on:
     1. mpc and mopidy for Spotify and Soundcloud playback.
+            Note that you'll need both the spotify and soundcloud plugins
+            Eg. aurget -S mopidy mopidy-spotify mopidy-soundcloud
     2. mpv for video/YouTube playback. http://mpv.io/
     3. requests (python library) for popping and checking server status.
             apt-get install python-requests    OR
-            pacman -S python-requests               OR
+            pacman -S python-requests          OR
             pip install requests
 
 
 """
-import json
 import requests
 import time
 import argparse
@@ -29,7 +30,8 @@ from subprocess import call
 # Some settings and constants
 POP_PATH = "/playIT/media/popQueue"
 # Use verbose output
-verbose = True
+VERBOSE = False
+
 
 def main():
     """ Init and startup goes here... """
@@ -37,7 +39,8 @@ def main():
 
     playit = PlayIt()
     vprint("Running main playback loop...")
-    playit.start()
+    #playit.start()
+    playit._add_to_mopidy("soundcloud:song.38720262")
 
 
 def check_reqs():
@@ -99,7 +102,7 @@ def check_connection(url):
 
 def vprint(msg):
     """ Verbose print """
-    if verbose:
+    if VERBOSE:
         print(msg)
 
 
@@ -146,7 +149,7 @@ class PlayIt(object):
 
     def _play_youtube(self, item):
         """ Play the supplied youtube video with mpv. """
-        print("Playing youtube video: " + item['title'])
+        print("Playing youtube video: " + item['title'], "requested by", item['nick'])
         youtube_url = "https://youtu.be/" + item['externalID']
 
         cmd = ['mpv', '--fs', '--screen',
@@ -155,13 +158,22 @@ class PlayIt(object):
 
     def _play_spotify(self, item):
         """ Play the supplied spotify track using mopidy and mpc. """
-        # Init mpc
+        print("Playing", item['artist'], "-",
+              item['title'], "requested by", item['nick'])
+        self._add_to_mopidy('spotify:track:' + item['externalID'])
+
+    def _play_soundcloud(self, item):
+        """ Play SoundCloud items """
+        print("Playing", item['artist'], "-",
+              item['title'], "requested by", item['nick'])
+        self._add_to_mopidy('soundcloud:song.' + item['externalID'])
+
+    def _add_to_mopidy(self, track_id):
+        """ Play a mopidy compatible track """
         call("mpc single on &>/dev/null && mpc consume on &>/dev/null",
              shell=True)
-
-        print("Playing", item['artist'], "-", item['title'])
-        #mpc and mopidy required set up to work
-        cmd = 'mpc add spotify:track:' + item['externalID'] + ' && mpc play >/dev/null'
+        cmd = 'mpc add ' + track_id
+        cmd += ' && mpc play >/dev/null'
 
         call(cmd, shell=True)
 
