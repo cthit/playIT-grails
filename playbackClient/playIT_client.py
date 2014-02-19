@@ -39,8 +39,7 @@ def main():
 
     playit = PlayIt()
     vprint("Running main playback loop...")
-    #playit.start()
-    playit._add_to_mopidy("soundcloud:song.38720262")
+    playit.start()
 
 
 def check_reqs():
