@@ -2,14 +2,23 @@
 """ The client controller for the playIT backend
 by Horv and Eda - 2013, 2014
 
+To add a new type of playback. Add a function called _play_TYPE(media_item)
+and define how it's handled. It will be called automatically based on the
+type parameter specified in the downloaded json
+
 Requires Python >= 3.3
 Depends on:
     1. mpc and mopidy for Spotify and Soundcloud playback.
     2. mpv for video/YouTube playback. http://mpv.io/
+    3. requests (python library) for popping and checking server status.
+            apt-get install python-requests    OR
+            pacman -S python-requests               OR
+            pip install requests
+
 
 """
 import json
-import urllib.request
+import requests
 import time
 import argparse
 import sys
@@ -17,13 +26,17 @@ from shutil import which
 import subprocess
 from subprocess import call
 
+# Some settings and constants
+POP_PATH = "/playIT/media/popQueue"
+# Use verbose output
+verbose = True
 
 def main():
     """ Init and startup goes here... """
     check_reqs()
 
     playit = PlayIt()
-    print("Running main playback loop...")
+    vprint("Running main playback loop...")
     playit.start()
 
 
@@ -68,97 +81,88 @@ def process_exists(proc_name):
 
 
 def _fix_server_adress(raw_server):
-    """ Prepend http:// and append / if they're not there. """
-    #Seems to be bugging, try to do better check?
-    if not raw_server.endswith("/"):
-        raw_server += "/"
+    """ Prepend http://  there. """
     if not raw_server.startswith("http://"):
         raw_server = "http://" + raw_server
     return raw_server
 
 
+def check_connection(url):
+    """ Checks the connection to the backend """
+    resp = requests.head(url + POP_PATH)
+
+    if resp.status_code != 200:
+        print("Unable to find backend at:", url,
+              file=sys.stderr)
+        exit(4)
+
+
+def vprint(msg):
+    """ Verbose print """
+    if verbose:
+        print(msg)
+
+
 class PlayIt(object):
     """ Defines the interface between the backend and actual playback. """
     def __init__(self):
-        self.show_videos = "playIT/media/popQueue"
-
         parser = argparse.ArgumentParser()
         parser.add_argument('-m', '--monitor-number', dest="monitor_number",
                             type=int, default=1)
         parser.add_argument('-s', '--server')
+        #parser.add_argument('-v', '--verbose', action='store_true')
         args = parser.parse_args()
 
         if(args.server is None):
-            print("Please supply a server by: -s http://example.com")
-            exit(1)
+            print("Please supply a server by: -s http://www.example.org:port",
+                  file=sys.stderr)
+            exit(3)
         else:
             self.server = _fix_server_adress(args.server)
-            print("Server: " + self.server)
+            vprint("Server: " + self.server)
+            check_connection(self.server)
 
         self.monitor_number = args.monitor_number
+        #verbose = args.verbose
 
     def start(self):
         """ Start the event-loop. """
-        if which("mpc") is not None:
-            call("mpc single on &>/dev/null && mpc consume on &>/dev/null",
-                 shell=True)
         while True:
-            print("Popping next queue item")
-            item = self._load_next()
-            if item is not None:
-                if item[0] == "youtube":
-                    print("Playing video with id: " + item[1])
-                    self._play_video(item[1])
-                elif item[0] == "spotify":
-                    print("Playing track with id: " + item[1])
-                    self._play_spotify_track(item[1])
+            item = self._get_next()
+            if len(item) > 0:
+                # Dynamically call the play function based on the media type
+                func_name = "_play_" + item['type'].lower()
+                func = getattr(self, func_name)
+                func(item)
             else:
-                print("No item in queue, sleeping...")
-                # TODO: use websockets to notify of new queue item
-                time.sleep(10)
+                vprint("No item in queue, sleeping...")
+                time.sleep(7)
 
-    def _load_next(self):
+    def _get_next(self):
         """ Get the next item in queue from the backend. """
-        try:
-            url = urllib.request.urlopen(self.server + self.show_videos)
-        except (urllib.error.HTTPError, urllib.error.URLError) as err:
-            print("Error while fetching queue: ", err)
-            return None
-        raw_data = url.read().decode("utf8")
+        vprint("Popping next item in the queue")
+        resp = requests.get(self.server + POP_PATH)
+        return resp.json()
 
-        if raw_data == "[]":
-            return None
-        else:
-            data = json.loads(raw_data)
-            return data.get("type"), data.get("externalID")
+    def _play_youtube(self, item):
+        """ Play the supplied youtube video with mpv. """
+        print("Playing youtube video: " + item['title'])
+        youtube_url = "https://youtu.be/" + item['externalID']
 
-    def _play_video(self, youtube_id):
-        """ Play the supplied youtube video with mpv or mplayer. """
-        print("[_play_video] Video id: " + youtube_id)
-        youtube_url = "http://www.youtube.com/watch?v=" + youtube_id
+        cmd = ['mpv', '--fs', '--screen',
+               str(self.monitor_number), youtube_url]
+        call(cmd, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
 
-        if which("mpv") is not None:
-            cmd = ['mpv', "--quiet", '--fs', '--screen',
-                   str(self.monitor_number), youtube_url]
-        else:
-            cmd = ['mplayer', '-cache', '4096', '-fs',
-                   '-xineramascreen', str(self.monitor_number),
-                   '"$(youtube-dl -g ' + youtube_url + ')"']
-
-        print(cmd)
-        call(cmd)
-
-    def _play_spotify_track(self, spotify_id):
+    def _play_spotify(self, item):
         """ Play the supplied spotify track using mopidy and mpc. """
-        if not process_exists("mopidy"):
-            print("[spotify] Start mopidy...")
-            return
+        # Init mpc
+        call("mpc single on &>/dev/null && mpc consume on &>/dev/null",
+             shell=True)
 
-        print("__playSpotifyTrack: " + spotify_id)
+        print("Playing", item['artist'], "-", item['title'])
         #mpc and mopidy required set up to work
-        cmd = 'mpc add spotify:track:' + spotify_id + ' && mpc play'
+        cmd = 'mpc add spotify:track:' + item['externalID'] + ' && mpc play >/dev/null'
 
-        #print(command)
         call(cmd, shell=True)
 
         current_cmd = ['mpc', 'current']
