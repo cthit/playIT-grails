@@ -1,18 +1,18 @@
 #!/usr/bin/python
 """ The client controller for the playIT backend
-by Horv and Eda - 2013
+by Horv and Eda - 2013, 2014
 
-Requires python3.3
-Depends on mpc(optional), mopidy(optional),
-mplayer/youtube-dl and/or mpv
-
-https://github.com/mpv-player/mpv
+Requires Python >= 3.3
+Depends on:
+    1. mpc and mopidy for Spotify and Soundcloud playback.
+    2. mpv for video/YouTube playback. http://mpv.io/
 
 """
 import json
 import urllib.request
 import time
 import argparse
+import sys
 from shutil import which
 import subprocess
 from subprocess import call
@@ -20,6 +20,8 @@ from subprocess import call
 
 def main():
     """ Init and startup goes here... """
+    check_reqs()
+
     playit = PlayIt()
     print("Running main playback loop...")
     playit.start()
@@ -27,26 +29,21 @@ def main():
 
 def check_reqs():
     """ Verify that all dependencies exists. """
+    depends = ["mopidy", "mpc", "mpv"]
     failed = False
-    if which("mopidy") is None:
-        print("(optional) mopidy is missing")
-    if which("mpc") is None:
-        print("(optional) mpc is missing")
 
-    mplayer = which("mplayer")
-    mpv = which("mpv")
-
-    if mpv is None or mplayer is None:
-        print("mpv or mplayer missing")
-        failed = True
-
-    if mplayer is not None and which("youtube-dl") is None and mpv is None:
-        print("Missing youtube-dl")
-        failed = True
+    for dep in depends:
+        if which(dep) is None:
+            print("Requirement", dep, "is missing (from PATH at least...)", file=sys.stderr)
+            failed = True
 
     if failed:
-        print("Resolve the above missing requirements")
+        print("Resolve the above missing requirements", file=sys.stderr)
         exit(1)
+    else:
+        if not process_exists("mopidy"):
+            print("mopidy does not seem to be running. Please launch it beforehand :)", file=sys.stderr)
+            exit(2)
 
 
 def process_exists(proc_name):
@@ -83,11 +80,6 @@ def _fix_server_adress(raw_server):
 class PlayIt(object):
     """ Defines the interface between the backend and actual playback. """
     def __init__(self):
-        print("Initializing...")
-        check_reqs()
-        if not process_exists("mopidy"):
-            print("FYI: mopidy does not seem to be running")
-
         self.show_videos = "playIT/media/popQueue"
 
         parser = argparse.ArgumentParser()
