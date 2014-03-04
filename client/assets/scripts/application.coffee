@@ -261,13 +261,13 @@ class App
 		if typeof params == "function"
 			callback = params
 			params = {}
-		progressJs().start().autoIncrease(4, 500)
+		# progressJs().start().autoIncrease(4, 500)
 		$.ajax
 			url: url,
 			xhrFields: { withCredentials: true },
 			data: params
-		.done -> progressJs().end()
 		.done callback
+		# .done -> progressJs().end()
 
 	nowPlaying: ->
 		method = 'nowPlaying'
