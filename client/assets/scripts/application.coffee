@@ -299,7 +299,7 @@ class App
 					item.weight = data_item.weight
 					elem.find('.rating').html(item.weight)
 			app.nowPlaying()
-			return if data.length == $feed.find('div.media').length
+			# return if data.length == $feed.find('div.media').length
 
 
 			saveList()
