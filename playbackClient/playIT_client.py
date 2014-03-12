@@ -31,7 +31,7 @@ from mpd import MPDClient
 # Some settings and constants
 POP_PATH = "/playIT/media/popQueue"
 # Use verbose output
-VERBOSE = True
+VERBOSE = False
 MOPIDY_HOST = "localhost"
 MOPIDY_PORT = 6600
 
