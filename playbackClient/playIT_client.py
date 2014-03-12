@@ -8,29 +8,32 @@ type parameter specified in the downloaded json
 
 Requires Python >= 3.3
 Depends on:
-    1. mpc and mopidy for Spotify and Soundcloud playback.
+    1. mopidy -  for Spotify and Soundcloud playback.
             Note that you'll need both the spotify and soundcloud plugins
             Eg. aurget -S mopidy mopidy-spotify mopidy-soundcloud
-    2. mpv for video/YouTube playback. http://mpv.io/
-    3. requests (python library) for popping and checking server status.
-            apt-get install python-requests    OR
-            pacman -S python-requests          OR
-            pip install requests
+    2. python-mpd2 (https://github.com/Mic92/python-mpd2)
+    3. python-requests (python library) for popping and checking server status.
+    4. mpv for video/YouTube playback. http://mpv.io/
 
 
 """
+import threading
 import requests
 import time
 import argparse
+import queue
 import sys
 from shutil import which
 import subprocess
 from subprocess import call
+from mpd import MPDClient
 
 # Some settings and constants
 POP_PATH = "/playIT/media/popQueue"
 # Use verbose output
-VERBOSE = False
+VERBOSE = True
+MOPIDY_HOST = "localhost"
+MOPIDY_PORT = 6600
 
 
 def main():
@@ -39,12 +42,21 @@ def main():
 
     playit = PlayIt()
     vprint("Running main playback loop...")
-    playit.start()
+    ploop = threading.Thread(target=playit.start_printloop)
+    eloop = threading.Thread(target=playit.start_eventloop)
+
+    ploop.daemon = True
+    eloop.daemon = True
+
+    ploop.start()
+    eloop.start()
+
+    playit.start_prompt()
 
 
 def check_reqs():
     """ Verify that all dependencies exists. """
-    depends = ["mopidy", "mpc", "mpv"]
+    depends = ["mopidy", "mpv"]
     failed = False
 
     for dep in depends:
@@ -111,11 +123,12 @@ class PlayIt(object):
         parser = argparse.ArgumentParser()
         parser.add_argument('-m', '--monitor-number', dest="monitor_number",
                             type=int, default=1)
-        parser.add_argument('-s', '--server')
+        parser.add_argument('-s', '--server',
+                            default="http://hubben.chalmers.it:8080")
         #parser.add_argument('-v', '--verbose', action='store_true')
         args = parser.parse_args()
 
-        if(args.server is None):
+        if args.server is None:
             print("Please supply a server by: -s http://www.example.org:port",
                   file=sys.stderr)
             exit(3)
@@ -125,11 +138,25 @@ class PlayIt(object):
             check_connection(self.server)
 
         self.monitor_number = args.monitor_number
-        #verbose = args.verbose
 
-    def start(self):
+        self.cmd_queue = queue.Queue()
+        self.print_queue = queue.Queue()
+        self.el_quit_queue = queue.Queue()
+        self.quit_queue = queue.Queue()
+
+    def start_eventloop(self):
         """ Start the event-loop. """
         while True:
+            # When the main thread wants to kill me, it sends
+            # True to the eventloop quit queue.
+            if self.el_quit_queue.qsize() > 0 and self.el_quit_queue.get_nowait():
+                vprint("Quitting event loop")
+                self.el_quit_queue.task_done()
+                return
+
+            #item = {"nick": "Eda", "artist": ["Awolnation"], "title":"Sail", "externalID": "22UQelxzCIskdmb8pIqq8U"}
+            #self._play_spotify(item)
+            #time.sleep(7)
             item = self._get_next()
             if len(item) > 0:
                 # Dynamically call the play function based on the media type
@@ -148,7 +175,8 @@ class PlayIt(object):
 
     def _play_youtube(self, item):
         """ Play the supplied youtube video with mpv. """
-        print("Playing youtube video: " + item['title'], "requested by", item['nick'])
+        self.print_queue.put("Playing youtube video: " + item['title']
+                             + " requested by " + item['nick'])
         youtube_url = "https://youtu.be/" + item['externalID']
 
         cmd = ['mpv', '--fs', '--screen',
@@ -157,34 +185,95 @@ class PlayIt(object):
 
     def _play_spotify(self, item):
         """ Play the supplied spotify track using mopidy and mpc. """
-        print("Playing", item['artist'], "-",
-              item['title'], "requested by", item['nick'])
+        self.print_queue.put("Playing " + ", ".join(item['artist']) + " - "
+                             + item['title'] + " requested by " + item['nick'])
         self._add_to_mopidy('spotify:track:' + item['externalID'])
 
     def _play_soundcloud(self, item):
         """ Play SoundCloud items """
-        print("Playing", item['artist'], "-",
-              item['title'], "requested by", item['nick'])
+        self.print_queue.put("Playing " + item['artist'] + " - "
+                             + item['title'] + " requested by " + item['nick'])
         self._add_to_mopidy('soundcloud:song.' + item['externalID'])
 
     def _add_to_mopidy(self, track_id):
         """ Play a mopidy compatible track """
-        call("mpc single on &>/dev/null && mpc consume on &>/dev/null",
-             shell=True)
-        cmd = 'mpc add ' + track_id
-        cmd += ' && mpc play >/dev/null'
+        client = MPDClient()
+        client.connect(MOPIDY_HOST, MOPIDY_PORT)
+        client.single(1)
+        client.clear()
+        client.add(track_id)
+        client.play(0)
 
-        call(cmd, shell=True)
+        done = False
+        while not done:
+            # Wait for either a command or idle interruption
+            threading.Thread(target=self._wait_for_idle).start()
+            notice = self.cmd_queue.get()
 
-        current_cmd = ['mpc', 'current']
-        while subprocess.check_output(current_cmd):
-            try:
-                # Blocks until some event happens to mpd
-                call(["mpc", "idle"], stdout=subprocess.DEVNULL)
-            except KeyboardInterrupt:
-                # on ctrl-c, stop playback
-                call("mpc stop >/dev/null", shell=True)
-                call("mpc del 1", shell=True)
+            if notice == "playback_changed":
+                done = client.status()['state'] == "stop"
+            elif notice == "pause":
+                client.pause()
+            elif notice == "play":
+                client.play()
+            elif notice == "stop":
+                client.stop()
+            elif notice == 'quit':
+                print('Bye bye!')
+                client.stop()
+                from _thread import interrupt_main
+                interrupt_main()
+            self.cmd_queue.task_done()
+
+        client.close()
+        client.disconnect()
+
+    def _wait_for_idle(self):
+        """ Wait for some event from mopidy """
+        # Since the client isn't thread safe we need a new connection.
+        client = MPDClient()
+        client.connect(MOPIDY_HOST, MOPIDY_PORT)
+
+        # Only care about playback changes.
+        event = []
+        while 'player' not in event:
+            event = client.idle()
+        self.cmd_queue.put("playback_changed")
+
+        client.close()
+        client.disconnect()
+
+    def start_prompt(self):
+        """ Listen for user input (Like a shell) """
+        try:
+            cmd = ""
+            while cmd != 'quit':
+                self.print_queue.put('')
+                cmd = input()
+
+                if len(cmd) > 0:
+                    self.cmd_queue.put(cmd)
+
+            # Wait for queues to finish
+            self.print_queue.join()
+            self.cmd_queue.join()
+        except KeyboardInterrupt:
+            exit(1)
+            return
+
+    def start_printloop(self):
+        """ Prints everything from the print queue """
+        while True:
+            msg = self.print_queue.get()
+            if msg == "quit":
+                vprint("Quitting print loop")
+                self.print_queue.task_done()
+                return
+            if msg != '':
+                msg = msg + '\n'
+
+            print("\r" + msg + "> ", end='')
+            self.print_queue.task_done()
 
 
 if __name__ == "__main__":
