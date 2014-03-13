@@ -61,7 +61,8 @@ def check_reqs():
 
     for dep in depends:
         if which(dep) is None:
-            print("Requirement", dep, "is missing (from PATH at least...)", file=sys.stderr)
+            print("Requirement", dep, "is missing (from PATH at least...)",
+                  file=sys.stderr)
             failed = True
 
     if failed:
@@ -69,8 +70,15 @@ def check_reqs():
         exit(1)
     else:
         if not process_exists("mopidy"):
-            print("mopidy does not seem to be running. Please launch it beforehand :)", file=sys.stderr)
+            print("mopidy does not seem to be running.",
+                  "Please launch it beforehand :)",
+                  file=sys.stderr)
             exit(2)
+
+
+def interrupt_main():
+    from _thread import interrupt_main
+    interrupt_main()
 
 
 def process_exists(proc_name):
@@ -141,31 +149,27 @@ class PlayIt(object):
 
         self.cmd_queue = queue.Queue()
         self.print_queue = queue.Queue()
-        self.el_quit_queue = queue.Queue()
-        self.quit_queue = queue.Queue()
+        self.map_lock = threading.RLock()
 
     def start_eventloop(self):
         """ Start the event-loop. """
+        cmd_map = {"quit": interrupt_main}
         while True:
-            # When the main thread wants to kill me, it sends
-            # True to the eventloop quit queue.
-            if self.el_quit_queue.qsize() > 0 and self.el_quit_queue.get_nowait():
-                vprint("Quitting event loop")
-                self.el_quit_queue.task_done()
-                return
+            self.set_cmd_map(cmd_map)
 
-            #item = {"nick": "Eda", "artist": ["Awolnation"], "title":"Sail", "externalID": "22UQelxzCIskdmb8pIqq8U"}
-            #self._play_spotify(item)
-            #time.sleep(7)
-            item = self._get_next()
-            if len(item) > 0:
-                # Dynamically call the play function based on the media type
-                func_name = "_play_" + item['type'].lower()
-                func = getattr(self, func_name)
-                func(item)
-            else:
-                vprint("No item in queue, sleeping...")
-                time.sleep(7)
+            time.sleep(7)
+            item = {"nick": "Eda", "artist": ["Awolnation"], "title": "Sail",
+                    "externalID": "6jwS43q1m1jvf76tmOo1Hc"}
+            self._play_spotify(item)
+            #item = self._get_next()
+            #if len(item) > 0:
+                ## Dynamically call the play function based on the media type
+                #func_name = "_play_" + item['type'].lower()
+                #func = getattr(self, func_name)
+                #func(item)
+            #else:
+                #vprint("No item in queue, sleeping...")
+                #time.sleep(7)
 
     def _get_next(self):
         """ Get the next item in queue from the backend. """
@@ -204,25 +208,34 @@ class PlayIt(object):
         client.add(track_id)
         client.play(0)
 
+        def quit():
+            client.stop()
+            interrupt_main()
+
+        def status():
+            song = client.currentsong()
+            status = client.status()
+            # TODO: make prettier...
+            status_line = song['artist'] + ' - ' + song['title'] + '\n' + \
+                '[' + status['state'] + '] ' + status['elapsed']
+            self.print_queue.put(status_line)
+
+        self.set_cmd_map({"pause":  client.pause,
+                          "play":   client.play,
+                          "stop":   client.stop,
+                          "toggle": client.pause,
+                          "quit":   quit,
+                          "status": status})
+
         done = False
         while not done:
             # Wait for either a command or idle interruption
             threading.Thread(target=self._wait_for_idle).start()
             notice = self.cmd_queue.get()
-
             if notice == "playback_changed":
                 done = client.status()['state'] == "stop"
-            elif notice == "pause":
-                client.pause()
-            elif notice == "play":
-                client.play()
-            elif notice == "stop":
-                client.stop()
-            elif notice == 'quit':
-                print('Bye bye!')
-                client.stop()
-                from _thread import interrupt_main
-                interrupt_main()
+            else:
+                self.cmd_map[notice]()
             self.cmd_queue.task_done()
 
         client.close()
@@ -243,6 +256,10 @@ class PlayIt(object):
         client.close()
         client.disconnect()
 
+    def set_cmd_map(self, map):
+        with self.map_lock:
+            self.cmd_map = map
+
     def start_prompt(self):
         """ Listen for user input (Like a shell) """
         try:
@@ -252,7 +269,13 @@ class PlayIt(object):
                 cmd = input()
 
                 if len(cmd) > 0:
-                    self.cmd_queue.put(cmd)
+                    if cmd in self.cmd_map:
+                        self.cmd_queue.put(cmd)
+                    elif cmd == "help":
+                        keys = list(self.cmd_map.keys())
+                        self.print_queue.put(", ".join(keys))
+                    else:
+                        self.print_queue.put('Unknown command "' + cmd + '"')
 
             # Wait for queues to finish
             self.print_queue.join()
@@ -265,10 +288,6 @@ class PlayIt(object):
         """ Prints everything from the print queue """
         while True:
             msg = self.print_queue.get()
-            if msg == "quit":
-                vprint("Quitting print loop")
-                self.print_queue.task_done()
-                return
             if msg != '':
                 msg = msg + '\n'
 
