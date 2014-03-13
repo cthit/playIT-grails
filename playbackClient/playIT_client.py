@@ -14,6 +14,7 @@ Depends on:
     2. python-mpd2 (https://github.com/Mic92/python-mpd2)
     3. python-requests (python library) for popping and checking server status.
     4. mpv for video/YouTube playback. http://mpv.io/
+    5. youtube-dl
 
 
 """
@@ -56,7 +57,7 @@ def main():
 
 def check_reqs():
     """ Verify that all dependencies exists. """
-    depends = ["mopidy", "mpv"]
+    depends = ["mopidy", "mpv", "youtube-dl"]
     failed = False
 
     for dep in depends:
@@ -157,19 +158,19 @@ class PlayIt(object):
         while True:
             self.set_cmd_map(cmd_map)
 
-            time.sleep(7)
-            item = {"nick": "Eda", "artist": ["Awolnation"], "title": "Sail",
-                    "externalID": "6jwS43q1m1jvf76tmOo1Hc"}
-            self._play_spotify(item)
-            #item = self._get_next()
-            #if len(item) > 0:
-                ## Dynamically call the play function based on the media type
-                #func_name = "_play_" + item['type'].lower()
-                #func = getattr(self, func_name)
-                #func(item)
-            #else:
-                #vprint("No item in queue, sleeping...")
-                #time.sleep(7)
+            # item = {"nick": "Eda", "artist": ["Bastille"], "title": "Live lounge",
+            #         "externalID": "5NV6Rdv1a3I"}
+            # self._play_youtube(item)
+            # time.sleep(7)
+            item = self._get_next()
+            if len(item) > 0:
+                # Dynamically call the play function based on the media type
+                func_name = "_play_" + item['type'].lower()
+                func = getattr(self, func_name)
+                func(item)
+            else:
+                vprint("No item in queue, sleeping...")
+                time.sleep(7)
 
     def _get_next(self):
         """ Get the next item in queue from the backend. """
@@ -182,10 +183,12 @@ class PlayIt(object):
         self.print_queue.put("Playing youtube video: " + item['title']
                              + " requested by " + item['nick'])
         youtube_url = "https://youtu.be/" + item['externalID']
+        youtube_dl = "`youtube-dl " + youtube_url + " -g`"
 
-        cmd = ['mpv', '--fs', '--screen',
-               str(self.monitor_number), youtube_url]
-        call(cmd, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+        cmd = " ".join(['mpv', '--fs', '--screen',
+               str(self.monitor_number), youtube_dl])
+        call(cmd,shell=True, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+
 
     def _play_spotify(self, item):
         """ Play the supplied spotify track using mopidy and mpc. """
