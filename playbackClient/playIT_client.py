@@ -148,7 +148,6 @@ class PlayIt(object):
 
         self.monitor_number = args.monitor_number
 
-        self.cmd_queue = queue.Queue()
         self.print_queue = queue.Queue()
         self.map_lock = threading.RLock()
 
@@ -159,7 +158,9 @@ class PlayIt(object):
             self.set_cmd_map(cmd_map)
 
             # item = {"nick": "Eda", "artist": ["Bastille"], "title": "Live lounge",
-            #         "externalID": "5NV6Rdv1a3I"}
+            #         # "externalID": "7v9Q0dAb9t7h8gJOkcJHay"}
+            #         "externalID": "8pZi7CXE2ac"}
+
             # self._play_youtube(item)
             # time.sleep(7)
             item = self._get_next()
@@ -186,9 +187,9 @@ class PlayIt(object):
         youtube_dl = "`youtube-dl " + youtube_url + " -g`"
 
         cmd = " ".join(['mpv', '--fs', '--screen',
-               str(self.monitor_number), youtube_dl])
-        call(cmd,shell=True, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
-
+              str(self.monitor_number), youtube_dl])
+        call(cmd, shell=True, stderr=subprocess.DEVNULL,
+             stdout=subprocess.DEVNULL)
 
     def _play_spotify(self, item):
         """ Play the supplied spotify track using mopidy and mpc. """
@@ -223,28 +224,31 @@ class PlayIt(object):
                 '[' + status['state'] + '] ' + status['elapsed']
             self.print_queue.put(status_line)
 
-        self.set_cmd_map({"pause":  client.pause,
+        def toggle():
+            client.pause()
+            status()
+
+        self.set_cmd_map({"pause":  toggle,
                           "play":   client.play,
                           "stop":   client.stop,
-                          "toggle": client.pause,
+                          "toggle": toggle,
                           "quit":   quit,
                           "status": status})
 
         done = False
+        idle_queue = queue.Queue()
         while not done:
             # Wait for either a command or idle interruption
-            threading.Thread(target=self._wait_for_idle).start()
-            notice = self.cmd_queue.get()
-            if notice == "playback_changed":
-                done = client.status()['state'] == "stop"
-            else:
-                self.cmd_map[notice]()
-            self.cmd_queue.task_done()
+            threading.Thread(target=self._wait_for_idle,
+                             args=(idle_queue,)).start()
+            notice = idle_queue.get()
+            done = notice == "playback_changed" and \
+                client.status()['state'] == "stop"
 
         client.close()
         client.disconnect()
 
-    def _wait_for_idle(self):
+    def _wait_for_idle(self, idle_queue):
         """ Wait for some event from mopidy """
         # Since the client isn't thread safe we need a new connection.
         client = MPDClient()
@@ -254,7 +258,7 @@ class PlayIt(object):
         event = []
         while 'player' not in event:
             event = client.idle()
-        self.cmd_queue.put("playback_changed")
+        idle_queue.put("playback_changed")
 
         client.close()
         client.disconnect()
@@ -273,7 +277,7 @@ class PlayIt(object):
 
                 if len(cmd) > 0:
                     if cmd in self.cmd_map:
-                        self.cmd_queue.put(cmd)
+                        self.cmd_map[cmd]()
                     elif cmd == "help":
                         keys = list(self.cmd_map.keys())
                         self.print_queue.put(", ".join(keys))
@@ -282,7 +286,6 @@ class PlayIt(object):
 
             # Wait for queues to finish
             self.print_queue.join()
-            self.cmd_queue.join()
         except KeyboardInterrupt:
             exit(1)
             return
