@@ -157,11 +157,11 @@ class PlayIt(object):
         while True:
             self.set_cmd_map(cmd_map)
 
-            # item = {"nick": "Eda", "artist": ["Bastille"], "title": "Live lounge",
-            #         # "externalID": "7v9Q0dAb9t7h8gJOkcJHay"}
-            #         "externalID": "8pZi7CXE2ac"}
+            # item = {"nick": "Eda", "artist": ["Daft Punk"], "title": "Face to Face",
+            #         "externalID": "7v9Q0dAb9t7h8gJOkcJHay"}
+            #         #"externalID": "a5uQMwRMHcs"}
 
-            # self._play_youtube(item)
+            # self._play_spotify(item)
             # time.sleep(7)
             item = self._get_next()
             if len(item) > 0:
@@ -235,35 +235,21 @@ class PlayIt(object):
                           "quit":   quit,
                           "status": status})
 
-        done = False
-        idle_queue = queue.Queue()
-        while not done:
-            # Wait for either a command or idle interruption
-            threading.Thread(target=self._wait_for_idle,
-                             args=(idle_queue,)).start()
-            notice = idle_queue.get()
-            done = notice == "playback_changed" and \
-                client.status()['state'] == "stop"
-
+        self._mopidy_idle()
         client.close()
         client.disconnect()
 
-    def _wait_for_idle(self, idle_queue):
-        """ Wait for some event from mopidy """
-        # Since the client isn't thread safe we need a new connection.
-        client = MPDClient()
-        client.connect(MOPIDY_HOST, MOPIDY_PORT)
+    def _mopidy_idle(self):
+        client_idle = MPDClient()
+        client_idle.connect(MOPIDY_HOST, MOPIDY_PORT)
+        while client_idle.status()['state'] != "stop":
+            client_idle.idle()
 
-        # Only care about playback changes.
-        event = []
-        while 'player' not in event:
-            event = client.idle()
-        idle_queue.put("playback_changed")
-
-        client.close()
-        client.disconnect()
+        client_idle.close()
+        client_idle.disconnect()
 
     def set_cmd_map(self, map):
+        """ Set the map of all available commands (With thread lock) """
         with self.map_lock:
             self.cmd_map = map
 
