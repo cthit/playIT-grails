@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """ The client controller for the playIT backend
 by Horv and Eda - 2013, 2014
 
@@ -80,6 +80,17 @@ def check_reqs():
 def interrupt_main():
     from _thread import interrupt_main
     interrupt_main()
+
+
+def mpd_exec(cmd):
+    """ Executes the command named 'cmd' on a fresh MPD connection """
+    mpd = MPDClient()
+    mpd.connect(MOPIDY_HOST, MOPIDY_PORT)
+    retval = getattr(mpd, cmd)()
+    mpd.close()
+    mpd.disconnect()
+
+    return retval
 
 
 def process_exists(proc_name):
@@ -211,33 +222,39 @@ class PlayIt(object):
         client.clear()
         client.add(track_id)
         client.play(0)
+        client.close()
+        client.disconnect()
 
         def quit():
-            client.stop()
+            mpd_exec("stop")
             interrupt_main()
 
         def status():
-            song = client.currentsong()
-            status = client.status()
+            song = mpd_exec("currentsong")
+            status = mpd_exec("status")
             # TODO: make prettier...
             status_line = song['artist'] + ' - ' + song['title'] + '\n' + \
                 '[' + status['state'] + '] ' + status['elapsed']
             self.print_queue.put(status_line)
 
         def toggle():
-            client.pause()
+            mpd_exec("pause")
             status()
 
+        def play():
+            mpd_exec("play")
+
+        def stop():
+            mpd_exec("stop")
+
         self.set_cmd_map({"pause":  toggle,
-                          "play":   client.play,
-                          "stop":   client.stop,
+                          "play":   play,
+                          "stop":   stop,
                           "toggle": toggle,
                           "quit":   quit,
                           "status": status})
 
         self._mopidy_idle()
-        client.close()
-        client.disconnect()
 
     def _mopidy_idle(self):
         client_idle = MPDClient()
