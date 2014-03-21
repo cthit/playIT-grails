@@ -26,8 +26,9 @@ import queue
 import sys
 from shutil import which
 import subprocess
-from subprocess import call
-from mpd import MPDClient
+import select
+# from subprocess import call
+from mpd import MPDClient, CommandError
 
 # Some settings and constants
 POP_PATH = "/playIT/media/popQueue"
@@ -169,11 +170,12 @@ class PlayIt(object):
             self.set_cmd_map(cmd_map)
 
             # item = {"nick": "Eda", "artist": ["Daft Punk"], "title": "Face to Face",
-            #         "externalID": "7v9Q0dAb9t7h8gJOkcJHay"}
-            #         #"externalID": "a5uQMwRMHcs"}
+            #         #"externalID": "0fFHjnqpSpV8XuWyCKf6XU"}
+            #         "externalID": "a5uQMwRMHcs"}
 
-            # self._play_spotify(item)
+            # self._play_youtube(item)
             # time.sleep(7)
+
             item = self._get_next()
             if len(item) > 0:
                 # Dynamically call the play function based on the media type
@@ -195,12 +197,43 @@ class PlayIt(object):
         self.print_queue.put("Playing youtube video: " + item['title']
                              + " requested by " + item['nick'])
         youtube_url = "https://youtu.be/" + item['externalID']
-        youtube_dl = "`youtube-dl " + youtube_url + " -g`"
+        youtube_dl = ["youtube-dl", youtube_url, "-g"]
 
-        cmd = " ".join(['mpv', '--fs', '--screen',
-              str(self.monitor_number), youtube_dl])
-        call(cmd, shell=True, stderr=subprocess.DEVNULL,
-             stdout=subprocess.DEVNULL)
+        stream_url = subprocess.check_output(youtube_dl).decode('UTF8').strip()
+        cmd = ['mpv', '--fs', '--screen',
+               str(self.monitor_number), stream_url]
+
+        # print(cmd)
+        process = subprocess.Popen(cmd, stdin=subprocess.PIPE,
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE)
+
+        def quit():
+            process.stdin.write(b'q')
+            process.stdin.flush()
+
+        def toggle():
+            process.stdin.write(b' ')
+            process.stdin.flush()
+
+        # def fseek():
+        #     process.stdin.write(b"\x1b[A")
+        #     process.stdin.flush()
+
+        # def bseek():
+        #     process.stdin.write(b"\x1b[B")
+        #     process.stdin.flush()
+
+        self.set_cmd_map({"pause":  toggle,
+                          "play":   toggle,
+                          "stop":   quit,
+                          "toggle": toggle,
+                          # "fseek": fseek,
+                          # "bseek": bseek,
+                          "quit":   quit})
+
+        while process.poll() is None:
+            time.sleep(1)
 
     def _play_spotify(self, item):
         """ Play the supplied spotify track using mopidy and mpc. """
@@ -220,8 +253,11 @@ class PlayIt(object):
         client.connect(MOPIDY_HOST, MOPIDY_PORT)
         client.single(1)
         client.clear()
-        client.add(track_id)
-        client.play(0)
+        try:
+            client.add(track_id)
+            client.play(0)
+        except CommandError as e:
+            self.print_queue.put("Failed to add song to Mopidy: " + str(e))
         client.close()
         client.disconnect()
 
