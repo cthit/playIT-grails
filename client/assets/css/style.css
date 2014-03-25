@@ -178,8 +178,10 @@ section {
 .tt-dataset-spotify {
 	background-color: #0b0;
 }
-
 .x-button {
+	display: none;
+}
+.admin .x-button {
 	font-weight: bolder;
 	position: absolute;
 	cursor: pointer;
@@ -193,7 +195,7 @@ section {
 	-ms-user-select: none;
 	user-select: none;
 }
-.x-button:hover {
+.admin .x-button:hover {
 	color: white;
 }
 

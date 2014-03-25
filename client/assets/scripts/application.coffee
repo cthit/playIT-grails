@@ -4,6 +4,7 @@
 SERVER = "http://hubben.chalmers.it:8080/playIT/media"
 YOUTUBE = "http://gdata.youtube.com/feeds/api/videos?alt=json&q=%QUERY"
 SPOTIFY = "http://ws.spotify.com/search/1/track.json?q=%QUERY"
+TIMEOUT = null
 
 
 TEMPLATES =
@@ -16,9 +17,9 @@ TEMPLATES =
 
 Handlebars.registerHelper 'join', (array) ->
 	new Handlebars.SafeString array.join(", ")
-Handlebars.registerHelper 'ntobr', (string) -> 
+Handlebars.registerHelper 'ntobr', (string) ->
 	new Handlebars.SafeString string.replace /\n/g, '<br>'
-Handlebars.registerHelper 'desc', (string) -> 
+Handlebars.registerHelper 'desc', (string) ->
 	index = string.indexOf '\n', 140
 	string = string.substr 0, index if index != -1
 	new Handlebars.SafeString string #.replace /\n/g, '<br>'
@@ -41,8 +42,8 @@ Handlebars.registerHelper 'format_time', (seconds) ->
 tracks = new Bloodhound
 	datumTokenizer: (d) -> Bloodhound.tokenizers.whitespace d.value,
 	queryTokenizer: Bloodhound.tokenizers.whitespace,
-	remote: 
-		url: SPOTIFY, 
+	remote:
+		url: SPOTIFY,
 		filter: (json) ->
 			result = []
 			for track in json.tracks
@@ -56,8 +57,8 @@ tracks = new Bloodhound
 videos = new Bloodhound
 	datumTokenizer: (d) -> Bloodhound.tokenizers.whitespace d.value,
 	queryTokenizer: Bloodhound.tokenizers.whitespace,
-	remote: 
-		url: YOUTUBE, 
+	remote:
+		url: YOUTUBE,
 		filter: (json) ->
 			result = []
 			if json.feed.entry?
@@ -117,7 +118,7 @@ $insert_video
 		name: 'youtube',
 		displayKey: 'value',
 		source: videos.ttAdapter(),
-		templates: 
+		templates:
 			suggestion: TEMPLATES['youtube-typeahead']
 			# suggestion: Handlebars.templates.typeahead
 		limit: 15
@@ -125,7 +126,7 @@ $insert_video
 		name: 'spotify',
 		displayKey: 'value',
 		source: tracks.ttAdapter(),
-		templates: 
+		templates:
 			suggestion: TEMPLATES['spotify-typeahead']
 			# suggestion: Handlebars.templates.typeahead
 		limit: 15
@@ -147,6 +148,8 @@ for key in cookie_data
 			dataType: 'jsonp'
 		.done (data) ->
 			ADMIN = 'playITAdmin' in data.groups
+			$('#videofeed').addClass('admin') if ADMIN
+
 
 
 ## MediaItem: base class for YouTube- and SpotifyItem
@@ -159,7 +162,7 @@ class MediaItem
 		result[result.length - 1] if result?
 
 class YouTubeItem extends MediaItem
-	@REGEX: /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]+).*/	
+	@REGEX: /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]+).*/
 
 	constructor: (url) ->
 		@id = YouTubeItem.matches url.trim()
@@ -272,7 +275,8 @@ class App
 	nowPlaying: ->
 		method = 'nowPlaying'
 		query method, (data) ->
-			$status.html TEMPLATES.playing(data)
+			unless data.length > 0
+				$status.html TEMPLATES.playing(data)
 	changeLimit: (limit) ->
 		method = 'changeLimit'
 		query method, {limit: limit}, (body) ->
@@ -282,6 +286,8 @@ class App
 		window.localStorage.setItem LS_KEY, JSON.stringify list
 
 	showQueue: ->
+		unless TIMEOUT == null
+			clearTimeout TIMEOUT
 		method = 'showQueue'
 		query method, (body) =>
 			data = JSON.parse body
@@ -295,17 +301,14 @@ class App
 						break
 				if data_item == null || item.weight == data_item.weight
 					return
-				else 
+				else
 					item.weight = data_item.weight
 					elem.find('.rating').html(item.weight)
 			app.nowPlaying()
 			# return if data.length == $feed.find('div.media').length
 
-
-			saveList()
 			items = []
 			for item in data
-				item.admin = ADMIN
 				item.upvoted = if list[item.externalID] == true then 'active' else ''
 				item.downvoted = if list[item.externalID] == false then 'active' else ''
 				# element = Handlebars.templates["#{item.type}-partial"](item)
@@ -314,7 +317,10 @@ class App
 					.data 'item', id: item.externalID, title: item.title, weight: item.weight
 				items.push $el
 			$feed.html(items)
-			setTimeout app.showQueue, 10000
+			for item in list
+				delete list[item] if item not in items
+			saveList()
+			TIMEOUT = setTimeout(app.showQueue, 10000)
 
 	removeItemFromQueue: (item) ->
 		method = 'removeItemFromQueue'
@@ -366,5 +372,3 @@ app.showQueue() #if found
 
 # app.addMediaItem new YouTubeItem 'https://www.youtube.com/watch?v=moSFlvxnbgk'
 # app.addMediaItem new SpotifyItem 'spotify:track:10Ip8PpzXoYQe4e3mSgoOy'
-
-

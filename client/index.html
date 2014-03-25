@@ -38,7 +38,7 @@
 			<strong>{{album}}</strong>
 		</p>
 	</div>
-	{{#if admin}}<a class="x-button">ⓧ</a>{{/if}}
+	<a class="x-button">ⓧ</a>
 </div>
 </script>
 <script id="youtube-partial" type="text/x-handlebars-template">
@@ -55,7 +55,7 @@
 		<h3>{{title}} [{{format_time length}}]</h3>
 		<small>Added by: {{nick}}</small><p>{{desc description}}</p>
 	</div>
-	{{#if admin}}<a class="x-button">ⓧ</a>{{/if}}
+	<a class="x-button">ⓧ</a>
 </div>
 </script>
 <script id="soundcloud-partial" type="text/x-handlebars-template">
@@ -72,7 +72,7 @@
 		<h3>{{title}} [{{format_time length}}]</h3>
 		<small>Added by: {{nick}}</small><p>{{desc description}}</p>
 	</div>
-	{{#if admin}}<a class="x-button">ⓧ</a>{{/if}}
+	<a class="x-button">ⓧ</a>
 </div>
 </script>
 <script id="typeahead-youtube-partial" type="text/x-handlebars-template">
@@ -84,7 +84,7 @@ by {{artists}}
 {{album}} by {{artists}}
 </script>
 <script id="playing" type="text/x-handlebars-template">
-Now playing:&nbsp;<a href="{{url type externalID}}">{{title}}</a>
+Now playing:&nbsp;<a href="{{url type externalID}}">{{title}} [{{format_time length}}]</a>&nbsp;queued by {{nick}}
 </script>
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<!-- <script type="text/javascript" src="assets/js/libs/handlebars.runtime-v1.3.0.js"></script> -->
@@ -95,4 +95,3 @@ Now playing:&nbsp;<a href="{{url type externalID}}">{{title}}</a>
 	<script type="text/javascript" src="assets/js/application.js"></script>
 </body>
 </html>
-
