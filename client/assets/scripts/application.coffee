@@ -296,6 +296,7 @@ class App
 		unless TIMEOUT == null
 			clearTimeout TIMEOUT
 			TIMEOUT = null
+		updates++
 		method = 'showQueue'
 		query method, (body) =>
 			return if updates > 0
