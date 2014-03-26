@@ -112,8 +112,8 @@ section {
 }
 
 .upvote, .downvote { cursor: pointer; }
-.upvote.active { color: orange; }
-.downvote.active { color: #4444FF; }
+.upvoted .upvote { color: orange; }
+.downvoted .downvote { color: #4444FF; }
 
 @media all and (max-width: 720px) {
 	.media .image {

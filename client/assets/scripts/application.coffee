@@ -215,6 +215,8 @@ class App
 	$status = $ '#nowPlaying .media'
 	LS_KEY = 'items'
 	list = {}
+	sent = false
+	updates = 0
 
 	get_list: ->
 		return list
@@ -241,6 +243,7 @@ class App
 
 	addMediaItem: (item) ->
 		method = 'addMediaItem'
+		updates++
 		query method, {id: item.id, type: item.type}, (body) =>
 			index = body.indexOf "Fail:"
 			if index == 0
@@ -253,6 +256,7 @@ class App
 
 	addVote: (item, up) ->
 		method = 'addVote'
+		updates++
 		query method, {id: item.id, upvote: if up then 1 else 0}, (body) =>
 			console.log body
 			list[item.id] = up
@@ -264,13 +268,16 @@ class App
 		if typeof params == "function"
 			callback = params
 			params = {}
-		# progressJs().start().autoIncrease(4, 500)
 		$.ajax
 			url: url,
 			xhrFields: { withCredentials: true },
+			beforeSend: ->
+				progressJs().start().autoIncrease(4, 500)
 			data: params
-		.done callback
-		# .done -> progressJs().end()
+		.done (body) ->
+			progressJs().end()
+			updates--
+			callback(body)
 
 	nowPlaying: ->
 		method = 'nowPlaying'
@@ -288,8 +295,10 @@ class App
 	showQueue: ->
 		unless TIMEOUT == null
 			clearTimeout TIMEOUT
+			TIMEOUT = null
 		method = 'showQueue'
 		query method, (body) =>
+			return if updates > 0
 			data = JSON.parse body
 			$feed.find('div.media').each (index, elem) ->
 				elem = $(elem)
@@ -305,28 +314,34 @@ class App
 					item.weight = data_item.weight
 					elem.find('.rating').html(item.weight)
 			app.nowPlaying()
-			# return if data.length == $feed.find('div.media').length
+			if data.length == $feed.find('div.media').length
+				TIMEOUT = setTimeout(app.showQueue, 10000)
+				return
 
 			items = []
+			savedIds = []
 			for item in data
-				item.upvoted = if list[item.externalID] == true then 'active' else ''
-				item.downvoted = if list[item.externalID] == false then 'active' else ''
+				if list[item.externalID]?
+					element_class = if list[item.externalID] then 'upvoted' else 'downvoted'
 				# element = Handlebars.templates["#{item.type}-partial"](item)
 				element = TEMPLATES["#{item.type}"](item)
+				savedIds.push item.externalID
 				$el = $ element
 					.data 'item', id: item.externalID, title: item.title, weight: item.weight
+					.addClass element_class
 				items.push $el
 			$feed.html(items)
-			for item in list
-				delete list[item] if item not in items
+			for key of list
+				delete list[key] if key not in savedIds
 			saveList()
 			TIMEOUT = setTimeout(app.showQueue, 10000)
 
 	removeItemFromQueue: (item) ->
 		method = 'removeItemFromQueue'
+		updates++
 		query method, {id: item.id}, (body) =>
 			console.log body
-			@showQueue()
+			# @showQueue()
 
 ## Class for displaying messages to the user
 
