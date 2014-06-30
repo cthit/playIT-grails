@@ -14,6 +14,11 @@ p {
 	font-size: 0.8em;
 }
 
+#videofeed {
+	margin: 0;
+	padding: 0;
+}
+
 header {
 	background-color: #ADD8E6;
 	margin: 10px 0;
@@ -81,6 +86,10 @@ section {
 .media .info {
 	-webkit-flex: 1;
 	flex: 1;
+}
+
+.media.selected {
+	outline: 2px solid white;
 }
 
 .rank span {
@@ -199,12 +208,12 @@ section {
 	color: white;
 }
 
-::selection {
+*::selection {
 	color: #fff;
 	text-shadow: none;
 	background: #002224; /* Safari */
 }
-::-moz-selection {
+*::-moz-selection {
 	color: #fff;
 	text-shadow: none;
 	background: #002224; /* Firefox */

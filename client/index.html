@@ -3,8 +3,6 @@
 <head>
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-<link rel="stylesheet" type="text/css" href="assets/css/animate.min.css">
-<link rel="stylesheet" type="text/css" href="assets/css/progressjs.min.css">
 <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
 <title>playIT</title>
 </head>
@@ -16,82 +14,35 @@
 	</div>
 </header>
 <section id="nowPlaying">
-	<div class="media">Now playing:&nbsp;<em>Nothing!</em></div>
+	<div class="media">Now playing: <em>Nothing!</em></div>
 </section>
-<section id="videofeed">
-</section>
-<script id="spotify-partial" type="text/x-handlebars-template">
-<div class="media spotify animated fadeInLeft">
-	<div class="vote">
-		<span class="upvote">⬆</span>
-		<span class="rating">{{weight}}</span>
-		<span class="downvote">⬇</span>
-	</div>
-	<div class="image">
-		<a href="{{url type externalID}}" target="_blank"><img src="{{thumbnail}}" alt="{{externalID}}" height="104"></a>
-	</div>
-	<div class="info">
-		<h3>{{title}} [{{format_time length}}]</h3>
-		<small>Added by: {{nick}}</small>
-		<p>
-			<em>{{join artist}}</em><br>
-			<strong>{{album}}</strong>
-		</p>
-	</div>
-	<a class="x-button">ⓧ</a>
-</div>
-</script>
-<script id="youtube-partial" type="text/x-handlebars-template">
-<div class="media youtube animated fadeInLeft">
-	<div class="vote">
-		<span class="upvote">⬆</span>
-		<span class="rating">{{weight}}</span>
-		<span class="downvote">⬇</span>
-	</div>
-	<div class="image">
-		<a href="{{url type externalID}}" target="_blank"><img src="{{thumbnail}}" alt="{{externalID}}" height="104"></a>
-	</div>
-	<div class="info">
-		<h3>{{title}} [{{format_time length}}]</h3>
-		<small>Added by: {{nick}}</small><p>{{desc description}}</p>
-	</div>
-	<a class="x-button">ⓧ</a>
-</div>
-</script>
-<script id="soundcloud-partial" type="text/x-handlebars-template">
-<div class="media soundcloud animated fadeInLeft">
-	<div class="vote">
-		<span class="upvote">⬆</span>
-		<span class="rating">{{weight}}</span>
-		<span class="downvote">⬇</span>
-	</div>
-	<div class="image">
-		<a href="{{url type externalID}}" target="_blank"><img src="{{thumbnail}}" alt="{{externalID}}" height="104"></a>
-	</div>
-	<div class="info">
-		<h3>{{title}} [{{format_time length}}]</h3>
-		<small>Added by: {{nick}}</small><p>{{desc description}}</p>
-	</div>
-	<a class="x-button">ⓧ</a>
-</div>
-</script>
-<script id="typeahead-youtube-partial" type="text/x-handlebars-template">
-<h4>{{value}}</h4>
-by {{artists}}
-</script>
-<script id="typeahead-spotify-partial" type="text/x-handlebars-template">
-<h4>{{value}}</h4>
-{{album}} by {{artists}}
-</script>
+<ol id="videofeed" data-bind="foreach: items">
+	<li data-bind="attr: { 'class': 'media ' + type }, click: $root.setCurrent, css: { selected: $index() == $root.focusIndex() }">
+		<div class="vote">
+			<span class="upvote" data-bind="click: vote(+1)">⬆</span>
+			<span class="rating" data-bind="text: weight"></span>
+			<span class="downvote" data-bind="click: vote(-1)">⬇</span>
+		</div>
+		<div class="image">
+			<a data-bind="attr: { 'href': link }" target="_blank"><img data-bind="attr: { 'src': thumbnail, 'alt': id}" height="104"></a>
+		</div>
+		<div class="info">
+			<h3 data-bind="text: titleAndTime"></h3>
+			<small>Added by: <span data-bind="text: nick, attr: { title: cid }"></span></small>
+			<p>
+				<em data-bind="text: author"></em><br>
+				<strong data-bind="text: details"></strong>
+			</p>
+		</div>
+		<a class="x-button">ⓧ</a>
+	</li>
+</ol>
 <script id="playing" type="text/x-handlebars-template">
 Now playing:&nbsp;<a href="{{url type externalID}}">{{title}} [{{format_time length}}]</a>&nbsp;queued by {{nick}}
 </script>
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-	<!-- <script type="text/javascript" src="assets/js/libs/handlebars.runtime-v1.3.0.js"></script> -->
-	<script type="text/javascript" src="assets/js/libs/handlebars-v1.3.0.js"></script>
-	<script type="text/javascript" src="assets/js/libs/progress.min.js"></script>
-	<script type="text/javascript" src="assets/js/libs/typeahead.bundle.min.js"></script>
-	<!-- <script type="text/javascript" src="assets/js/templates.js"></script> -->
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/js/libs/knockout-3.1.0.debug.js"></script>
+	<script type="text/javascript" src="assets/js/libs/mousetrap.min.js"></script>
 	<script type="text/javascript" src="assets/js/application.js"></script>
 </body>
 </html>
