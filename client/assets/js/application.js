@@ -19,6 +19,8 @@ function addZeros(string){
 var MediaItem = function(source) {
   var self = this;
 
+  self.hasVoted = ko.observable(null);
+  self.votes = ko.observable(source.weight);
   self.id = source.externalID;
   self.cid = source.cid;
   self.nick = source.nick;
@@ -33,7 +35,13 @@ var MediaItem = function(source) {
 
   self.thumbnail = source.thumbnail;
   self.type = source.type;
-  self.weight = ko.observable(source.weight);
+  self.weight = ko.computed(function() {
+      if (self.hasVoted() === null || self.hasVoted() === 0) {
+          return self.votes();
+      } else {  
+        return self.votes() + self.hasVoted();
+      }
+  });
 
 
   self.titleAndTime = ko.computed(function() {
@@ -62,7 +70,11 @@ var MediaItem = function(source) {
   });
 
   self.vote = function(value) {
-    self.weight(self.weight() + value);
+    if (self.hasVoted() === value || self.hasVoted() === 0) {
+        return false;
+    } else {
+        self.hasVoted(value);
+    }
   };
 };
 var MediaQueue = function(queue) {

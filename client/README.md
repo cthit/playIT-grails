@@ -1,7 +1,3 @@
-Use coffee-script:
+Use sass:
 
-    coffee -o assets/js/ -cmw assets/scripts/*.coffee
-
-Compile templates:
-
-    handlebars assets/templates/*.handlebars -f assets/js/templates.js
+    scss --watch assets/stylesheets/style.scss:assets/css/style.css
