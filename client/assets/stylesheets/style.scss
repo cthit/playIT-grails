@@ -32,7 +32,7 @@ p {
 
 header {
 	margin: 10px 0;
-	padding: 40px;
+	padding: 3% 2%;
 }
 
 #searchfield {
@@ -48,9 +48,10 @@ header {
         height: 40px;
         padding: 0 10px;
         font: 1.1em Ubuntu, Helvetica;
+				border-radius: 0;
     }
     button { color: white; }
-    input { min-width: 300px; }
+    input { width: 80%; }
 }
 
 section {
@@ -65,17 +66,17 @@ section {
 .media {
 	-webkit-align-items: center;
 	align-items: center;
-    
+
 	overflow: hidden;
 	margin: 0 0 10px;
 	display: -webkit-flex;
 	display: flex;
 	padding: 5px;
-    
+
     &:last-child { margin: 0; }
-    
+
     &.selected { outline: 2px solid white; }
-    
+
     .image {
         margin-right: 20px;
         width: 140px;
@@ -89,7 +90,7 @@ section {
 .rank {
     position: relative;
     width: 30px;
-    
+
     span {
         position: absolute;
         height: 20px;
@@ -112,7 +113,7 @@ section {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-    
+
     span {
         -webkit-flex: 1;
         flex: 1;
@@ -124,8 +125,12 @@ section {
 .downvoted .downvote { color: #4444FF; }
 
 @media all and (max-width: 720px) {
-	.media .image {
-		display: none;
+	.media {
+		.image { display: none; }
+		&.selected { outline: 0; }
+	}
+	body {
+		font-size: 0.8em;
 	}
 }
 .x-button {
@@ -144,7 +149,7 @@ section {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-    
+
     &:hover { color: white; }
 }
 
