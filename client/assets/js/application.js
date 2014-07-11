@@ -38,7 +38,7 @@ var MediaItem = function(source) {
   self.weight = ko.computed(function() {
       if (self.hasVoted() === null || self.hasVoted() === 0) {
           return self.votes();
-      } else {  
+      } else {
         return self.votes() + self.hasVoted();
       }
   });
@@ -69,7 +69,7 @@ var MediaItem = function(source) {
     }
   });
 
-  self.vote = function(value) {
+  self.vote = function(value, item) {
     if (self.hasVoted() === value || self.hasVoted() === 0) {
         return false;
     } else {
